@@ -161,12 +161,6 @@ public class Gypsy extends CreatureEntity {
 	}
 
 	@Override
-	public void eatGrassBonus() {
-		// TODO Auto-generated method stub
-		super.eatGrassBonus();
-	}
-
-	@Override
 	protected void registerData() {
 		// TODO Auto-generated method stub
 		super.registerData();
