@@ -2,6 +2,7 @@ package eu.tsp.evilwanderingtrader;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,6 +16,8 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import eu.tsp.evilwanderingtrader.common.entities.Gypsy;
 
 import java.util.stream.Collectors;
 
@@ -44,6 +47,10 @@ public class EvilWanderingTrader
     private void setup(final FMLCommonSetupEvent event)
     {
         // some preinit code
+    	/*event.enqueueWork(() -> {
+			GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY.get(), Gypsy.setCustomAttributes().create());
+		});*/
+		//ModEntitySpawns.entitySpawnPlacementRegistry();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
