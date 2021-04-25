@@ -8,11 +8,14 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.EntitySenses;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.BodyController;
 import net.minecraft.entity.ai.controller.JumpController;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -33,11 +36,10 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class Gypsy extends CreatureEntity {
+public class Gypsy extends CreatureEntity implements IMob {
 
-	protected Gypsy(EntityType<? extends CreatureEntity> type, World worldIn) {
+	public Gypsy(EntityType<? extends CreatureEntity> type, World worldIn) {
 		super(type, worldIn);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -663,6 +665,13 @@ public class Gypsy extends CreatureEntity {
 	protected void setDead() {
 		// TODO Auto-generated method stub
 		super.setDead();
+	}
+
+	public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
+		// TODO Auto-generated method stub
+		return MobEntity.func_233666_p_()
+				.createMutableAttribute(Attributes.MAX_HEALTH, 5.0D)
+				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.6D);
 	}
 	
 	
