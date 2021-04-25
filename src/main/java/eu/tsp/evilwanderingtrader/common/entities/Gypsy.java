@@ -14,6 +14,7 @@ import net.minecraft.entity.ai.controller.BodyController;
 import net.minecraft.entity.ai.controller.JumpController;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.controller.MovementController;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
@@ -41,6 +42,27 @@ public class Gypsy extends CreatureEntity implements IMob {
 	public Gypsy(EntityType<? extends CreatureEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
+	
+	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
+    {
+        return MobEntity.func_233666_p_()
+        		.createMutableAttribute( Attributes.MAX_HEALTH,80.0D )
+        		.createMutableAttribute( Attributes.MOVEMENT_SPEED,0.3D )
+        		.createMutableAttribute( Attributes.ATTACK_DAMAGE,16.0D )
+        		.createMutableAttribute( Attributes.ATTACK_SPEED,0.1D )
+        		.createMutableAttribute( Attributes.KNOCKBACK_RESISTANCE,0.7D );
+    }
+
+	@Override
+	protected void registerGoals() {
+		super.registerGoals();
+		this.goalSelector.addGoal(0, new LookRandomlyGoal(this));;
+	}
+	
+	
+	
+
+	
 
 	@Override
 	public float getBlockPathWeight(BlockPos pos) {
@@ -82,12 +104,6 @@ public class Gypsy extends CreatureEntity implements IMob {
 	protected void onLeashDistance(float distance) {
 		// TODO Auto-generated method stub
 		super.onLeashDistance(distance);
-	}
-
-	@Override
-	protected void registerGoals() {
-		// TODO Auto-generated method stub
-		super.registerGoals();
 	}
 
 	@Override
@@ -666,13 +682,5 @@ public class Gypsy extends CreatureEntity implements IMob {
 		// TODO Auto-generated method stub
 		super.setDead();
 	}
-
-	public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
-		// TODO Auto-generated method stub
-		return MobEntity.func_233666_p_()
-				.createMutableAttribute(Attributes.MAX_HEALTH, 5.0D)
-				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.6D);
-	}
-	
 	
 }

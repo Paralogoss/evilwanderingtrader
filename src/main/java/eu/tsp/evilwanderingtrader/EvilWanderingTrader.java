@@ -3,8 +3,11 @@ package eu.tsp.evilwanderingtrader;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
@@ -18,6 +21,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import eu.tsp.evilwanderingtrader.common.entities.Gypsy;
+import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
+import eu.tsp.evilwanderingtrader.init.ModItems;
 
 import java.util.stream.Collectors;
 
@@ -31,32 +36,39 @@ public class EvilWanderingTrader
     public static final String MOD_ID = "evilwanderingtrader";
     
     public EvilWanderingTrader() {
+    	
+    	IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    	
         // Register the setup method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+    	eventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+    	//eventBus.addListener(this::enqueueIMC);
         // Register the processIMC method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+    	//eventBus.addListener(this::processIMC);
         // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+    	eventBus.addListener(this::doClientStuff);
 
+    	ModEntityTypes.ENTITY_TYPES.register(eventBus);
+    	ModItems.ITEMS.register(eventBus);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void setup(final FMLCommonSetupEvent event)
+    @SuppressWarnings("deprecation")
+	private void setup(final FMLCommonSetupEvent event)
     {
         // some preinit code
-    	/*event.enqueueWork(() -> {
+    	event.enqueueWork(() -> {
 			GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY.get(), Gypsy.setCustomAttributes().create());
-		});*/
+		});
 		//ModEntitySpawns.entitySpawnPlacementRegistry();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         // do something that can only be done on the client
     }
-
+    
+    /*
     private void enqueueIMC(final InterModEnqueueEvent event)
     {
         // some example code to dispatch IMC to another mod
@@ -70,7 +82,7 @@ public class EvilWanderingTrader
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         // do something when the server starts
-    }
+    }*/
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
@@ -81,4 +93,14 @@ public class EvilWanderingTrader
             // register a new block here
         }
     }
+    
+    public static final ItemGroup TAB = new ItemGroup("ewt_tab")
+	{
+		@Override
+		public ItemStack createIcon ()
+		{
+			return new ItemStack(ModItems.GYPSY_SPAWN_EGG.get());
+		}
+	};
+	
 }
