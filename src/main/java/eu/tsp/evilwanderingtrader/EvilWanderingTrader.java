@@ -22,13 +22,13 @@ import eu.tsp.evilwanderingtrader.common.entities.Gypsy;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("evilwanderingtrader")
+@Mod(EvilWanderingTrader.MOD_ID)
 public class EvilWanderingTrader
 {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
     
-    public static String MOD_ID = "evilwanderingtrader";
+    public static final String MOD_ID = "evilwanderingtrader";
     
     public EvilWanderingTrader() {
         // Register the setup method for modloading
