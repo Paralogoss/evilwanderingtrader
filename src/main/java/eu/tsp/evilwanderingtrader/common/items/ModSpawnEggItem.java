@@ -37,7 +37,7 @@ public class ModSpawnEggItem extends SpawnEggItem
 		UNADDED_EGGS.add(this);
 	}
 
-	@Override
+	/*@Override
 	public void inventoryTick (ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		if (this.variant != -1 && !stack.getOrCreateTag().contains("variant"))
@@ -45,7 +45,7 @@ public class ModSpawnEggItem extends SpawnEggItem
 			stack.getOrCreateTag().putInt("variant", this.variant);
 		}
 		super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
-	}
+	}*/
 
 	public static void initSpawnEggs ()
 	{
