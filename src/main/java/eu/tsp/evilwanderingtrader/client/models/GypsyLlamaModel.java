@@ -31,7 +31,7 @@ public class GypsyLlamaModel<T extends GypsyLlama> extends EntityModel<T> {
 		head.setRotationPoint(0.0F, 24.0F, 0.0F);
 		head.setTextureOffset(0, 0).addBox(-2.0F, -31.0F, -16.0F, 4.0F, 4.0F, 9.0F, 0.0F, false);
 		head.setTextureOffset(0, 14).addBox(-4.0F, -33.0F, -12.0F, 8.0F, 18.0F, 6.0F, 0.0F, false);
-		head.setTextureOffset(17, 0).addBox(1.0F, -36.0F, -10.0F, 3.0F, 3.0F, 2.0F, 0.0F, false);
+		head.setTextureOffset(17, 0).addBox(1.0F, -36.0F, -10.0F, 3.0F, 3.0F, 2.0F, 0.0F, true);
 		head.setTextureOffset(17, 0).addBox(-4.0F, -36.0F, -10.0F, 3.0F, 3.0F, 2.0F, 0.0F, false);
 
 		body = new ModelRenderer(this);
@@ -51,7 +51,7 @@ public class GypsyLlamaModel<T extends GypsyLlama> extends EntityModel<T> {
 
 		leg1 = new ModelRenderer(this);
 		leg1.setRotationPoint(0.0F, 24.0F, 0.0F);
-		leg1.setTextureOffset(29, 29).addBox(1.5F, -14.0F, 4.0F, 4.0F, 14.0F, 4.0F, 0.0F, false);
+		leg1.setTextureOffset(29, 29).addBox(1.5F, -14.0F, 4.0F, 4.0F, 14.0F, 4.0F, 0.0F, true);
 
 		leg2 = new ModelRenderer(this);
 		leg2.setRotationPoint(0.0F, 24.0F, 0.0F);
@@ -59,7 +59,7 @@ public class GypsyLlamaModel<T extends GypsyLlama> extends EntityModel<T> {
 
 		leg3 = new ModelRenderer(this);
 		leg3.setRotationPoint(0.0F, 24.0F, 0.0F);
-		leg3.setTextureOffset(29, 29).addBox(1.5F, -14.0F, -7.0F, 4.0F, 14.0F, 4.0F, 0.0F, false);
+		leg3.setTextureOffset(29, 29).addBox(1.5F, -14.0F, -7.0F, 4.0F, 14.0F, 4.0F, 0.0F, true);
 
 		leg4 = new ModelRenderer(this);
 		leg4.setRotationPoint(0.0F, 24.0F, 0.0F);
