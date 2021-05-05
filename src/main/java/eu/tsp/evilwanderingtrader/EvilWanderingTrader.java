@@ -59,7 +59,8 @@ public class EvilWanderingTrader
     {
         // some preinit code
     	event.enqueueWork(() -> {
-			GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY.get(), Gypsy.setCustomAttributes().create());
+    		GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY.get(), Gypsy.setCustomAttributes().create());
+    		GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_LLAMA.get(), Gypsy.setCustomAttributes().create());
 		});
 		//ModEntitySpawns.entitySpawnPlacementRegistry();
     }
