@@ -8,11 +8,15 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.EntitySenses;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.BodyController;
 import net.minecraft.entity.ai.controller.JumpController;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.controller.MovementController;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -33,12 +37,30 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class GypsyLama extends CreatureEntity {
+public class GypsyLlama extends CreatureEntity implements IMob {
 
-	protected GypsyLama(EntityType<? extends CreatureEntity> type, World worldIn) {
+	public GypsyLlama(EntityType<? extends CreatureEntity> type, World worldIn) {
 		super(type, worldIn);
-		// TODO Auto-generated constructor stub
 	}
+	
+	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
+    {
+        return MobEntity.func_233666_p_()
+        		.createMutableAttribute( Attributes.MAX_HEALTH,1.0D )
+        		.createMutableAttribute( Attributes.MOVEMENT_SPEED,0.3D )
+        		.createMutableAttribute( Attributes.ATTACK_DAMAGE,16.0D )
+        		.createMutableAttribute( Attributes.ATTACK_SPEED,0.1D )
+        		.createMutableAttribute( Attributes.KNOCKBACK_RESISTANCE,0.7D );
+    }
+
+	@Override
+	protected void registerGoals() {
+		super.registerGoals();
+		this.goalSelector.addGoal(0, new LookRandomlyGoal(this));;
+	}
+	
+	
+	
 	
 	@Override
 	public float getBlockPathWeight(BlockPos pos) {
@@ -80,12 +102,6 @@ public class GypsyLama extends CreatureEntity {
 	protected void onLeashDistance(float distance) {
 		// TODO Auto-generated method stub
 		super.onLeashDistance(distance);
-	}
-
-	@Override
-	protected void registerGoals() {
-		// TODO Auto-generated method stub
-		super.registerGoals();
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package eu.tsp.evilwanderingtrader.client;
 
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
+import eu.tsp.evilwanderingtrader.client.rendering.GypsyLlamaRender;
 import eu.tsp.evilwanderingtrader.client.rendering.GypsyRender;
 import eu.tsp.evilwanderingtrader.common.entities.Gypsy;
 import eu.tsp.evilwanderingtrader.common.items.ModSpawnEggItem;
@@ -19,6 +20,7 @@ public class ClientEventBusSubscriber {
 	public static void onClientSetup (FMLClientSetupEvent event)
 	{
 		RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.GYPSY.get(), new GypsyRender.RenderFactory());
+		RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.GYPSY_LLAMA.get(), new GypsyLlamaRender.RenderFactory());
 	}
 
 	@SubscribeEvent
