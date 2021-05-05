@@ -15,7 +15,7 @@ public class GypsyLlamaRender extends MobRenderer<GypsyLlama, GypsyLlamaModel<Gy
 	private static final ResourceLocation GYPSY_LLAMA_TEXTURES = new ResourceLocation(EvilWanderingTrader.MOD_ID+":textures/entity/llama.png");
 
 	   public GypsyLlamaRender(EntityRendererManager renderManagerIn) {
-		   super(renderManagerIn, new GypsyLlamaModel<>(), 0.5F);
+		   super(renderManagerIn, new GypsyLlamaModel<>(), 0.7F);
 	   }
 
 	   @Override
