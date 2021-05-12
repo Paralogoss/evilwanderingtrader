@@ -3,11 +3,11 @@ package eu.tsp.evilwanderingtrader.client.models;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import eu.tsp.evilwanderingtrader.common.entities.GypsyLlama;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyLlamaEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
-public class GypsyLlamaModel<T extends GypsyLlama> extends EntityModel<T> {
+public class GypsyLlamaModel<T extends GypsyLlamaEntity> extends EntityModel<T> {
 
 	private final ModelRenderer head;
 	private final ModelRenderer body;

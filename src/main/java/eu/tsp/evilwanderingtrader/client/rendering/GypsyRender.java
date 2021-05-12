@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.client.models.GypsyModel;
-import eu.tsp.evilwanderingtrader.common.entities.Gypsy;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 @OnlyIn(Dist.CLIENT)
-public class GypsyRender extends MobRenderer<Gypsy, GypsyModel<Gypsy>> {
+public class GypsyRender extends MobRenderer<GypsyEntity, GypsyModel<GypsyEntity>> {
    private static final ResourceLocation GYPSY_TEXTURES = new ResourceLocation(EvilWanderingTrader.MOD_ID+":textures/entity/evil_wandering_trader.png");
 
    public GypsyRender(EntityRendererManager renderManagerIn) {
@@ -32,14 +32,14 @@ public class GypsyRender extends MobRenderer<Gypsy, GypsyModel<Gypsy>> {
    }*/
 
    @Override
-   public ResourceLocation getEntityTexture(Gypsy entity) {
+   public ResourceLocation getEntityTexture(GypsyEntity entity) {
       return GYPSY_TEXTURES;
    }
    
-   public static class RenderFactory implements IRenderFactory<Gypsy> {
+   public static class RenderFactory implements IRenderFactory<GypsyEntity> {
 	   	
 		@Override
-		public EntityRenderer<? super Gypsy> createRenderFor(EntityRendererManager manager) {
+		public EntityRenderer<? super GypsyEntity> createRenderFor(EntityRendererManager manager) {
 			return new GypsyRender(manager);
 		}
 	   

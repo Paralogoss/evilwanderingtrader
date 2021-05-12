@@ -14,9 +14,11 @@ import net.minecraft.entity.ai.controller.BodyController;
 import net.minecraft.entity.ai.controller.JumpController;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.controller.MovementController;
+import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -37,9 +39,9 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class Gypsy extends CreatureEntity implements IMob {
+public class GypsyEntity extends MonsterEntity implements IMob {
 
-	public Gypsy(EntityType<? extends CreatureEntity> type, World worldIn) {
+	public GypsyEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
 	
@@ -56,7 +58,8 @@ public class Gypsy extends CreatureEntity implements IMob {
 	@Override
 	protected void registerGoals() {
 		super.registerGoals();
-		this.goalSelector.addGoal(0, new LookRandomlyGoal(this));;
+	    this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 16.0F));
+	    this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 	}
 	
 	
