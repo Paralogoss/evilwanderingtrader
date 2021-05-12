@@ -37,9 +37,9 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class GypsyLlama extends CreatureEntity implements IMob {
+public class GypsyLlamaEntity extends CreatureEntity implements IMob {
 
-	public GypsyLlama(EntityType<? extends CreatureEntity> type, World worldIn) {
+	public GypsyLlamaEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
 	

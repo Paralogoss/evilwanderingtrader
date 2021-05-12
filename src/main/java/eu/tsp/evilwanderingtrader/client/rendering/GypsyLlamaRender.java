@@ -3,15 +3,15 @@ package eu.tsp.evilwanderingtrader.client.rendering;
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.client.models.GypsyLlamaModel;
 import eu.tsp.evilwanderingtrader.client.models.GypsyModel;
-import eu.tsp.evilwanderingtrader.common.entities.Gypsy;
-import eu.tsp.evilwanderingtrader.common.entities.GypsyLlama;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyLlamaEntity;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
-public class GypsyLlamaRender extends MobRenderer<GypsyLlama, GypsyLlamaModel<GypsyLlama>> {
+public class GypsyLlamaRender extends MobRenderer<GypsyLlamaEntity, GypsyLlamaModel<GypsyLlamaEntity>> {
 	private static final ResourceLocation GYPSY_LLAMA_TEXTURES = new ResourceLocation(EvilWanderingTrader.MOD_ID+":textures/entity/llama.png");
 
 	   public GypsyLlamaRender(EntityRendererManager renderManagerIn) {
@@ -19,14 +19,14 @@ public class GypsyLlamaRender extends MobRenderer<GypsyLlama, GypsyLlamaModel<Gy
 	   }
 
 	   @Override
-	   public ResourceLocation getEntityTexture(GypsyLlama entity) {
+	   public ResourceLocation getEntityTexture(GypsyLlamaEntity entity) {
 	      return GYPSY_LLAMA_TEXTURES;
 	   }
 	   
-	   public static class RenderFactory implements IRenderFactory<GypsyLlama> {
+	   public static class RenderFactory implements IRenderFactory<GypsyLlamaEntity> {
 		   	
 			@Override
-			public EntityRenderer<? super GypsyLlama> createRenderFor(EntityRendererManager manager) {
+			public EntityRenderer<? super GypsyLlamaEntity> createRenderFor(EntityRendererManager manager) {
 				return new GypsyLlamaRender(manager);
 			}
 		   

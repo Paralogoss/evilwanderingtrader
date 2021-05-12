@@ -3,7 +3,7 @@ package eu.tsp.evilwanderingtrader.client;
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.client.rendering.GypsyLlamaRender;
 import eu.tsp.evilwanderingtrader.client.rendering.GypsyRender;
-import eu.tsp.evilwanderingtrader.common.entities.Gypsy;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
 import eu.tsp.evilwanderingtrader.common.items.ModSpawnEggItem;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;

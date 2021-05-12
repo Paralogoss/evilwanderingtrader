@@ -20,7 +20,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import eu.tsp.evilwanderingtrader.common.entities.Gypsy;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModItems;
 
@@ -59,8 +59,8 @@ public class EvilWanderingTrader
     {
         // some preinit code
     	event.enqueueWork(() -> {
-    		GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY.get(), Gypsy.setCustomAttributes().create());
-    		GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_LLAMA.get(), Gypsy.setCustomAttributes().create());
+    		GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY.get(), GypsyEntity.setCustomAttributes().create());
+    		GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_LLAMA.get(), GypsyEntity.setCustomAttributes().create());
 		});
 		//ModEntitySpawns.entitySpawnPlacementRegistry();
     }

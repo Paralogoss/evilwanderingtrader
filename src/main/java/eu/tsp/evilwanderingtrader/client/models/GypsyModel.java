@@ -3,12 +3,12 @@ package eu.tsp.evilwanderingtrader.client.models;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import eu.tsp.evilwanderingtrader.common.entities.Gypsy;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class GypsyModel<T extends Gypsy> extends EntityModel<T> {
+public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
 
 	private final ModelRenderer head;
 	private final ModelRenderer nose;
