@@ -1,7 +1,18 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
+import java.util.List;
+import java.util.Random;
+import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
+
+import com.google.common.collect.ImmutableList;
+
+import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
+import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackGoal;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
@@ -16,10 +27,15 @@ import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.ZombieAttackGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -30,6 +46,7 @@ import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.HandSide;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -38,11 +55,19 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.thread.SidedThreadGroups;
 
 public class GypsyEntity extends MonsterEntity implements IMob {
+	protected final int experienceValue = 5000;
+	//@Nullable
+	//final PlayerEntity nemesis; //personne qu'il cible
+	protected boolean missionAccomplie; //s'il est prêt à revenir un wanderingtrader
 
 	public GypsyEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
 		super(type, worldIn);
+		missionAccomplie = false;
+		//nemesis = this.world.getClosestPlayer(this.getPosX(), this.getPosYEye(), this.getPosZ(), 64d, (new EntityPredicate()).setDistance(64d).setCustomPredicate((@Nullable Predicate<LivingEntity>)null));
+		//EvilWanderingTrader.LOGGER.info("ok");
 	}
 	
 	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
@@ -50,7 +75,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
         return MobEntity.func_233666_p_()
         		.createMutableAttribute( Attributes.MAX_HEALTH,1.0D )
         		.createMutableAttribute( Attributes.MOVEMENT_SPEED,0.3D )
-        		.createMutableAttribute( Attributes.ATTACK_DAMAGE,16.0D )
+        		.createMutableAttribute( Attributes.ATTACK_DAMAGE,4.0D )
         		.createMutableAttribute( Attributes.ATTACK_SPEED,0.1D )
         		.createMutableAttribute( Attributes.KNOCKBACK_RESISTANCE,0.7D );
     }
@@ -58,116 +83,74 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 	@Override
 	protected void registerGoals() {
 		super.registerGoals();
-	    this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 16.0F));
+		
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+
+	    this.goalSelector.addGoal(2, new GypsyAttackGoal(this, 1.35D, true));
+	    this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 16.0F, 0.05F));
 	    this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+	    this.goalSelector.addGoal(9, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+	    	    
 	}
 	
+	@Override
+	public boolean attackEntityAsMob(Entity entityIn) {
+		if (super.attackEntityAsMob(entityIn)) {
+			if (entityIn instanceof PlayerEntity) {
+				PlayerEntity target = (PlayerEntity) entityIn;
+				PlayerInventory inv = ((PlayerEntity)entityIn).inventory;
+				List<NonNullList<ItemStack>> allInventories = ImmutableList.of(inv.mainInventory, inv.armorInventory, inv.offHandInventory);
+				int nbItems = -1;
+				for(List<ItemStack> list : allInventories) {
+					for (int i=0; i<list.size(); i++) {
+						if(!list.get(i).isEmpty()) {
+							nbItems++;
+						}
+					}
+				}
+				if(nbItems<0) {
+					this.missionAccomplie = true;
+					this.setAggroed(false);
+				} else {
+					int choix = (nbItems==0)?0:new Random().nextInt(nbItems);
+					nbItems = -1;
+					for(List<ItemStack> list : allInventories) {
+						for (int i=0; i<list.size(); i++) {
+							if(!list.get(i).isEmpty()) {
+								nbItems++;
+								if(nbItems == choix) {
+									target.dropItem(list.get(i), true, false);
+						            list.set(i, ItemStack.EMPTY);
+								}
+							}
+						}
+					}
+					
+				}
+				
+				
+				
+				//EvilWanderingTrader.LOGGER.info("");
+				
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}	
 	
-	
 
 	
 
-	@Override
-	public float getBlockPathWeight(BlockPos pos) {
-		// TODO Auto-generated method stub
-		return super.getBlockPathWeight(pos);
-	}
+
+
 
 	@Override
-	public float getBlockPathWeight(BlockPos pos, IWorldReader worldIn) {
-		// TODO Auto-generated method stub
-		return super.getBlockPathWeight(pos, worldIn);
+	public void addTrackingPlayer(ServerPlayerEntity player) {
+		EvilWanderingTrader.LOGGER.info("addTrackingPlayer ",player.getName());
+		super.addTrackingPlayer(player);
 	}
 
-	@Override
-	public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-		// TODO Auto-generated method stub
-		return super.canSpawn(worldIn, spawnReasonIn);
-	}
-
-	@Override
-	public boolean hasPath() {
-		// TODO Auto-generated method stub
-		return super.hasPath();
-	}
-
-	@Override
-	protected void updateLeashedState() {
-		// TODO Auto-generated method stub
-		super.updateLeashedState();
-	}
-
-	@Override
-	protected double followLeashSpeed() {
-		// TODO Auto-generated method stub
-		return super.followLeashSpeed();
-	}
-
-	@Override
-	protected void onLeashDistance(float distance) {
-		// TODO Auto-generated method stub
-		super.onLeashDistance(distance);
-	}
-
-	@Override
-	protected PathNavigator createNavigator(World worldIn) {
-		// TODO Auto-generated method stub
-		return super.createNavigator(worldIn);
-	}
-
-	@Override
-	public float getPathPriority(PathNodeType nodeType) {
-		// TODO Auto-generated method stub
-		return super.getPathPriority(nodeType);
-	}
-
-	@Override
-	public void setPathPriority(PathNodeType nodeType, float priority) {
-		// TODO Auto-generated method stub
-		super.setPathPriority(nodeType, priority);
-	}
-
-	@Override
-	protected BodyController createBodyController() {
-		// TODO Auto-generated method stub
-		return super.createBodyController();
-	}
-
-	@Override
-	public LookController getLookController() {
-		// TODO Auto-generated method stub
-		return super.getLookController();
-	}
-
-	@Override
-	public MovementController getMoveHelper() {
-		// TODO Auto-generated method stub
-		return super.getMoveHelper();
-	}
-
-	@Override
-	public JumpController getJumpController() {
-		// TODO Auto-generated method stub
-		return super.getJumpController();
-	}
-
-	@Override
-	public PathNavigator getNavigator() {
-		// TODO Auto-generated method stub
-		return super.getNavigator();
-	}
-
-	@Override
-	public EntitySenses getEntitySenses() {
-		// TODO Auto-generated method stub
-		return super.getEntitySenses();
-	}
-
-	@Override
-	public LivingEntity getAttackTarget() {
-		// TODO Auto-generated method stub
-		return super.getAttackTarget();
-	}
 
 	@Override
 	public void setAttackTarget(LivingEntity entitylivingbaseIn) {
@@ -181,23 +164,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 		return super.canAttack(typeIn);
 	}
 
-	@Override
-	protected void registerData() {
-		// TODO Auto-generated method stub
-		super.registerData();
-	}
 
-	@Override
-	public int getTalkInterval() {
-		// TODO Auto-generated method stub
-		return super.getTalkInterval();
-	}
-
-	@Override
-	public void playAmbientSound() {
-		// TODO Auto-generated method stub
-		super.playAmbientSound();
-	}
 
 	@Override
 	public void baseTick() {
@@ -205,29 +172,6 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 		super.baseTick();
 	}
 
-	@Override
-	protected void playHurtSound(DamageSource source) {
-		// TODO Auto-generated method stub
-		super.playHurtSound(source);
-	}
-
-	@Override
-	protected int getExperiencePoints(PlayerEntity player) {
-		// TODO Auto-generated method stub
-		return super.getExperiencePoints(player);
-	}
-
-	@Override
-	public void spawnExplosionParticle() {
-		// TODO Auto-generated method stub
-		super.spawnExplosionParticle();
-	}
-
-	@Override
-	public void handleStatusUpdate(byte id) {
-		// TODO Auto-generated method stub
-		super.handleStatusUpdate(id);
-	}
 
 	@Override
 	public void tick() {
@@ -271,11 +215,6 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 		super.dropLoot(damageSourceIn, attackedRecently);
 	}
 
-	@Override
-	protected Builder getLootContextBuilder(boolean attackedRecently, DamageSource damageSourceIn) {
-		// TODO Auto-generated method stub
-		return super.getLootContextBuilder(attackedRecently, damageSourceIn);
-	}
 
 	@Override
 	protected ResourceLocation getLootTable() {
@@ -331,11 +270,6 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 		return super.canEquipItem(stack);
 	}
 
-	@Override
-	public boolean canDespawn(double distanceToClosestPlayer) {
-		// TODO Auto-generated method stub
-		return super.canDespawn(distanceToClosestPlayer);
-	}
 
 	@Override
 	public boolean preventDespawn() {
@@ -349,11 +283,6 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 		return super.isDespawnPeaceful();
 	}
 
-	@Override
-	public void checkDespawn() {
-		// TODO Auto-generated method stub
-		super.checkDespawn();
-	}
 
 	@Override
 	protected void sendDebugPackets() {
@@ -368,40 +297,11 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 	}
 
 	@Override
-	public int getVerticalFaceSpeed() {
-		// TODO Auto-generated method stub
-		return super.getVerticalFaceSpeed();
-	}
-
-	@Override
-	public int getHorizontalFaceSpeed() {
-		// TODO Auto-generated method stub
-		return super.getHorizontalFaceSpeed();
-	}
-
-	@Override
-	public int getFaceRotSpeed() {
-		// TODO Auto-generated method stub
-		return super.getFaceRotSpeed();
-	}
-
-	@Override
 	public boolean isNotColliding(IWorldReader worldIn) {
 		// TODO Auto-generated method stub
 		return super.isNotColliding(worldIn);
 	}
-
-	@Override
-	public int getMaxSpawnedInChunk() {
-		// TODO Auto-generated method stub
-		return super.getMaxSpawnedInChunk();
-	}
-
-	@Override
-	public boolean isMaxGroupSize(int sizeIn) {
-		// TODO Auto-generated method stub
-		return super.isMaxGroupSize(sizeIn);
-	}
+	
 
 	@Override
 	public int getMaxFallHeight() {
@@ -444,246 +344,25 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 		// TODO Auto-generated method stub
 		return super.getDropChance(slotIn);
 	}
-
-	@Override
-	protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-		// TODO Auto-generated method stub
-		super.setEquipmentBasedOnDifficulty(difficulty);
-	}
-
-	@Override
-	protected void setEnchantmentBasedOnDifficulty(DifficultyInstance difficulty) {
-		// TODO Auto-generated method stub
-		super.setEnchantmentBasedOnDifficulty(difficulty);
-	}
+                                                
 
 	@Override
 	public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason,
 			ILivingEntityData spawnDataIn, CompoundNBT dataTag) {
-		// TODO Auto-generated method stub
+		this.enablePersistence();
 		return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 	}
 
-	@Override
-	public boolean canBeSteered() {
-		// TODO Auto-generated method stub
-		return super.canBeSteered();
-	}
-
-	@Override
-	public void enablePersistence() {
-		// TODO Auto-generated method stub
-		super.enablePersistence();
-	}
-
-	@Override
-	public void setDropChance(EquipmentSlotType slotIn, float chance) {
-		// TODO Auto-generated method stub
-		super.setDropChance(slotIn, chance);
-	}
-
-	@Override
-	public boolean canPickUpLoot() {
-		// TODO Auto-generated method stub
-		return super.canPickUpLoot();
-	}
-
-	@Override
-	public void setCanPickUpLoot(boolean canPickup) {
-		// TODO Auto-generated method stub
-		super.setCanPickUpLoot(canPickup);
-	}
-
-	@Override
-	public boolean canPickUpItem(ItemStack itemstackIn) {
-		// TODO Auto-generated method stub
-		return super.canPickUpItem(itemstackIn);
-	}
 
 	@Override
 	public boolean isNoDespawnRequired() {
-		// TODO Auto-generated method stub
-		return super.isNoDespawnRequired();
+		return true; //super.isNoDespawnRequired();
 	}
 
 	@Override
 	protected void onChildSpawnFromEgg(PlayerEntity playerIn, MobEntity child) {
-		// TODO Auto-generated method stub
 		super.onChildSpawnFromEgg(playerIn, child);
 	}
 
-	@Override
-	public boolean isWithinHomeDistanceCurrentPosition() {
-		// TODO Auto-generated method stub
-		return super.isWithinHomeDistanceCurrentPosition();
-	}
-
-	@Override
-	public boolean isWithinHomeDistanceFromPosition(BlockPos pos) {
-		// TODO Auto-generated method stub
-		return super.isWithinHomeDistanceFromPosition(pos);
-	}
-
-	@Override
-	public void setHomePosAndDistance(BlockPos pos, int distance) {
-		// TODO Auto-generated method stub
-		super.setHomePosAndDistance(pos, distance);
-	}
-
-	@Override
-	public BlockPos getHomePosition() {
-		// TODO Auto-generated method stub
-		return super.getHomePosition();
-	}
-
-	@Override
-	public float getMaximumHomeDistance() {
-		// TODO Auto-generated method stub
-		return super.getMaximumHomeDistance();
-	}
-
-	@Override
-	public boolean detachHome() {
-		// TODO Auto-generated method stub
-		return super.detachHome();
-	}
-
-	@Override
-	public void clearLeashed(boolean sendPacket, boolean dropLead) {
-		// TODO Auto-generated method stub
-		super.clearLeashed(sendPacket, dropLead);
-	}
-
-	@Override
-	public boolean canBeLeashedTo(PlayerEntity player) {
-		// TODO Auto-generated method stub
-		return super.canBeLeashedTo(player);
-	}
-
-	@Override
-	public boolean getLeashed() {
-		// TODO Auto-generated method stub
-		return super.getLeashed();
-	}
-
-	@Override
-	public Entity getLeashHolder() {
-		// TODO Auto-generated method stub
-		return super.getLeashHolder();
-	}
-
-	@Override
-	public void setLeashHolder(Entity entityIn, boolean sendAttachNotification) {
-		// TODO Auto-generated method stub
-		super.setLeashHolder(entityIn, sendAttachNotification);
-	}
-
-	@Override
-	public void setVehicleEntityId(int leashHolderIDIn) {
-		// TODO Auto-generated method stub
-		super.setVehicleEntityId(leashHolderIDIn);
-	}
-
-	@Override
-	public boolean startRiding(Entity entityIn, boolean force) {
-		// TODO Auto-generated method stub
-		return super.startRiding(entityIn, force);
-	}
-
-	@Override
-	public boolean replaceItemInInventory(int inventorySlot, ItemStack itemStackIn) {
-		// TODO Auto-generated method stub
-		return super.replaceItemInInventory(inventorySlot, itemStackIn);
-	}
-
-	@Override
-	public boolean canPassengerSteer() {
-		// TODO Auto-generated method stub
-		return super.canPassengerSteer();
-	}
-
-	@Override
-	public boolean isServerWorld() {
-		// TODO Auto-generated method stub
-		return super.isServerWorld();
-	}
-
-	@Override
-	public void setNoAI(boolean disable) {
-		// TODO Auto-generated method stub
-		super.setNoAI(disable);
-	}
-
-	@Override
-	public void setLeftHanded(boolean leftHanded) {
-		// TODO Auto-generated method stub
-		super.setLeftHanded(leftHanded);
-	}
-
-	@Override
-	public void setAggroed(boolean hasAggro) {
-		// TODO Auto-generated method stub
-		super.setAggroed(hasAggro);
-	}
-
-	@Override
-	public boolean isAIDisabled() {
-		// TODO Auto-generated method stub
-		return super.isAIDisabled();
-	}
-
-	@Override
-	public boolean isLeftHanded() {
-		// TODO Auto-generated method stub
-		return super.isLeftHanded();
-	}
-
-	@Override
-	public boolean isAggressive() {
-		// TODO Auto-generated method stub
-		return super.isAggressive();
-	}
-
-	@Override
-	public void setChild(boolean childZombie) {
-		// TODO Auto-generated method stub
-		super.setChild(childZombie);
-	}
-
-	@Override
-	public HandSide getPrimaryHand() {
-		// TODO Auto-generated method stub
-		return super.getPrimaryHand();
-	}
-
-	@Override
-	public boolean canAttack(LivingEntity target) {
-		// TODO Auto-generated method stub
-		return super.canAttack(target);
-	}
-
-	@Override
-	public boolean attackEntityAsMob(Entity entityIn) {
-		// TODO Auto-generated method stub
-		return super.attackEntityAsMob(entityIn);
-	}
-
-	@Override
-	protected boolean isInDaylight() {
-		// TODO Auto-generated method stub
-		return super.isInDaylight();
-	}
-
-	@Override
-	protected void handleFluidJump(ITag<Fluid> fluidTag) {
-		// TODO Auto-generated method stub
-		super.handleFluidJump(fluidTag);
-	}
-
-	@Override
-	protected void setDead() {
-		// TODO Auto-generated method stub
-		super.setDead();
-	}
 	
 }
