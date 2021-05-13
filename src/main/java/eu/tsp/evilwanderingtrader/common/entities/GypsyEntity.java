@@ -61,11 +61,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 	protected final int experienceValue = 5000;
 	//@Nullable
 	//final PlayerEntity nemesis; //personne qu'il cible
-<<<<<<< HEAD
-	protected boolean missionAccomplie; //s'il est prêt à revenir un wanderingtrader
-=======
-	protected boolean missionAccomplie; //s'il est pret à revenir un wanderingtrader
->>>>>>> jf
+	protected boolean missionAccomplie; //s'il est pret a revenir un wanderingtrader
 
 	public GypsyEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
 		super(type, worldIn);
