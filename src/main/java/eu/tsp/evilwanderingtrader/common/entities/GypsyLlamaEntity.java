@@ -14,7 +14,10 @@ import net.minecraft.entity.ai.controller.BodyController;
 import net.minecraft.entity.ai.controller.JumpController;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.controller.MovementController;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
@@ -56,7 +59,10 @@ public class GypsyLlamaEntity extends CreatureEntity implements IMob {
 	@Override
 	protected void registerGoals() {
 		super.registerGoals();
-		this.goalSelector.addGoal(0, new LookRandomlyGoal(this));;
+		this.goalSelector.addGoal(2, new AvoidEntityGoal(this, PlayerEntity.class, 16.0F, 1.2F, 1.8F));
+		this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 32.0F, 0.1F));
+		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+		this.goalSelector.addGoal(9, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 	}
 	
 	
