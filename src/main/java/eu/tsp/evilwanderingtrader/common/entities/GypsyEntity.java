@@ -50,49 +50,53 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BossInfo;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerBossInfo;
 import net.minecraftforge.fml.common.thread.SidedThreadGroups;
 
 public class GypsyEntity extends MonsterEntity implements IMob {
-	protected final int experienceValue = 5000;
 	//@Nullable
 	//final PlayerEntity nemesis; //personne qu'il cible
 	protected boolean missionAccomplie; //s'il est pret a revenir un wanderingtrader
+	private final ServerBossInfo bossInfo = (ServerBossInfo)(new ServerBossInfo(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
 
 	public GypsyEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
 		super(type, worldIn);
 		missionAccomplie = false;
+		this.setHealth(this.getMaxHealth());
+		this.experienceValue = 100;
 		//nemesis = this.world.getClosestPlayer(this.getPosX(), this.getPosYEye(), this.getPosZ(), 64d, (new EntityPredicate()).setDistance(64d).setCustomPredicate((@Nullable Predicate<LivingEntity>)null));
 		//EvilWanderingTrader.LOGGER.info("ok");
 	}
-	
+
 	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
-    {
-        return MobEntity.func_233666_p_()
-        		.createMutableAttribute( Attributes.MAX_HEALTH,1.0D )
-        		.createMutableAttribute( Attributes.MOVEMENT_SPEED,0.3D )
-        		.createMutableAttribute( Attributes.ATTACK_DAMAGE,4.0D )
-        		.createMutableAttribute( Attributes.ATTACK_SPEED,0.1D )
-        		.createMutableAttribute( Attributes.KNOCKBACK_RESISTANCE,0.7D );
-    }
+	{
+		return MobEntity.func_233666_p_()
+				.createMutableAttribute( Attributes.MAX_HEALTH,1.0D )
+				.createMutableAttribute( Attributes.MOVEMENT_SPEED,0.3D )
+				.createMutableAttribute( Attributes.ATTACK_DAMAGE,4.0D )
+				.createMutableAttribute( Attributes.ATTACK_SPEED,0.1D )
+				.createMutableAttribute( Attributes.KNOCKBACK_RESISTANCE,0.7D );
+	}
 
 	@Override
 	protected void registerGoals() {
 		super.registerGoals();
-		
+
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 
-	    this.goalSelector.addGoal(2, new GypsyAttackGoal(this, 1.35D, true));
-	    this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 16.0F, 0.05F));
-	    this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
-	    this.goalSelector.addGoal(9, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-	    	    
+		this.goalSelector.addGoal(2, new GypsyAttackGoal(this, 1.35D, true));
+		this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 16.0F, 0.05F));
+		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+		this.goalSelector.addGoal(9, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+
 	}
-	
+
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
 		if (super.attackEntityAsMob(entityIn)) {
@@ -120,36 +124,44 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 								nbItems++;
 								if(nbItems == choix) {
 									target.dropItem(list.get(i), true, false);
-						            list.set(i, ItemStack.EMPTY);
+									list.set(i, ItemStack.EMPTY);
 								}
 							}
 						}
 					}
-					
+
 				}
-				
-				
-				
+
+
+
 				//EvilWanderingTrader.LOGGER.info("");
-				
+
 			}
 			return true;
 		} else {
 			return false;
 		}
 	}	
-	
 
-	
+
+
 
 
 
 
 	@Override
 	public void addTrackingPlayer(ServerPlayerEntity player) {
-		EvilWanderingTrader.LOGGER.info("addTrackingPlayer ",player.getName());
+		//EvilWanderingTrader.LOGGER.info("addTrackingPlayer ",player.getName());
 		super.addTrackingPlayer(player);
+		this.bossInfo.addPlayer(player);
 	}
+	
+	@Override
+	public void removeTrackingPlayer(ServerPlayerEntity player) {
+		super.removeTrackingPlayer(player);
+		this.bossInfo.removePlayer(player);
+	}
+
 
 
 	@Override
@@ -294,6 +306,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 	protected void updateAITasks() {
 		// TODO Auto-generated method stub
 		super.updateAITasks();
+		this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 	}
 
 	@Override
@@ -301,7 +314,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 		// TODO Auto-generated method stub
 		return super.isNotColliding(worldIn);
 	}
-	
+
 
 	@Override
 	public int getMaxFallHeight() {
@@ -344,7 +357,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 		// TODO Auto-generated method stub
 		return super.getDropChance(slotIn);
 	}
-                                                
+
 
 	@Override
 	public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason,
@@ -364,5 +377,5 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 		super.onChildSpawnFromEgg(playerIn, child);
 	}
 
-	
+
 }
