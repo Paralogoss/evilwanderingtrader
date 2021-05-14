@@ -96,10 +96,10 @@ public class GypsyLlamaModel<T extends GypsyLlamaEntity> extends EntityModel<T> 
 		this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
 		this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
 
-		this.legBackRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-		this.legBackLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-		this.legFrontRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-		this.legFrontLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		this.legBackRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.25F * limbSwingAmount;
+		this.legBackLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.25F * limbSwingAmount;
+		this.legFrontRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.25F * limbSwingAmount;
+		this.legFrontLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.25F * limbSwingAmount;
 	}
 
 }

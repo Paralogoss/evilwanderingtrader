@@ -12,6 +12,8 @@ import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.horse.AbstractChestedHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob {
@@ -35,8 +37,8 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
 	@Override
 	protected void registerGoals() {
 		super.registerGoals();
+		this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(2, new AvoidEntityGoal(this, PlayerEntity.class, 16.0F, 1.2F, 1.8F));
-		this.goalSelector.addGoal(4, new SwimGoal(this));
 		this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 32.0F, 0.1F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
 		this.goalSelector.addGoal(9, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
@@ -52,13 +54,33 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
 	public int getInventoryColumns() {
 		return 5;
 	}
+	
+	public boolean isChestFull() {
+		Inventory inv = this.horseChest;
+		for(int i=0; i<inv.getSizeInventory(); i++) {
+			if(inv.getStackInSlot(i).isEmpty()) {
+				return false;
+			}
+		}
+		//TO DO rajouter une mise a jour statique de cette info
+		return true;
+	}
+	
+	public boolean addToChest(ItemStack items) {
+		if(isChestFull()) {
+			return false;
+		} else {
+			this.horseChest.addItem(items);
+			return true;
+		}
+	}
 
 	protected void dropInventory() {
 		this.setChested(false);
 		super.dropInventory();
 	}
 
-		@Override
+	@Override
 	public boolean canEatGrass() {
 		return false;
 	}
