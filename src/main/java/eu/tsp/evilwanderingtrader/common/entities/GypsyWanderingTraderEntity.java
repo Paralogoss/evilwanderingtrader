@@ -1,6 +1,7 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
 import eu.tsp.evilwanderingtrader.common.goals.EvilGypsyWhenHitGoal;
+import eu.tsp.evilwanderingtrader.common.init.ModSoundEventTypes;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -41,6 +42,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
 
         gypsy.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(gypsy.getPosition()), SpawnReason.CONVERSION, null, null);
         this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 20 * 3, Math.min(this.world.getDifficulty().getId() - 1, 0)));
+        this.world.playSound(this.getPosX(), this.getPosYEye(), this.getPosZ(), ModSoundEventTypes.GYPSY_DEATH.get(), this.getSoundCategory(), 1.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 0.3F, false);
 
         if (!this.isSilent()) {
             serverWorld.playEvent(null, 1027, this.getPosition(), 0);
