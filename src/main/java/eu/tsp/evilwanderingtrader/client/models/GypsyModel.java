@@ -7,6 +7,7 @@ import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 
 public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
 
@@ -97,7 +98,17 @@ public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
 	@Override
 	public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
 			float netHeadYaw, float headPitch) {
-		// TODO Auto-generated method stub
+		
+		this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
+	    this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
+	    this.head.rotateAngleZ = 0.0F;
+	    this.arms.rotationPointY = 3.0F;
+	    this.arms.rotationPointZ = -1.0F;
+	    this.arms.rotateAngleX = -0.75F;
+	    this.right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
+	    this.left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+	    this.right_leg.rotateAngleY = 0.0F;
+	    this.left_leg.rotateAngleY = 0.0F;
 		
 	}
 	

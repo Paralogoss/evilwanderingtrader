@@ -67,13 +67,13 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 	//final PlayerEntity nemesis; //personne qu'il cible
 
 	protected boolean missionAccomplie; //s'il est pret a revenir un wanderingtrader
-	private final ServerBossInfo bossInfo = (ServerBossInfo)(new ServerBossInfo(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
+	private final ServerBossInfo bossInfo = (ServerBossInfo)(new ServerBossInfo(this.getDisplayName(), BossInfo.Color.GREEN, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
 
 	public GypsyEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
 		super(type, worldIn);
 		missionAccomplie = false;
 		this.setHealth(this.getMaxHealth());
-		this.experienceValue = 100;
+		this.experienceValue = 150;
 		//EvilWanderingTrader.LOGGER.info("ok");
 	}
 
