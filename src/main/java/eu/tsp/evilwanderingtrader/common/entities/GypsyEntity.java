@@ -79,27 +79,25 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 
         PlayerInventory inv = this.nemesis.inventory;
         List<NonNullList<ItemStack>> allInventories = ImmutableList.of(inv.mainInventory, inv.armorInventory, inv.offHandInventory);
-        int nbItems = -1;
+        int itemCount = 0;
         for (List<ItemStack> list : allInventories) {
-            for (int i = 0; i < list.size(); i++) {
-                if (!list.get(i).isEmpty()) {
-                    nbItems++;
-                }
+            for (ItemStack itemStack : list) {
+                if (!itemStack.isEmpty()) itemCount++;
             }
         }
-        if (nbItems < 0) {
+
+        if (itemCount <= 0) {
             this.setDone(true);
             this.setAggroed(false);
         } else {
-            int choix = (nbItems == 0) ? 0 : new Random().nextInt(nbItems);
-            nbItems = -1;
+            int choice = new Random().nextInt(itemCount);
+            itemCount = -1;
             for (List<ItemStack> list : allInventories) {
                 for (int i = 0; i < list.size(); i++) {
                     if (!list.get(i).isEmpty()) {
-                        nbItems++;
-                        if (nbItems == choix) {
-                            //this.nemesis.dropItem(list.get(i), true, false);
-                            sendStolenItemStack(list.get(i), this.nemesis);
+                        itemCount++;
+                        if (itemCount == choice) {
+                            sendStolenItemStack(list.get(i));
                             list.set(i, ItemStack.EMPTY);
                         }
                     }
@@ -109,35 +107,26 @@ public class GypsyEntity extends MonsterEntity implements IMob {
         return true;
     }
 
-    protected void sendStolenItemStack(ItemStack items, PlayerEntity targetedPlayer) {
-        double distanceMaxDuLlama = 16D; //au sens de la norme infinie
+    protected void sendStolenItemStack(ItemStack items) {
+        double maxDistance = 16D; //au sens de la norme infinie
         List<GypsyLlamaEntity> entities = this.world.getEntitiesWithinAABB(
                 GypsyLlamaEntity.class,
                 new AxisAlignedBB(
-                        this.getPosX() - distanceMaxDuLlama, this.getPosYEye() - distanceMaxDuLlama, this.getPosZ() - distanceMaxDuLlama,
-                        this.getPosX() + distanceMaxDuLlama, this.getPosYEye() + distanceMaxDuLlama, this.getPosZ() + distanceMaxDuLlama));
-		/*GypsyLlamaEntity llama = this.world.getClosestEntity(
-						entities,
-						(new EntityPredicate()).setDistance(distanceMaxDuLlama).setCustomPredicate((@Nullable Predicate<LivingEntity>)null),
-						GypsyLlamaEntity.class,
-						this.getPosX(),
-						this.getPosYEye(),
-						this.getPosZ()); */
+                        this.getPosX() - maxDistance, this.getPosYEye() - maxDistance, this.getPosZ() - maxDistance,
+                        this.getPosX() + maxDistance, this.getPosYEye() + maxDistance, this.getPosZ() + maxDistance)
+        );
+
         if (!entities.isEmpty()) {
-            Iterator<GypsyLlamaEntity> elt = entities.iterator();
-            boolean var = true;
-            while (elt.hasNext() && var) {
-                GypsyLlamaEntity llama = elt.next();
-                if (llama.isAlive() && llama.addToChest(items)) {
-                    var = false;
-                }
-                if (var) {
-                    targetedPlayer.dropItem(items, true, false);
-                }
+            Iterator<GypsyLlamaEntity> llamas = entities.iterator();
+            GypsyLlamaEntity llama = llamas.next();
+            boolean success = llama.isAlive() && llama.addToChest(items);
+            while (!success && llamas.hasNext()) {
+                llama = llamas.next();
+                success = llama.isAlive() && llama.addToChest(items);
             }
-        } else {
-            targetedPlayer.dropItem(items, true, false);
+            if (success) return;
         }
+        this.nemesis.dropItem(items, true, false);
     }
 
     public void setNemesis(PlayerEntity player) {
