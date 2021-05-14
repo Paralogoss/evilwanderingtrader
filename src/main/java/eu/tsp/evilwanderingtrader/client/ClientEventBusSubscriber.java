@@ -3,7 +3,7 @@ package eu.tsp.evilwanderingtrader.client;
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.client.rendering.GypsyLlamaRender;
 import eu.tsp.evilwanderingtrader.client.rendering.GypsyRender;
-import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
+import eu.tsp.evilwanderingtrader.client.rendering.GypsyWanderingTraderRender;
 import eu.tsp.evilwanderingtrader.common.items.ModSpawnEggItem;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -21,6 +21,7 @@ public class ClientEventBusSubscriber {
 	{
 		RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.GYPSY.get(), new GypsyRender.RenderFactory());
 		RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.GYPSY_LLAMA.get(), new GypsyLlamaRender.RenderFactory());
+		RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.GYPSY_WANDERING_TRADER.get(), new GypsyWanderingTraderRender.RenderFactory());
 	}
 
 	@SubscribeEvent

@@ -15,6 +15,10 @@ public class ModEntityTypes {
 			() -> EntityType.Builder.create(GypsyEntity::new, EntityClassification.MONSTER)
 					.size(0.6f, 1.95f)
 					.build(new ResourceLocation(EvilWanderingTrader.MOD_ID, "gypsy").toString()));
+	public static final RegistryObject<EntityType<GypsyWanderingTraderEntity>> GYPSY_WANDERING_TRADER = ENTITY_TYPES.register("gypsy_wandering_trader",
+			() -> EntityType.Builder.create(GypsyWanderingTraderEntity::new, EntityClassification.AMBIENT)
+					.size(0.6f, 1.95f)
+					.build(new ResourceLocation(EvilWanderingTrader.MOD_ID, "gypsy_wandering_trader").toString()));
 	public static final RegistryObject<EntityType<GypsyLlamaEntity>> GYPSY_LLAMA = ENTITY_TYPES.register("gypsy_llama",
 			() -> EntityType.Builder.create(GypsyLlamaEntity::new, EntityClassification.MONSTER)
 					.size(0.9f, 1.875f)
