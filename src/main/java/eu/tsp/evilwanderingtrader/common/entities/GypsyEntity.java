@@ -1,5 +1,6 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -49,6 +50,7 @@ import net.minecraft.util.HandSide;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.DifficultyInstance;
@@ -71,14 +73,13 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 		missionAccomplie = false;
 		this.setHealth(this.getMaxHealth());
 		this.experienceValue = 100;
-		//nemesis = this.world.getClosestPlayer(this.getPosX(), this.getPosYEye(), this.getPosZ(), 64d, (new EntityPredicate()).setDistance(64d).setCustomPredicate((@Nullable Predicate<LivingEntity>)null));
 		//EvilWanderingTrader.LOGGER.info("ok");
 	}
 
 	public static AttributeModifierMap.MutableAttribute setCustomAttributes()
 	{
 		return MobEntity.func_233666_p_()
-				.createMutableAttribute( Attributes.MAX_HEALTH,1.0D )
+				.createMutableAttribute( Attributes.MAX_HEALTH,2.0D )
 				.createMutableAttribute( Attributes.MOVEMENT_SPEED,0.3D )
 				.createMutableAttribute( Attributes.ATTACK_DAMAGE,4.0D )
 				.createMutableAttribute( Attributes.ATTACK_SPEED,0.1D )
@@ -124,19 +125,13 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 							if(!list.get(i).isEmpty()) {
 								nbItems++;
 								if(nbItems == choix) {
-									target.dropItem(list.get(i), true, false);
+									stealItemStack(list.get(i), target);
 									list.set(i, ItemStack.EMPTY);
 								}
 							}
 						}
 					}
-
 				}
-
-
-
-				//EvilWanderingTrader.LOGGER.info("");
-
 			}
 			return true;
 		} else {
@@ -145,10 +140,36 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 	}	
 
 
-
-
-
-
+	protected void stealItemStack(ItemStack items, PlayerEntity target) {
+		double distanceMaxDuLlama = 16D; //au sens de la norme infinie
+		List<GypsyLlamaEntity> entities = this.world.getEntitiesWithinAABB(
+				GypsyLlamaEntity.class,
+				new AxisAlignedBB(
+						this.getPosX()-distanceMaxDuLlama, this.getPosYEye()-distanceMaxDuLlama, this.getPosZ()-distanceMaxDuLlama,
+						this.getPosX()+distanceMaxDuLlama, this.getPosYEye()+distanceMaxDuLlama, this.getPosZ()+distanceMaxDuLlama));
+		/*GypsyLlamaEntity llama = this.world.getClosestEntity(
+						entities,
+						(new EntityPredicate()).setDistance(distanceMaxDuLlama).setCustomPredicate((@Nullable Predicate<LivingEntity>)null),
+						GypsyLlamaEntity.class,
+						this.getPosX(),
+						this.getPosYEye(),
+						this.getPosZ()); */
+		if(!entities.isEmpty()) {
+			Iterator elt = entities.iterator();
+			boolean var = true;
+			while(elt.hasNext() && var) {
+				GypsyLlamaEntity llama = (GypsyLlamaEntity)elt.next();
+				if(llama.isAlive() && llama.addToChest(items)) {
+					var = false;
+				}
+			if(var) {
+				target.dropItem(items, true, false);
+				}
+			}
+		} else {
+			target.dropItem(items, true, false);
+		}
+	}
 
 	@Override
 	public void addTrackingPlayer(ServerPlayerEntity player) {
