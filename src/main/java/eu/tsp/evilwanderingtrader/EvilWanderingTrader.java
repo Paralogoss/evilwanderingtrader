@@ -1,5 +1,6 @@
 package eu.tsp.evilwanderingtrader;
 
+import eu.tsp.evilwanderingtrader.common.entities.GypsyWanderingTraderEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
@@ -64,7 +65,8 @@ public class EvilWanderingTrader
     	event.enqueueWork(() -> {
     		GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY.get(), GypsyEntity.setCustomAttributes().create());
     		GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_LLAMA.get(), GypsyEntity.setCustomAttributes().create());
-		});
+            GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_WANDERING_TRADER.get(), GypsyWanderingTraderEntity.setCustomAttributes().create());
+        });
 		//ModEntitySpawns.entitySpawnPlacementRegistry();
     }
 
