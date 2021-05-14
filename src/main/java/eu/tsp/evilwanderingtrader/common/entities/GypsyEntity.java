@@ -2,6 +2,7 @@ package eu.tsp.evilwanderingtrader.common.entities;
 
 import com.google.common.collect.ImmutableList;
 import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackGoal;
+import eu.tsp.evilwanderingtrader.common.init.ModSoundEventTypes;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -13,7 +14,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.DifficultyInstance;
@@ -156,6 +159,29 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     public void removeTrackingPlayer(ServerPlayerEntity player) {
         super.removeTrackingPlayer(player);
         this.bossInfo.removePlayer(player);
+    }
+
+    @Override
+    protected float getSoundVolume() {
+        return 0.6F;
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return ModSoundEventTypes.GYPSY_HURT.get();
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ModSoundEventTypes.GYPSY_DEATH.get();
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ModSoundEventTypes.GYPSY_AMBIENT.get();
     }
 
     @Override

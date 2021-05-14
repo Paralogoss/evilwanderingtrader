@@ -2,6 +2,7 @@ package eu.tsp.evilwanderingtrader;
 
 import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyWanderingTraderEntity;
+import eu.tsp.evilwanderingtrader.common.init.ModSoundEventTypes;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModItems;
 import net.minecraft.block.Block;
@@ -33,49 +34,29 @@ public class EvilWanderingTrader {
 
         // Register the setup method for modloading
         eventBus.addListener(this::setup);
-        // Register the enqueueIMC method for modloading
-        //eventBus.addListener(this::enqueueIMC);
-        // Register the processIMC method for modloading
-        //eventBus.addListener(this::processIMC);
         // Register the doClientStuff method for modloading
         eventBus.addListener(this::doClientStuff);
 
+        ModSoundEventTypes.SOUND_EVENTS.register(eventBus);
         ModEntityTypes.ENTITY_TYPES.register(eventBus);
         ModItems.ITEMS.register(eventBus);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
     }
 
     @SuppressWarnings("deprecation")
     private void setup(final FMLCommonSetupEvent event) {
-        // some preinit code
         event.enqueueWork(() -> {
             GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY.get(), GypsyEntity.setCustomAttributes().create());
             GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_LLAMA.get(), GypsyEntity.setCustomAttributes().create());
             GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_WANDERING_TRADER.get(), GypsyWanderingTraderEntity.setCustomAttributes().create());
         });
-        //ModEntitySpawns.entitySpawnPlacementRegistry();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         // do something that can only be done on the client
     }
-    
-    /*
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
-        // some example code to dispatch IMC to another mod
-    }
-
-    private void processIMC(final InterModProcessEvent event)
-    {
-        // some example code to receive and process InterModComms from other mods
-    }
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-        // do something when the server starts
-    }*/
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)

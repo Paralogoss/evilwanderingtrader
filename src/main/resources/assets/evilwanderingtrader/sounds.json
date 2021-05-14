@@ -1,0 +1,35 @@
+{
+
+    "entity.gypsy.hurt": {
+        "category": "entity",
+        "subtitle": "entity.gypsy.hurt",
+        "sounds": [
+            {
+                "name": "evilwanderingtrader:entity/entity.gypsy.hurt",
+                "stream": true
+            }
+        ]
+    },
+
+    "entity.gypsy.ambient": {
+        "category": "entity",
+        "subtitle": "entity.gypsy.ambient",
+        "sounds": [
+            {
+		"name": "evilwanderingtrader:entity/entity.gypsy.ambient",
+                "stream": true
+            }
+        ]
+    },
+
+    "entity.gypsy.death": {
+        "category": "entity",
+        "subtitle": "entity.gypsy.death",
+        "sounds": [
+            {
+                "name": "evilwanderingtrader:entity/entity.gypsy.death",
+                "stream": true
+            }
+        ]
+    }
+}
