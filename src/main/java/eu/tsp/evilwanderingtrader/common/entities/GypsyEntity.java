@@ -29,6 +29,7 @@ import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.ai.goal.ZombieAttackGoal;
 import net.minecraft.entity.item.ItemEntity;
@@ -92,6 +93,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 
+		this.goalSelector.addGoal(1, new SwimGoal(this));
 		this.goalSelector.addGoal(2, new GypsyAttackGoal(this, 1.35D, true));
 		this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 16.0F, 0.05F));
 		this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
@@ -103,44 +105,47 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 	public boolean attackEntityAsMob(Entity entityIn) {
 		if (super.attackEntityAsMob(entityIn)) {
 			if (entityIn instanceof PlayerEntity) {
-				PlayerEntity target = (PlayerEntity) entityIn;
-				PlayerInventory inv = ((PlayerEntity)entityIn).inventory;
-				List<NonNullList<ItemStack>> allInventories = ImmutableList.of(inv.mainInventory, inv.armorInventory, inv.offHandInventory);
-				int nbItems = -1;
-				for(List<ItemStack> list : allInventories) {
-					for (int i=0; i<list.size(); i++) {
-						if(!list.get(i).isEmpty()) {
-							nbItems++;
-						}
-					}
-				}
-				if(nbItems<0) {
-					this.missionAccomplie = true;
-					this.setAggroed(false);
-				} else {
-					int choix = (nbItems==0)?0:new Random().nextInt(nbItems);
-					nbItems = -1;
-					for(List<ItemStack> list : allInventories) {
-						for (int i=0; i<list.size(); i++) {
-							if(!list.get(i).isEmpty()) {
-								nbItems++;
-								if(nbItems == choix) {
-									stealItemStack(list.get(i), target);
-									list.set(i, ItemStack.EMPTY);
-								}
-							}
-						}
-					}
-				}
+				stoleItemStack((PlayerEntity)entityIn);
 			}
 			return true;
 		} else {
 			return false;
 		}
-	}	
+	}
+	
+	protected void stoleItemStack(PlayerEntity targetedPlayer) {
+		PlayerInventory inv = targetedPlayer.inventory;
+		List<NonNullList<ItemStack>> allInventories = ImmutableList.of(inv.mainInventory, inv.armorInventory, inv.offHandInventory);
+		int nbItems = -1;
+		for(List<ItemStack> list : allInventories) {
+			for (int i=0; i<list.size(); i++) {
+				if(!list.get(i).isEmpty()) {
+					nbItems++;
+				}
+			}
+		}
+		if(nbItems<0) {
+			this.missionAccomplie = true;
+			this.setAggroed(false);
+		} else {
+			int choix = (nbItems==0)?0:new Random().nextInt(nbItems);
+			nbItems = -1;
+			for(List<ItemStack> list : allInventories) {
+				for (int i=0; i<list.size(); i++) {
+					if(!list.get(i).isEmpty()) {
+						nbItems++;
+						if(nbItems == choix) {
+							sendStolenItemStack(list.get(i), targetedPlayer);
+							list.set(i, ItemStack.EMPTY);
+						}
+					}
+				}
+			}
+		}
+	}
 
 
-	protected void stealItemStack(ItemStack items, PlayerEntity target) {
+	protected void sendStolenItemStack(ItemStack items, PlayerEntity targetedPlayer) {
 		double distanceMaxDuLlama = 16D; //au sens de la norme infinie
 		List<GypsyLlamaEntity> entities = this.world.getEntitiesWithinAABB(
 				GypsyLlamaEntity.class,
@@ -155,7 +160,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 						this.getPosYEye(),
 						this.getPosZ()); */
 		if(!entities.isEmpty()) {
-			Iterator elt = entities.iterator();
+			Iterator<GypsyLlamaEntity> elt = entities.iterator();
 			boolean var = true;
 			while(elt.hasNext() && var) {
 				GypsyLlamaEntity llama = (GypsyLlamaEntity)elt.next();
@@ -163,11 +168,11 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 					var = false;
 				}
 			if(var) {
-				target.dropItem(items, true, false);
+				targetedPlayer.dropItem(items, true, false);
 				}
 			}
 		} else {
-			target.dropItem(items, true, false);
+			targetedPlayer.dropItem(items, true, false);
 		}
 	}
 
@@ -326,7 +331,6 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 
 	@Override
 	protected void updateAITasks() {
-		// TODO Auto-generated method stub
 		super.updateAITasks();
 		this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
 	}
