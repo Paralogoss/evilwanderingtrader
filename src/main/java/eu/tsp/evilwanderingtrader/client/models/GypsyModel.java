@@ -2,7 +2,6 @@ package eu.tsp.evilwanderingtrader.client.models;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -118,5 +117,4 @@ public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
       	this.left_leg.rotateAngleY = 0.0F;
 		
 	}
-	
 }
