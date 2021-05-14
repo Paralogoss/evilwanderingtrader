@@ -1,5 +1,8 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
+import javax.annotation.Nullable;
+
+import eu.tsp.evilwanderingtrader.common.init.ModSoundEventTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -10,6 +13,7 @@ import net.minecraft.entity.passive.horse.AbstractChestedHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob {
@@ -69,6 +73,12 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
     protected void dropInventory() {
         this.setChested(false);
         super.dropInventory();
+    }
+    
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ModSoundEventTypes.GYPSY_AMBIENT.get();
     }
 
     @Override

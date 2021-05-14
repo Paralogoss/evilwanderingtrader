@@ -22,6 +22,14 @@ public class ModSoundEventTypes {
     public static final RegistryObject<SoundEvent> GYPSY_AMBIENT = SOUND_EVENTS.register("entity.gypsy.ambient", () ->
             new SoundEvent(new ResourceLocation(EvilWanderingTrader.MOD_ID, "entity.gypsy.ambient"))
     );
+    
+    public static final RegistryObject<SoundEvent> GYPSY_CONVERSION = SOUND_EVENTS.register("entity.gypsy.conversion", () ->
+    new SoundEvent(new ResourceLocation(EvilWanderingTrader.MOD_ID, "entity.gypsy.conversion"))
+    );
+    
+    public static final RegistryObject<SoundEvent> GYPSY_LLAMA_AMBIENT = SOUND_EVENTS.register("entity.gypsy_llama.ambient", () ->
+    new SoundEvent(new ResourceLocation(EvilWanderingTrader.MOD_ID, "entity.gypsy_llama.ambient"))
+    );
 
 
 }
