@@ -7,6 +7,10 @@ import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+<<<<<<< Updated upstream
+=======
+import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
+>>>>>>> Stashed changes
 import net.minecraft.util.math.MathHelper;
 
 public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
@@ -29,12 +33,12 @@ public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
 		textureHeight = 64;
 
 		head = new ModelRenderer(this);
-		head.setRotationPoint(0.0F, 24.0F, 0.0F);
-		head.setTextureOffset(0, 0).addBox(-4.0F, -34.0F, -4.0F, 8.0F, 10.0F, 8.0F, 0.0F, false);
+		head.setRotationPoint(0.0F, 0.0F, 0.0F);
+		head.setTextureOffset(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8.0F, 10.0F, 8.0F, 0.0F, false);
 
 		nose = new ModelRenderer(this);
-		nose.setRotationPoint(0.0F, 24.0F, 0.0F);
-		nose.setTextureOffset(24, 0).addBox(-1.0F, -27.0F, -6.0F, 2.0F, 4.0F, 2.0F, 0.0F, false);
+		nose.setRotationPoint(0.0F, 0.0F, 0.0F);
+		nose.setTextureOffset(24, 0).addBox(-1.0F, -3.0F, -6.0F, 2.0F, 4.0F, 2.0F, 0.0F, false);
 
 		body = new ModelRenderer(this);
 		body.setRotationPoint(0.0F, 24.0F, 0.0F);
@@ -98,17 +102,19 @@ public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
 	@Override
 	public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
 			float netHeadYaw, float headPitch) {
-		
+
 		this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
-	    this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
-	    this.head.rotateAngleZ = 0.0F;
-	    this.arms.rotationPointY = 3.0F;
-	    this.arms.rotationPointZ = -1.0F;
-	    this.arms.rotateAngleX = -0.75F;
-	    this.right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
-	    this.left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
-	    this.right_leg.rotateAngleY = 0.0F;
-	    this.left_leg.rotateAngleY = 0.0F;
+		this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
+      
+		this.head.rotateAngleZ = 0.0F;
+
+		this.arms.rotationPointY = 3.0F;
+		this.arms.rotationPointZ = -1.0F;
+		this.arms.rotateAngleX = -0.75F;
+		this.right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
+      	this.left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+      	this.right_leg.rotateAngleY = 0.0F;
+      	this.left_leg.rotateAngleY = 0.0F;
 		
 	}
 	
