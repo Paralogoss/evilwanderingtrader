@@ -6,11 +6,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-<<<<<<< Updated upstream
-=======
-import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
->>>>>>> Stashed changes
 import net.minecraft.util.math.MathHelper;
 
 public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
@@ -45,12 +40,12 @@ public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
 		body.setTextureOffset(16, 20).addBox(-4.0F, -24.0F, -3.0F, 8.0F, 12.0F, 6.0F, 0.0F, false);
 
 		arms = new ModelRenderer(this);
-		arms.setRotationPoint(0.0F, 24.0F, 0.0F);
-		arms.setTextureOffset(40, 38).addBox(-4.0F, -20.0F, -2.0F, 8.0F, 4.0F, 4.0F, 0.0F, false);
-		arms.setTextureOffset(44, 22).addBox(-8.0F, -24.0F, -2.0F, 4.0F, 8.0F, 4.0F, 0.0F, false);
+		arms.setRotationPoint(0.0F, 0.0F, 0.0F);
+		arms.setTextureOffset(40, 38).addBox(-4.0F, 4.0F, -2.0F, 8.0F, 4.0F, 4.0F, 0.0F, false);
+		arms.setTextureOffset(44, 22).addBox(-8.0F, 0.0F, -2.0F, 4.0F, 8.0F, 4.0F, 0.0F, false);
 
 		mirrored = new ModelRenderer(this);
-		mirrored.setRotationPoint(0.0F, 0.0F, 0.0F);
+		mirrored.setRotationPoint(0.0F, 24.0F, 0.0F);
 		arms.addChild(mirrored);
 		mirrored.setTextureOffset(44, 22).addBox(4.0F, -24.0F, -2.0F, 4.0F, 8.0F, 4.0F, 0.0F, true);
 
@@ -59,23 +54,23 @@ public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
 		left_leg.setTextureOffset(0, 22).addBox(-4.0F, -12.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
 
 		right_leg = new ModelRenderer(this);
-		right_leg.setRotationPoint(0.0F, 24.0F, 0.0F);
-		right_leg.setTextureOffset(0, 22).addBox(0.0F, -12.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		right_leg.setRotationPoint(0.0F, 12.0F, 0.0F);
+		right_leg.setTextureOffset(0, 22).addBox(0.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
 
 		bodywear = new ModelRenderer(this);
 		bodywear.setRotationPoint(0.0F, 24.0F, 0.0F);
 		bodywear.setTextureOffset(0, 38).addBox(-4.0F, -24.0F, -3.0F, 8.0F, 18.0F, 6.0F, 0.5F, false);
 
 		headwear = new ModelRenderer(this);
-		headwear.setRotationPoint(0.0F, 24.0F, 0.0F);
-		headwear.setTextureOffset(32, 0).addBox(-4.0F, -34.0F, -4.0F, 8.0F, 10.0F, 8.0F, 0.25F, false);
+		headwear.setRotationPoint(0.0F, 0.0F, 0.0F);
+		headwear.setTextureOffset(32, 0).addBox(-4.0F, -10.0F, -4.0F, 8.0F, 10.0F, 8.0F, 0.25F, false);
 
 		headwear2 = new ModelRenderer(this);
-		headwear2.setRotationPoint(0.0F, 24.0F, 0.0F);
+		headwear2.setRotationPoint(0.0F, 0.0F, 0.0F);
 		
 
 		rotation = new ModelRenderer(this);
-		rotation.setRotationPoint(0.0F, 0.0F, 0.0F);
+		rotation.setRotationPoint(0.0F, 24.0F, 0.0F);
 		headwear2.addChild(rotation);
 		rotation.setTextureOffset(30, 47).addBox(-8.0F, -32.0F, -6.0F, 16.0F, 16.0F, 1.0F, 0.0F, false);
 	}
@@ -105,8 +100,14 @@ public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
 
 		this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
-      
+		this.headwear.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
+		this.headwear.rotateAngleX = headPitch * ((float)Math.PI / 180F);
+		this.nose.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
+		this.nose.rotateAngleX = headPitch * ((float)Math.PI / 180F);
+
 		this.head.rotateAngleZ = 0.0F;
+		this.headwear.rotateAngleZ = 0.0F;
+		this.nose.rotateAngleZ = 0.0F;
 
 		this.arms.rotationPointY = 3.0F;
 		this.arms.rotationPointZ = -1.0F;
