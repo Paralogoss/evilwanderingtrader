@@ -11,6 +11,8 @@ import com.google.common.collect.ImmutableList;
 
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackGoal;
+import eu.tsp.evilwanderingtrader.common.init.ModSoundEventTypes;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPredicate;
@@ -225,11 +227,34 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 		return super.updateDistance(p_110146_1_, p_110146_2_);
 	}
 
+
+
 	@Override
-	protected SoundEvent getAmbientSound() {
-		// TODO Auto-generated method stub
-		return super.getAmbientSound();
+	protected float getSoundVolume ()
+	{
+		return 0.6F;
 	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getHurtSound (DamageSource damageSourceIn)
+	{
+		return ModSoundEventTypes.GYPSY_HURT.get();
+	}
+	
+	@Nullable
+	@Override
+	protected SoundEvent getDeathSound ()
+	{
+		return ModSoundEventTypes.GYPSY_DEATH.get();
+	}
+	
+	@Nullable
+	@Override	
+	protected SoundEvent getAmbientSound () {
+		return ModSoundEventTypes.GYPSY_AMBIENT.get();
+	}
+
 
 	@Override
 	public void writeAdditional(CompoundNBT compound) {

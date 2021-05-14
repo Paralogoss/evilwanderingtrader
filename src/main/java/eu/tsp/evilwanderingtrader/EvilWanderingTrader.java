@@ -21,6 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
+import eu.tsp.evilwanderingtrader.common.init.ModSoundEventTypes;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModItems;
 
@@ -47,11 +48,13 @@ public class EvilWanderingTrader
     	//eventBus.addListener(this::processIMC);
         // Register the doClientStuff method for modloading
     	eventBus.addListener(this::doClientStuff);
-
+    	
+    	ModSoundEventTypes.SOUND_EVENTS.register(eventBus);
     	ModEntityTypes.ENTITY_TYPES.register(eventBus);
     	ModItems.ITEMS.register(eventBus);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        
     }
 
     @SuppressWarnings("deprecation")
