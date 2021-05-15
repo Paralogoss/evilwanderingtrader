@@ -26,4 +26,7 @@ public class ModEntityTypes {
                     .size(0.9f, 1.875f)
                     .build(new ResourceLocation(EvilWanderingTrader.MOD_ID, "gypsy_llama").toString()));
 
+    
+
+
 }
