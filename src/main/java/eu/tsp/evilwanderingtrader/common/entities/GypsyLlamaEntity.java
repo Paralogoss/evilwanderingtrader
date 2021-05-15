@@ -1,39 +1,36 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
-import javax.annotation.Nullable;
-
 import eu.tsp.evilwanderingtrader.common.goals.HurtNemesisGoal;
+import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.horse.AbstractChestedHorseEntity;
-import net.minecraft.entity.passive.horse.LlamaEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.entity.ai.goal.RangedAttackGoal;
-import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.server.ServerWorld;
+
+import javax.annotation.Nullable;
 
 public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob, IRangedAttackMob {
-	
-	@Nullable
-	PlayerEntity nemesis;
-	
+
+    @Nullable
+    PlayerEntity nemesis;
+
     public GypsyLlamaEntity(EntityType<? extends AbstractChestedHorseEntity> type, World worldIn) {
         super(type, worldIn);
         this.setChested(true);
         this.initHorseChest();
-      	this.nemesis = null;
+        this.nemesis = null;
     }
 
     public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
@@ -60,17 +57,20 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
     public void setNemesis(PlayerEntity player) {
         this.nemesis = player;
     }
-    
+
     public PlayerEntity getNemesis() {
         return this.nemesis;
     }
 
 
-	@Override
-	public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
-	
-	}
-   
+    @Override
+    public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
+
+    }
+
+    public void setInventory(Inventory inventory) {
+        if (inventory.getSizeInventory() <= this.getInventorySize()) this.horseChest = inventory;
+    }
 
     @Override
     protected int getInventorySize() {
@@ -91,9 +91,9 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
     }
 
     public boolean addToChest(ItemStack items) {
-    	int i = chestFirstFreeSlot();
+        int i = chestFirstFreeSlot();
         if (i == this.horseChest.getSizeInventory()) return false;
-        this.horseChest.setInventorySlotContents(i,items);
+        this.horseChest.setInventorySlotContents(i, items);
         return true;
 
     }
@@ -103,7 +103,7 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
         this.setChested(false);
         super.dropInventory();
     }
-    
+
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
@@ -113,6 +113,39 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
     @Override
     public boolean canEatGrass() {
         return false;
+    }
+
+    public void turnBackIntoWandererLlama() {
+        if (!this.world.isRemote) {
+            this.startConversion((ServerWorld) this.world);
+        }
+    }
+
+    private void startConversion(ServerWorld serverWorld) {
+        GypsyTraderLlamaEntity llama = this.func_233656_b_(ModEntityTypes.GYPSY_TRADER_LLAMA.get(), false);
+
+        llama.setInventory(this.horseChest);
+        llama.setOwnerUniqueId(this.getOwnerUniqueId());
+        llama.setHorseTamed(this.isTame());
+
+
+        llama.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(llama.getPosition()),
+                SpawnReason.CONVERSION, null, null);
+        this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 20 * 3,
+                Math.min(this.world.getDifficulty().getId() - 1, 0)));
+        this.world.playSound(this.getPosX(), this.getPosYEye(), this.getPosZ(), ModSoundEventTypes.GYPSY_CONVERSION.get(),
+                this.getSoundCategory(), 2.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 0.3F, false);
+
+        for (int i = 0; i < 20; ++i) {
+            double d0 = this.rand.nextGaussian() * 0.02D;
+            double d1 = this.rand.nextGaussian() * 0.02D;
+            double d2 = this.rand.nextGaussian() * 0.02D;
+            serverWorld.spawnParticle(ParticleTypes.ENTITY_EFFECT, this.getPosXWidth(0D) - d0 * 10.0D,
+                    this.getPosYRandom() - d1 * 10.0D, this.getPosZRandom(1.0D) - d2 * 10.0D,
+                    5, 0, 0, 0, (d0 + d1 + d2) / 3);
+        }
+
+        net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, llama);
     }
 
     /**

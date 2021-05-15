@@ -40,6 +40,8 @@ import java.util.Random;
 
 
 public class GypsyEntity extends MonsterEntity implements IMob {
+    public static final Double MAX_DISTANCE_TO_LLAMAS = 16D;
+
     // Targeted player
     @Nullable
     PlayerEntity nemesis;
@@ -126,12 +128,12 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     }
 
     protected void sendStolenItemStack(ItemStack items) {
-        double maxDistance = 16D; //au sens de la norme infinie
+        Double maxDistance = GypsyEntity.MAX_DISTANCE_TO_LLAMAS;
         List<GypsyLlamaEntity> entities = this.world.getEntitiesWithinAABB(
                 GypsyLlamaEntity.class,
                 new AxisAlignedBB(
-                        this.getPosX() - maxDistance, this.getPosYEye() - maxDistance/2, this.getPosZ() - maxDistance,
-                        this.getPosX() + maxDistance, this.getPosYEye() + maxDistance/2, this.getPosZ() + maxDistance)
+                        this.getPosX() - maxDistance, this.getPosYEye() - maxDistance / 2, this.getPosZ() - maxDistance,
+                        this.getPosX() + maxDistance, this.getPosYEye() + maxDistance / 2, this.getPosZ() + maxDistance)
         );
 
         if (!entities.isEmpty()) {
@@ -176,6 +178,23 @@ public class GypsyEntity extends MonsterEntity implements IMob {
         if (!this.world.isRemote && !this.isConverting()) {
             this.setConverting(true);
             this.startConversion((ServerWorld) this.world);
+
+            Double maxDistance = GypsyEntity.MAX_DISTANCE_TO_LLAMAS;
+            List<GypsyLlamaEntity> entities = this.world.getEntitiesWithinAABB(
+                    GypsyLlamaEntity.class,
+                    new AxisAlignedBB(
+                            this.getPosX() - maxDistance, this.getPosYEye() - maxDistance / 2, this.getPosZ() - maxDistance,
+                            this.getPosX() + maxDistance, this.getPosYEye() + maxDistance / 2, this.getPosZ() + maxDistance)
+            );
+
+            if (!entities.isEmpty()) {
+                Iterator<GypsyLlamaEntity> llamas = entities.iterator();
+                GypsyLlamaEntity llama;
+                while (llamas.hasNext()) {
+                    llama = llamas.next();
+                    if (llama.isAlive()) llama.turnBackIntoWandererLlama();
+                }
+            }
         }
     }
 
