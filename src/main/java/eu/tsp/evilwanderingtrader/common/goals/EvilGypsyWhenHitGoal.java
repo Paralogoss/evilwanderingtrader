@@ -1,6 +1,5 @@
 package eu.tsp.evilwanderingtrader.common.goals;
 
-import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyWanderingTraderEntity;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import net.minecraft.entity.ai.goal.Goal;
@@ -22,7 +21,6 @@ public class EvilGypsyWhenHitGoal extends Goal {
     public void startExecuting() {
         if (net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this.wanderingTrader, ModEntityTypes.GYPSY.get(), (timer) -> {
         })) {
-            EvilWanderingTrader.LOGGER.info("Converting");
             PlayerEntity player = (PlayerEntity) this.wanderingTrader.getRevengeTarget();
             wanderingTrader.turnIntoGypsy(player);
         }
