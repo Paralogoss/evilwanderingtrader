@@ -49,12 +49,12 @@ public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
 		mirrored.setTextureOffset(44, 22).addBox(4.0F, -24.0F, -2.0F, 4.0F, 8.0F, 4.0F, 0.0F, true);
 
 		left_leg = new ModelRenderer(this);
-		left_leg.setRotationPoint(0.0F, 24.0F, 0.0F);
-		left_leg.setTextureOffset(0, 22).addBox(-4.0F, -12.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		left_leg.setRotationPoint(0.0F, 12.0F, 0.0F);
+		left_leg.setTextureOffset(0, 22).addBox(-4.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
 
 		right_leg = new ModelRenderer(this);
 		right_leg.setRotationPoint(0.0F, 12.0F, 0.0F);
-		right_leg.setTextureOffset(0, 22).addBox(0.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		right_leg.setTextureOffset(0, 22).addBox(0.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, true);
 
 		bodywear = new ModelRenderer(this);
 		bodywear.setRotationPoint(0.0F, 24.0F, 0.0F);
@@ -111,8 +111,8 @@ public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
 		this.arms.rotationPointY = 3.0F;
 		this.arms.rotationPointZ = -1.0F;
 		this.arms.rotateAngleX = -0.75F;
-		this.right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
-      	this.left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+		this.right_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.3F * limbSwingAmount * 0.5F;
+      	this.left_leg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.3F * limbSwingAmount * 0.5F;
       	this.right_leg.rotateAngleY = 0.0F;
       	this.left_leg.rotateAngleY = 0.0F;
 		
