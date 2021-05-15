@@ -3,8 +3,8 @@ package eu.tsp.evilwanderingtrader.common.entities;
 import com.google.common.collect.ImmutableList;
 import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackGoal;
 import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackableTargetGoal;
-import eu.tsp.evilwanderingtrader.common.init.ModSoundEventTypes;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
+import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -130,8 +130,8 @@ public class GypsyEntity extends MonsterEntity implements IMob {
         List<GypsyLlamaEntity> entities = this.world.getEntitiesWithinAABB(
                 GypsyLlamaEntity.class,
                 new AxisAlignedBB(
-                        this.getPosX() - maxDistance, this.getPosYEye() - maxDistance, this.getPosZ() - maxDistance,
-                        this.getPosX() + maxDistance, this.getPosYEye() + maxDistance, this.getPosZ() + maxDistance)
+                        this.getPosX() - maxDistance, this.getPosYEye() - maxDistance/2, this.getPosZ() - maxDistance,
+                        this.getPosX() + maxDistance, this.getPosYEye() + maxDistance/2, this.getPosZ() + maxDistance)
         );
 
         if (!entities.isEmpty()) {

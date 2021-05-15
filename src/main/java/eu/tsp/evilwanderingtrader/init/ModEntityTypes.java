@@ -3,6 +3,7 @@ package eu.tsp.evilwanderingtrader.init;
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyLlamaEntity;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyTraderLlamaEntity;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyWanderingTraderEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -25,5 +26,12 @@ public class ModEntityTypes {
             () -> EntityType.Builder.create(GypsyLlamaEntity::new, EntityClassification.MONSTER)
                     .size(0.9f, 1.875f)
                     .build(new ResourceLocation(EvilWanderingTrader.MOD_ID, "gypsy_llama").toString()));
+    public static final RegistryObject<EntityType<GypsyTraderLlamaEntity>> GYPSY_TRADER_LLAMA = ENTITY_TYPES.register("gypsy_trader_llama",
+            () -> EntityType.Builder.create(GypsyTraderLlamaEntity::new, EntityClassification.AMBIENT)
+                    .size(0.9f, 1.875f)
+                    .build(new ResourceLocation(EvilWanderingTrader.MOD_ID, "gypsy_trader_llama").toString()));
+
+    
+
 
 }

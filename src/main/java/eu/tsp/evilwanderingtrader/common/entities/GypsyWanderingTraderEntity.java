@@ -1,8 +1,8 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
 import eu.tsp.evilwanderingtrader.common.goals.EvilGypsyWhenHitGoal;
-import eu.tsp.evilwanderingtrader.common.init.ModSoundEventTypes;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
+import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
