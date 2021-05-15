@@ -1,9 +1,11 @@
 {
-  "itemGroup.ewt_tab": "Les items :3",
-  "item.evilwanderingtrader.gypsy_spawn_egg": "Evil Wandering Trader Egg",
-  "item.evilwanderingtrader.gypsy_llama_spawn_egg": "Evil Wandering Trader's Llama Egg",
+  "itemGroup.ewt_tab": "Evil Wandering Trader",
+  "item.evilwanderingtrader.gypsy_spawn_egg": "Gypsy Egg",
+  "item.evilwanderingtrader.gypsy_llama_spawn_egg": "Gypsy's Llama Egg",
   "item.evilwanderingtrader.gypsy_wandering_trader_spawn_egg":"Gypsy Wandering Trader Egg",
-  "entity.evilwanderingtrader.gypsy": "Evil Wandering Trader",
-  "entity.evilwanderingtrader.gypsy_llama": "Evil Wandering Trader's Llama",
+  "item.evilwanderingtrader.gypsy_trader_llama_spawn_egg":"Gypsy Trader Llama Egg",
+  "entity.evilwanderingtrader.gypsy": "Gypsy",
+  "entity.evilwanderingtrader.gypsy_llama": "Gypsy's Llama",
+  "entity.evilwanderingtrader.gypsy_trader_llama": "Gypsy's Trader Llama",
   "entity.evilwanderingtrader.gypsy_wandering_trader": "Gypsy Wandering Trader"
 }
