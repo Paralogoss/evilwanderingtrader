@@ -32,7 +32,7 @@ public class GypsyLlamaModel<T extends GypsyLlamaEntity> extends EntityModel<T> 
         this.head.setRotationPoint(0.0F, 7.0F, -6.0F);
         this.head.setTextureOffset(0, 14).addBox(-4.0F, -16.0F, -6.0F, 8.0F, 18.0F, 6.0F);
         this.head.setTextureOffset(17, 0).addBox(-4.0F, -19.0F, -4.0F, 3.0F, 3.0F, 2.0F);
-        this.head.setTextureOffset(17, 0).addBox(1.0F, -19.0F, -4.0F, 3.0F, 3.0F, 2.0F);
+        this.head.setTextureOffset(17, 0).addBox(1.0F, -19.0F, -4.0F, 3.0F, 3.0F, 2.0F, true);
 
         body = new ModelRenderer(this);
         body.setRotationPoint(0.0F, 24.0F, 0.0F);
