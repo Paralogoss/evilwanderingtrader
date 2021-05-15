@@ -46,7 +46,7 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
 
     @Override
     protected int getInventorySize() {
-        return 15;
+        return 17;
     }
 
     @Override
@@ -55,16 +55,17 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
     }
 
     //TODO rajouter une mise a jour statique de cette info
-    public boolean isChestFull() {
+    public int chestFirstFreeSlot() {
         Inventory inv = this.horseChest;
-        int i = 0;
+        int i = 2; // la case d'inventaire 0 correspond a la selle et 1 a l'armure (pas affichee mais heritee du cheval)
         while (i < inv.getSizeInventory() && !inv.getStackInSlot(i).isEmpty()) i++;
-        return i == inv.getSizeInventory();
+        return i;
     }
 
     public boolean addToChest(ItemStack items) {
-        if (this.isChestFull()) return false;
-        this.horseChest.addItem(items);
+    	int i = chestFirstFreeSlot();
+        if (i == this.horseChest.getSizeInventory()) return false;
+        this.horseChest.setInventorySlotContents(i,items);
         return true;
 
     }
@@ -86,11 +87,11 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
         return false;
     }
 
-    /*
+    /**
      * When a player wants to mount a llama we open the inventory instead (llamas are not rideable)
      */
-    @Override
+    /*@Override
     protected void mountTo(PlayerEntity player) {
         player.openHorseInventory(this, this.horseChest);
-    }
+    }*/
 }

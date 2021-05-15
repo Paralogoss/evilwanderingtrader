@@ -4,7 +4,7 @@ import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyTraderLlamaEntity;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyWanderingTraderEntity;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
-import eu.tsp.evilwanderingtrader.init.ModItems;
+import eu.tsp.evilwanderingtrader.init.ModItemTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.ItemGroup;
@@ -37,7 +37,7 @@ public class EvilWanderingTrader {
 
         ModSoundEventTypes.SOUND_EVENTS.register(eventBus);
         ModEntityTypes.ENTITY_TYPES.register(eventBus);
-        ModItems.ITEMS.register(eventBus);
+        ModItemTypes.ITEMS.register(eventBus);
         
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -62,7 +62,7 @@ public class EvilWanderingTrader {
     public static final ItemGroup TAB = new ItemGroup("ewt_tab") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ModItems.GYPSY_SPAWN_EGG.get());
+            return new ItemStack(ModItemTypes.GYPSY_SPAWN_EGG.get());
         }
     };
 
