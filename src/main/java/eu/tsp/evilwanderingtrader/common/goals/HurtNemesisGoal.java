@@ -12,7 +12,7 @@ public class HurtNemesisGoal extends HurtByTargetGoal {
 	}
 	@Override
 	public void startExecuting() {
-		if (this.goalOwner instanceof GypsyLlamaEntity) {
+		if (this.goalOwner instanceof GypsyLlamaEntity && ((GypsyLlamaEntity)this.goalOwner).getNemesis() == null) {
 			this.goalOwner.setAttackTarget(((GypsyLlamaEntity)this.goalOwner).getNemesis());
 			this.target = this.goalOwner.getAttackTarget();
 //			this.revengeTimerOld = this.goalOwner.getRevengeTimer();
