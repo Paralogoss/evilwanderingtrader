@@ -86,4 +86,8 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, gypsyLlama);
     }
 
+    @Override
+    public boolean isNoDespawnRequired() {
+        return true;
+    }
 }
