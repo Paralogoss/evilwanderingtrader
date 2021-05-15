@@ -148,14 +148,14 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, llama);
     }
 
-    /**
-     * When a player wants to mount a llama we open the inventory instead (llamas are not rideable)
-     */
-    /*@Override
-    protected void mountTo(PlayerEntity player) {
-        player.openHorseInventory(this, this.horseChest);
-
+    @Override
+    public boolean isNoDespawnRequired() {
+        return true;
     }
 
-    }*/
+    @Override
+    public boolean canDespawn(double distanceToClosestPlayer) {
+        return false;
+    }
+
 }

@@ -90,4 +90,10 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
     public boolean isNoDespawnRequired() {
         return true;
     }
+
+    @Override
+    public boolean canDespawn(double distanceToClosestPlayer) {
+        return false;
+    }
+
 }

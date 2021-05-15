@@ -277,4 +277,9 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     public boolean isNoDespawnRequired() {
         return true;
     }
+
+    @Override
+    public boolean canDespawn(double distanceToClosestPlayer) {
+        return false;
+    }
 }

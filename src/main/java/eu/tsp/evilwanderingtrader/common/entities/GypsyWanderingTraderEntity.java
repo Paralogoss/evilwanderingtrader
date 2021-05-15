@@ -84,4 +84,14 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, gypsy);
     }
 
+    @Override
+    public boolean isNoDespawnRequired() {
+        return true;
+    }
+
+    @Override
+    public boolean canDespawn(double distanceToClosestPlayer) {
+        return false;
+    }
+
 }
