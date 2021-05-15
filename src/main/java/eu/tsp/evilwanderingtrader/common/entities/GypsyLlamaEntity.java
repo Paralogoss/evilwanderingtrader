@@ -2,7 +2,7 @@ package eu.tsp.evilwanderingtrader.common.entities;
 
 import javax.annotation.Nullable;
 
-import eu.tsp.evilwanderingtrader.common.init.ModSoundEventTypes;
+import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;

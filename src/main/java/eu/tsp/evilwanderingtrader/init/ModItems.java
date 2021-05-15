@@ -16,7 +16,7 @@ public class ModItems {
     public static RegistryObject<ModSpawnEggItem> GYPSY_LLAMA_SPAWN_EGG = ITEMS.register("gypsy_llama_spawn_egg",
             () -> new ModSpawnEggItem(ModEntityTypes.GYPSY_LLAMA, 0x00CFFFCF, 0x0048F048, new Item.Properties().group(EvilWanderingTrader.TAB)));
     public static RegistryObject<ModSpawnEggItem> GYPSY_TRADER_LLAMA_SPAWN_EGG = ITEMS.register("gypsy_trader_llama_spawn_egg",
-            () -> new ModSpawnEggItem(ModEntityTypes.GYPSY_TRADER_LLAMA, 0x40C4FFCF, 0x4048F098, new Item.Properties().group(EvilWanderingTrader.TAB)));
+            () -> new ModSpawnEggItem(ModEntityTypes.GYPSY_TRADER_LLAMA, 0x40C4FFCF, 0x404810F8, new Item.Properties().group(EvilWanderingTrader.TAB)));
     public static RegistryObject<ModSpawnEggItem> GYPSY_WANDERING_TRADER_SPAWN_EGG = ITEMS.register("gypsy_wandering_trader_spawn_egg",
             () -> new ModSpawnEggItem(ModEntityTypes.GYPSY_WANDERING_TRADER,
                     0x00CFCFCF, 0x0048C048, new Item.Properties().group(EvilWanderingTrader.TAB)));

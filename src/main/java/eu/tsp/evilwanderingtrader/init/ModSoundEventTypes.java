@@ -1,4 +1,4 @@
-package eu.tsp.evilwanderingtrader.common.init;
+package eu.tsp.evilwanderingtrader.init;
 
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import net.minecraft.util.ResourceLocation;

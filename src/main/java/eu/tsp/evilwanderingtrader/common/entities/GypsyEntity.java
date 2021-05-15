@@ -2,7 +2,7 @@ package eu.tsp.evilwanderingtrader.common.entities;
 
 import com.google.common.collect.ImmutableList;
 import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackGoal;
-import eu.tsp.evilwanderingtrader.common.init.ModSoundEventTypes;
+import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
