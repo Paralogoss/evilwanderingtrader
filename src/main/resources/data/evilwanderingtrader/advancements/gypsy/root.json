@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:golden_axe"
+    },
+    "title": {
+      "translate": "advancements.gypsy.title"
+    },
+    "description": {
+      "translate": "advancements.gypsy.root.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "evilwanderingtrader:textures/gui/advancements/backgrounds/mossy_cobblestone.png"
+  },
+  "criteria": {
+    "join_world": {
+      "trigger": "minecraft:enter_block",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:air"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "join_world"
+    ]
+  ]
+}

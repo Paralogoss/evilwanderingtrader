@@ -7,5 +7,9 @@
   "entity.evilwanderingtrader.gypsy": "Gypsy",
   "entity.evilwanderingtrader.gypsy_llama": "Gypsy's Llama",
   "entity.evilwanderingtrader.gypsy_trader_llama": "Gypsy's Trader Llama",
-  "entity.evilwanderingtrader.gypsy_wandering_trader": "Gypsy Wandering Trader"
+  "entity.evilwanderingtrader.gypsy_wandering_trader": "Gypsy Wandering Trader",
+  "advancements.gypsy.title": "Evil Wandering Trader Goals",
+  "advancements.gypsy.root.description": "A good purpose to complete in your adventure",
+  "advancements.gypsy.kill_gypsy.title": "Defeat the Gypsy",
+  "advancements.gypsy.kill_gypsy.description": "What an evil wandering trader"
 }
