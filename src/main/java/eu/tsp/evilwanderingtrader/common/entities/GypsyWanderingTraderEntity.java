@@ -12,8 +12,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
 
@@ -34,6 +38,23 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
     public void turnIntoGypsy(PlayerEntity player) {
         if (!this.world.isRemote) {
             this.startConversion((ServerWorld) this.world, player);
+
+            Double maxDistance = GypsyEntity.MAX_DISTANCE_TO_LLAMAS;
+            List<GypsyTraderLlamaEntity> entities = this.world.getEntitiesWithinAABB(
+                    GypsyTraderLlamaEntity.class,
+                    new AxisAlignedBB(
+                            this.getPosX() - maxDistance, this.getPosYEye() - maxDistance / 2, this.getPosZ() - maxDistance,
+                            this.getPosX() + maxDistance, this.getPosYEye() + maxDistance / 2, this.getPosZ() + maxDistance)
+            );
+
+            if (!entities.isEmpty()) {
+                Iterator<GypsyTraderLlamaEntity> llamas = entities.iterator();
+                GypsyTraderLlamaEntity llama;
+                while (llamas.hasNext()) {
+                    llama = llamas.next();
+                    if (llama.isAlive()) llama.turnIntoGypsyLlama(player);
+                }
+            }
         }
     }
 
