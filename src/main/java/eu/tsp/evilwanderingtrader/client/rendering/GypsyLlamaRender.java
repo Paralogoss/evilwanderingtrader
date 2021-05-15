@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class GypsyLlamaRender extends MobRenderer<GypsyLlamaEntity, GypsyLlamaModel<GypsyLlamaEntity>> {
-    private static final ResourceLocation GYPSY_LLAMA_TEXTURES = new ResourceLocation(EvilWanderingTrader.MOD_ID + ":textures/entity/llama.png");
+    private static final ResourceLocation GYPSY_LLAMA_TEXTURES = new ResourceLocation(EvilWanderingTrader.MOD_ID + ":textures/entity/gypsy_llama.png");
 
     public GypsyLlamaRender(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new GypsyLlamaModel<>(), 0.7F);

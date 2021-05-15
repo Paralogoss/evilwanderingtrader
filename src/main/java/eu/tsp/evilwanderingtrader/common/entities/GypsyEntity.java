@@ -115,8 +115,8 @@ public class GypsyEntity extends MonsterEntity implements IMob {
         List<GypsyLlamaEntity> entities = this.world.getEntitiesWithinAABB(
                 GypsyLlamaEntity.class,
                 new AxisAlignedBB(
-                        this.getPosX() - maxDistance, this.getPosYEye() - maxDistance, this.getPosZ() - maxDistance,
-                        this.getPosX() + maxDistance, this.getPosYEye() + maxDistance, this.getPosZ() + maxDistance)
+                        this.getPosX() - maxDistance, this.getPosYEye() - maxDistance/2, this.getPosZ() - maxDistance,
+                        this.getPosX() + maxDistance, this.getPosYEye() + maxDistance/2, this.getPosZ() + maxDistance)
         );
 
         if (!entities.isEmpty()) {
