@@ -1,6 +1,5 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
-import eu.tsp.evilwanderingtrader.common.goals.HurtNemesisGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.*;
@@ -16,8 +15,12 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+
+import java.util.EnumSet;
 
 import javax.annotation.Nullable;
 
@@ -28,11 +31,14 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
 
     @Nullable
     Entity trader;
+    
+    boolean didSpit = false;
 
     public GypsyLlamaEntity(EntityType<? extends AbstractChestedHorseEntity> type, World worldIn) {
         super(type, worldIn);
         this.setChested(true);
         this.initHorseChest();
+        this.nemesis = null;
     }
 
     public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
@@ -53,7 +59,6 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
         this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 32.0F, 0.1F));
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(9, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.targetSelector.addGoal(1, new HurtNemesisGoal(this));
     }
 
     public void setNemesis(PlayerEntity player) {
@@ -67,8 +72,29 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
 
     @Override
     public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
-
+    	if(target.equals(this.nemesis)) {
+    		this.spit(target);
+    	}
     }
+    
+    private void spit(LivingEntity target) {
+        GypsyLlamaSpitEntity llamaspitentity = new GypsyLlamaSpitEntity(this.world, this);
+        double d0 = target.getPosX() - this.getPosX();
+        double d1 = target.getPosYHeight(0.3333333333333333D) - llamaspitentity.getPosY();
+        double d2 = target.getPosZ() - this.getPosZ();
+        float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
+        llamaspitentity.shoot(d0, d1 + (double)f, d2, 1.5F, 10.0F);
+        if (!this.isSilent()) {
+           this.world.playSound((PlayerEntity)null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+        }
+
+        this.world.addEntity(llamaspitentity);
+        this.didSpit = true;
+     }
+    
+    private void setDidSpit(boolean didSpitIn) {
+        this.didSpit = didSpitIn;
+     }
 
     public void setInventory(Inventory inventory) {
         if (inventory.getSizeInventory() <= this.getInventorySize()) this.horseChest = inventory;
@@ -159,4 +185,5 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
     public boolean canDespawn(double distanceToClosestPlayer) {
         return false;
     }
+ 
 }
