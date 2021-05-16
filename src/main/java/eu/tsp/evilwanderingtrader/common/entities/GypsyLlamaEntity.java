@@ -1,5 +1,6 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
+import eu.tsp.evilwanderingtrader.common.goals.FollowEntityGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.*;
@@ -51,9 +52,14 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
     @Override
     protected void registerGoals() {
         super.registerGoals();
+
+        this.targetSelector.addGoal(1, new FollowEntityGoal(this, 1.0D, 4.0F,
+                16.0F, (entity) -> entity.equals(this.gypsy)
+        ));
+
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new RangedAttackGoal(this, 1.25D, 40, 20.0F));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal(this, PlayerEntity.class, 16.0F, 1.2F, 1.8F));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal(this, PlayerEntity.class, 8.0F, 1.2F, 1.8F));
         this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 32.0F, 0.1F));
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(9, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
@@ -87,10 +93,6 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
         this.world.addEntity(llamaspitentity);
         this.didSpit = true;
     }
-    
-    /*private void setDidSpit(boolean didSpitIn) {
-        this.didSpit = didSpitIn;
-    }*/
 
     public void setInventory(Inventory inventory) {
         if (inventory.getSizeInventory() <= this.getInventorySize()) this.horseChest = inventory;
