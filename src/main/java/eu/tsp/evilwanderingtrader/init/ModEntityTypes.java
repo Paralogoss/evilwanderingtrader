@@ -2,7 +2,6 @@ package eu.tsp.evilwanderingtrader.init;
 
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
-import eu.tsp.evilwanderingtrader.common.entities.GypsyLlamaSpitEntity;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyLlamaEntity;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyTraderLlamaEntity;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyWanderingTraderEntity;
@@ -31,13 +30,4 @@ public class ModEntityTypes {
             () -> EntityType.Builder.create(GypsyTraderLlamaEntity::new, EntityClassification.AMBIENT)
                     .size(0.9f, 1.875f)
                     .build(new ResourceLocation(EvilWanderingTrader.MOD_ID, "gypsy_trader_llama").toString()));
-   
-    public static final RegistryObject<EntityType<GypsyLlamaSpitEntity>> GYPSY_LLAMA_SPIT = ENTITY_TYPES.register("gypsy_llama_spit",
-            () -> EntityType.Builder.create(GypsyLlamaSpitEntity::new, EntityClassification.MISC)
-                    .size(0.9f, 1.875f)
-                    .build(new ResourceLocation(EvilWanderingTrader.MOD_ID, "gypsy__llama_spit").toString()));
-
-
-  
-
 }

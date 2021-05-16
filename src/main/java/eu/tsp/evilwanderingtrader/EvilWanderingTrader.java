@@ -1,8 +1,6 @@
 package eu.tsp.evilwanderingtrader;
 
-import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
-import eu.tsp.evilwanderingtrader.common.entities.GypsyTraderLlamaEntity;
-import eu.tsp.evilwanderingtrader.common.entities.GypsyWanderingTraderEntity;
+import eu.tsp.evilwanderingtrader.common.entities.*;
 import eu.tsp.evilwanderingtrader.common.world.gen.ModEntitySpawns;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModItemTypes;
@@ -49,7 +47,7 @@ public class EvilWanderingTrader {
     private void setup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY.get(), GypsyEntity.setCustomAttributes().create());
-            GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_LLAMA.get(), GypsyEntity.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_LLAMA.get(), GypsyLlamaEntity.setCustomAttributes().create());
             GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_WANDERING_TRADER.get(), GypsyWanderingTraderEntity.setCustomAttributes().create());
             GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_TRADER_LLAMA.get(), GypsyTraderLlamaEntity.setCustomAttributes().create());
         });

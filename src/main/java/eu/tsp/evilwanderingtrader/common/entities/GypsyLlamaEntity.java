@@ -7,8 +7,9 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.horse.AbstractChestedHorseEntity;
+import net.minecraft.entity.passive.horse.LlamaEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.LlamaSpitEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
@@ -20,11 +21,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-import java.util.EnumSet;
-
 import javax.annotation.Nullable;
 
-public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob, IRangedAttackMob {
+public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttackMob {
 
     @Nullable
     PlayerEntity nemesis;
@@ -33,7 +32,7 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
     
     Entity gypsy;
 
-    public GypsyLlamaEntity(EntityType<? extends AbstractChestedHorseEntity> type, World worldIn) {
+    public GypsyLlamaEntity(EntityType<? extends LlamaEntity> type, World worldIn) {
         super(type, worldIn);
         this.setChested(true);
         this.initHorseChest();
@@ -71,13 +70,11 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
 
     @Override
     public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
-    	if(target.equals(this.nemesis)) {
-    		this.spit(target);
-    	}
+    	if(target.equals(this.nemesis)) this.spit(target);
     }
     
     private void spit(LivingEntity target) {
-        GypsyLlamaSpitEntity llamaspitentity = new GypsyLlamaSpitEntity(this.world, this);
+        LlamaSpitEntity llamaspitentity = new LlamaSpitEntity(this.world, this);
         double d0 = target.getPosX() - this.getPosX();
         double d1 = target.getPosYHeight(0.3333333333333333D) - llamaspitentity.getPosY();
         double d2 = target.getPosZ() - this.getPosZ();
@@ -89,11 +86,11 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
 
         this.world.addEntity(llamaspitentity);
         this.didSpit = true;
-     }
+    }
     
-    private void setDidSpit(boolean didSpitIn) {
+    /*private void setDidSpit(boolean didSpitIn) {
         this.didSpit = didSpitIn;
-     }
+    }*/
 
     public void setInventory(Inventory inventory) {
         if (inventory.getSizeInventory() <= this.getInventorySize()) this.horseChest = inventory;
