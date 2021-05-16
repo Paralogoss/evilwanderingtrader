@@ -4,18 +4,23 @@ import eu.tsp.evilwanderingtrader.common.goals.EvilGypsyWhenHitGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
+import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,10 +28,20 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
 
     public GypsyWanderingTraderEntity(EntityType<? extends GypsyWanderingTraderEntity> type, World worldIn) {
         super(type, worldIn);
+        this.setDespawnDelay(48000);
     }
 
     public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
         return MobEntity.func_233666_p_();
+    }
+
+    @Nullable
+    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+        if (!this.world.isRemote) {
+            GypsyTraderLlamaEntity.spawnLlamas(this, this.getPosition(), worldIn.getWorld(), 2);
+        }
+
+        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     @Override
@@ -38,6 +53,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
     public void turnIntoGypsy(PlayerEntity player) {
         if (!this.world.isRemote) {
             this.startConversion((ServerWorld) this.world, player);
+
 
             Double maxDistance = GypsyEntity.MAX_DISTANCE_TO_LLAMAS;
             List<GypsyTraderLlamaEntity> entities = this.world.getEntitiesWithinAABB(
@@ -52,7 +68,9 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
                 GypsyTraderLlamaEntity llama;
                 while (llamas.hasNext()) {
                     llama = llamas.next();
-                    if (llama.isAlive()) llama.turnIntoGypsyLlama(player);
+                    if (llama.isAlive() && llama.getLeashed() && llama.getLeashHolder().equals(this)) {
+                        llama.turnIntoGypsyLlama(player);
+                    }
                 }
             }
         }
@@ -82,16 +100,6 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
         }
 
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, gypsy);
-    }
-
-    @Override
-    public boolean isNoDespawnRequired() {
-        return true;
-    }
-
-    @Override
-    public boolean canDespawn(double distanceToClosestPlayer) {
-        return false;
     }
 
 }

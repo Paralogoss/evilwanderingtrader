@@ -26,11 +26,13 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
     @Nullable
     PlayerEntity nemesis;
 
+    @Nullable
+    Entity trader;
+
     public GypsyLlamaEntity(EntityType<? extends AbstractChestedHorseEntity> type, World worldIn) {
         super(type, worldIn);
         this.setChested(true);
         this.initHorseChest();
-        this.nemesis = null;
     }
 
     public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
@@ -127,7 +129,7 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
         llama.setInventory(this.horseChest);
         llama.setOwnerUniqueId(this.getOwnerUniqueId());
         llama.setHorseTamed(this.isTame());
-
+        if (this.trader != null) llama.setLeashHolder(trader, true);
 
         llama.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(llama.getPosition()),
                 SpawnReason.CONVERSION, null, null);
@@ -157,5 +159,4 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
     public boolean canDespawn(double distanceToClosestPlayer) {
         return false;
     }
-
 }

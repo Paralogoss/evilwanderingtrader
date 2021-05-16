@@ -139,10 +139,12 @@ public class GypsyEntity extends MonsterEntity implements IMob {
         if (!entities.isEmpty()) {
             Iterator<GypsyLlamaEntity> llamas = entities.iterator();
             GypsyLlamaEntity llama = llamas.next();
-            boolean success = llama.isAlive() && llama.addToChest(items);
+            boolean success = llama.isAlive() && llama.getLeashed() &&
+                    llama.getLeashHolder().equals(this) && llama.addToChest(items);
             while (!success && llamas.hasNext()) {
                 llama = llamas.next();
-                success = llama.isAlive() && llama.addToChest(items);
+                success = llama.isAlive() && llama.getLeashed() &&
+                        llama.getLeashHolder().equals(this) && llama.addToChest(items);
             }
             if (success) return;
         }
@@ -192,7 +194,9 @@ public class GypsyEntity extends MonsterEntity implements IMob {
                 GypsyLlamaEntity llama;
                 while (llamas.hasNext()) {
                     llama = llamas.next();
-                    if (llama.isAlive()) llama.turnBackIntoWandererLlama();
+                    if (llama.isAlive() && llama.getLeashed() && llama.getLeashHolder().equals(this)) {
+                        llama.turnBackIntoWandererLlama();
+                    }
                 }
             }
         }
