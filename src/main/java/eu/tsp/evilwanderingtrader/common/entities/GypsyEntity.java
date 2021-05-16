@@ -203,7 +203,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
                 GypsyLlamaEntity llama;
                 while (llamas.hasNext()) {
                     llama = llamas.next();
-                    if (llama.isAlive() && llama.getLeashed() && llama.getLeashHolder().equals(this)) {
+                    if (llama.isAlive() && llama.gypsy.equals(this)) {
                         llama.turnBackIntoWandererLlama(wanderer);
                     }
                 }
