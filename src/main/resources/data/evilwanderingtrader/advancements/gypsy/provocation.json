@@ -1,29 +1,29 @@
 {
-  "parent": "evilwanderingtrader:gypsy/provocation",
+  "parent": "evilwanderingtrader:gypsy/root",
   "display": {
     "icon": {
-      "item": "evilwanderingtrader:gypsy_spawn_egg"
+      "item": "minecraft:golden_sword"
     },
     "title": {
-      "translate": "advancements.gypsy.kill_gypsy.title"
+      "translate": "advancements.gypsy.provocation.title"
     },
     "description": {
-      "translate": "advancements.gypsy.kill_gypsy.description"
+      "translate": "advancements.gypsy.provocation.description"
     },
-    "frame": "challenge",
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
   "criteria": {
-    "killed_gypsy": {
-      "trigger": "minecraft:player_killed_entity",
+    "gypsy_trader_hurt": {
+      "trigger": "minecraft:player_hurt_entity",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "predicate": {
-              "type": "evilwanderingtrader:gypsy"
+              "type": "evilwanderingtrader:gypsy_wandering_trader"
             },
             "entity": "this"
           }
@@ -33,7 +33,7 @@
   },
   "requirements": [
     [
-      "killed_gypsy"
+      "gypsy_trader_hurt"
     ]
   ]
 }
