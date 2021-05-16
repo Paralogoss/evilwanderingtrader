@@ -1,5 +1,6 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
+import eu.tsp.evilwanderingtrader.common.goals.EvilLlamaWhenHitGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.*;
@@ -47,6 +48,7 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
     protected void registerGoals() {
         super.registerGoals();
         this.targetSelector.addGoal(1, new GypsyTraderLlamaEntity.FollowGypsyTraderGoal(this));
+        this.goalSelector.addGoal(1, new EvilLlamaWhenHitGoal(this));
     }
 
     @Nullable
