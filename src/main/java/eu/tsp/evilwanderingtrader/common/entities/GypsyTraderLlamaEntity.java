@@ -60,7 +60,7 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
             int k = pos.getZ() + world.getRandom().nextInt(radius * 2) - radius;
             int l = world.getHeight(Heightmap.Type.WORLD_SURFACE, j, k);
             BlockPos blockpos1 = new BlockPos(j, l, k);
-            if (WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.NO_RESTRICTIONS,
+            if (WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND,
                     world, blockpos1, ModEntityTypes.GYPSY_TRADER_LLAMA.get())) {
                 blockpos = blockpos1;
                 break;
@@ -71,7 +71,7 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
 
     public static void spawnLlamas(GypsyWanderingTraderEntity trader, BlockPos pos, ServerWorld world, int count) {
         if (count <= 0) return;
-        BlockPos randPos = GypsyTraderLlamaEntity.llamaSpawnPos(pos, world, 4);
+        BlockPos randPos = GypsyTraderLlamaEntity.llamaSpawnPos(pos, world, 2);
         if (randPos != null) {
             GypsyTraderLlamaEntity llama = ModEntityTypes.GYPSY_TRADER_LLAMA.get().spawn(world, null,
                     null, null, randPos, SpawnReason.NATURAL, false, false);

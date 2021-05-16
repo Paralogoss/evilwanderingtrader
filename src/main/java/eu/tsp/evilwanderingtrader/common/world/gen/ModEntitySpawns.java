@@ -18,7 +18,7 @@ public class ModEntitySpawns {
     public static void spawnEntities(BiomeLoadingEvent event) {
         // TODO: Change spawn rates (high values are used for testing)
         MobSpawnInfo.Spawners spawnInfo = new MobSpawnInfo.Spawners(ModEntityTypes.GYPSY_WANDERING_TRADER.get(),
-                1500, 1000, 2000);
+                50, 2, 5);
         event.getSpawns().getSpawner(EntityClassification.CREATURE).add(spawnInfo);
     }
 
