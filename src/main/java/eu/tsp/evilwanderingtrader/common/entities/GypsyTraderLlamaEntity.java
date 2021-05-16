@@ -100,20 +100,20 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
         if (inventory.getSizeInventory() <= this.getInventorySize()) this.horseChest = inventory;
     }
 
-    public void turnIntoGypsyLlama(PlayerEntity player) {
+    public void turnIntoGypsyLlama(PlayerEntity player, GypsyEntity gypsy) {
         if (!this.world.isRemote) {
-            this.startConversion((ServerWorld) this.world, player);
+            this.startConversion((ServerWorld) this.world, player, gypsy);
         }
     }
 
-    private void startConversion(ServerWorld serverWorld, PlayerEntity player) {
+    private void startConversion(ServerWorld serverWorld, PlayerEntity player, GypsyEntity gypsy) {
         GypsyLlamaEntity gypsyLlama = this.func_233656_b_(ModEntityTypes.GYPSY_LLAMA.get(), false);
         gypsyLlama.setNemesis(player);
 
         gypsyLlama.setInventory(this.horseChest);
         gypsyLlama.setOwnerUniqueId(this.getOwnerUniqueId());
         gypsyLlama.setHorseTamed(this.isTame());
-        gypsyLlama.trader = this.getLeashHolder();
+        gypsyLlama.gypsy = gypsy;
 
         gypsyLlama.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(gypsyLlama.getPosition()),
                 SpawnReason.CONVERSION, null, null);

@@ -1,6 +1,7 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
 import com.google.common.collect.ImmutableList;
+import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackGoal;
 import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackableTargetGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
@@ -37,6 +38,8 @@ import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 
 public class GypsyEntity extends MonsterEntity implements IMob {
@@ -139,12 +142,12 @@ public class GypsyEntity extends MonsterEntity implements IMob {
         if (!entities.isEmpty()) {
             Iterator<GypsyLlamaEntity> llamas = entities.iterator();
             GypsyLlamaEntity llama = llamas.next();
-            boolean success = llama.isAlive() && llama.getLeashed() &&
-                    llama.getLeashHolder().equals(this) && llama.addToChest(items);
+            Predicate<GypsyLlamaEntity> a = (ll) -> ll.isAlive() && ll.gypsy != null && ll.gypsy.equals(this) && ll.addToChest(items);
+            boolean success = a.test(llama);
+            EvilWanderingTrader.LOGGER.info(success);
             while (!success && llamas.hasNext()) {
                 llama = llamas.next();
-                success = llama.isAlive() && llama.getLeashed() &&
-                        llama.getLeashHolder().equals(this) && llama.addToChest(items);
+                success = a.test(llama);
             }
             if (success) return;
         }
@@ -179,7 +182,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     public void turnBackIntoWanderer() {
         if (!this.world.isRemote && !this.isConverting()) {
             this.setConverting(true);
-            this.startConversion((ServerWorld) this.world);
+            GypsyWanderingTraderEntity wanderer = this.startConversion((ServerWorld) this.world);
 
             Double maxDistance = GypsyEntity.MAX_DISTANCE_TO_LLAMAS;
             List<GypsyLlamaEntity> entities = this.world.getEntitiesWithinAABB(
@@ -195,14 +198,14 @@ public class GypsyEntity extends MonsterEntity implements IMob {
                 while (llamas.hasNext()) {
                     llama = llamas.next();
                     if (llama.isAlive() && llama.getLeashed() && llama.getLeashHolder().equals(this)) {
-                        llama.turnBackIntoWandererLlama();
+                        llama.turnBackIntoWandererLlama(wanderer);
                     }
                 }
             }
         }
     }
 
-    private void startConversion(ServerWorld serverWorld) {
+    private GypsyWanderingTraderEntity startConversion(ServerWorld serverWorld) {
         GypsyWanderingTraderEntity wanderer = this.func_233656_b_(ModEntityTypes.GYPSY_WANDERING_TRADER.get(), false);
 
         wanderer.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(wanderer.getPosition()), SpawnReason.CONVERSION, null, null);
@@ -219,6 +222,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
         }
 
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, wanderer);
+        return wanderer;
     }
 
     @Override

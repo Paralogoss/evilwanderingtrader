@@ -27,7 +27,7 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
     PlayerEntity nemesis;
 
     @Nullable
-    Entity trader;
+    Entity gypsy;
 
     public GypsyLlamaEntity(EntityType<? extends AbstractChestedHorseEntity> type, World worldIn) {
         super(type, worldIn);
@@ -117,19 +117,19 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
         return false;
     }
 
-    public void turnBackIntoWandererLlama() {
+    public void turnBackIntoWandererLlama(GypsyWanderingTraderEntity trader) {
         if (!this.world.isRemote) {
-            this.startConversion((ServerWorld) this.world);
+            this.startConversion((ServerWorld) this.world, trader);
         }
     }
 
-    private void startConversion(ServerWorld serverWorld) {
+    private void startConversion(ServerWorld serverWorld, GypsyWanderingTraderEntity trader) {
         GypsyTraderLlamaEntity llama = this.func_233656_b_(ModEntityTypes.GYPSY_TRADER_LLAMA.get(), false);
 
         llama.setInventory(this.horseChest);
         llama.setOwnerUniqueId(this.getOwnerUniqueId());
         llama.setHorseTamed(this.isTame());
-        if (this.trader != null) llama.setLeashHolder(trader, true);
+        llama.setLeashHolder(trader, true);
 
         llama.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(llama.getPosition()),
                 SpawnReason.CONVERSION, null, null);
