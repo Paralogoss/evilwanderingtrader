@@ -9,7 +9,13 @@
   "entity.evilwanderingtrader.gypsy_trader_llama": "Gypsy's Trader Llama",
   "entity.evilwanderingtrader.gypsy_wandering_trader": "Gypsy Wandering Trader",
   "advancements.gypsy.title": "Evil Wandering Trader Goals",
-  "advancements.gypsy.root.description": "A good purpose to complete in your adventure",
+  "advancements.gypsy.root.description": "A good purpose to achieve in your adventure",
   "advancements.gypsy.kill_gypsy.title": "Defeat the Gypsy",
-  "advancements.gypsy.kill_gypsy.description": "What an evil wandering trader"
+  "advancements.gypsy.kill_gypsy.description": "What an evil wandering trader!",
+  "advancements.gypsy.theft.title": "Where are my items?",
+  "advancements.gypsy.theft.description": "Looks like my inventory is lighter...",
+  "advancements.gypsy.tamed.title": "My beloved treasures!",
+  "advancements.gypsy.tamed.description": "An old friend who always keeps your goods",
+  "advancements.gypsy.provocation.title": "Something different?",
+  "advancements.gypsy.provocation.description": "This definitly not a common trader!"
 }

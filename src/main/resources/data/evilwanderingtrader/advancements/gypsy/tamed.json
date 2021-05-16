@@ -2,28 +2,28 @@
   "parent": "evilwanderingtrader:gypsy/provocation",
   "display": {
     "icon": {
-      "item": "evilwanderingtrader:gypsy_spawn_egg"
+      "item": "minecraft:lead"
     },
     "title": {
-      "translate": "advancements.gypsy.kill_gypsy.title"
+      "translate": "advancements.gypsy.tamed.title"
     },
     "description": {
-      "translate": "advancements.gypsy.kill_gypsy.description"
+      "translate": "advancements.gypsy.tamed.description"
     },
-    "frame": "challenge",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false
+    "hidden": true
   },
   "criteria": {
-    "killed_gypsy": {
-      "trigger": "minecraft:player_killed_entity",
+    "tamed_gypsy_llama": {
+      "trigger": "minecraft:tame_animal",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "predicate": {
-              "type": "evilwanderingtrader:gypsy"
+              "type": "evilwanderingtrader:gypsy_llama"
             },
             "entity": "this"
           }
@@ -33,7 +33,7 @@
   },
   "requirements": [
     [
-      "killed_gypsy"
+      "tamed_gypsy_llama"
     ]
   ]
 }

@@ -4,6 +4,7 @@ import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
@@ -31,11 +32,17 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
         this.setHealth(this.getMaxHealth());
         this.setChested(true);
         this.initHorseChest();
+        this.canGallop = false;
     }
 
     public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
-        return MobEntity.func_233666_p_();
+        return MobEntity.func_233666_p_()
+                .createMutableAttribute(Attributes.MAX_HEALTH, 20.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.1D)
+                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.7D);
     }
+    
+    
 
     protected void registerGoals() {
         super.registerGoals();
