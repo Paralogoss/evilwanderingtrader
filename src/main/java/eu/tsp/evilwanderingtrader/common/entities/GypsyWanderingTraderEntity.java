@@ -10,6 +10,8 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
@@ -99,6 +101,9 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
                     1, 0, 0, 0, (d0 + d1 + d2) / 3);
         }
 
+        //drop des 2 leads
+        this.entityDropItem(new ItemStack(Items.LEAD,2));
+        
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, gypsy);
         return gypsy;
     }
