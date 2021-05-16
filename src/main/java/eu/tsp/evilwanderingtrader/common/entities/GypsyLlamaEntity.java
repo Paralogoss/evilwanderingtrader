@@ -144,7 +144,7 @@ public class GypsyLlamaEntity extends AbstractChestedHorseEntity implements IMob
             double d2 = this.rand.nextGaussian() * 0.02D;
             serverWorld.spawnParticle(ParticleTypes.ENTITY_EFFECT, this.getPosXWidth(0D) - d0 * 10.0D,
                     this.getPosYRandom() - d1 * 10.0D, this.getPosZRandom(1.0D) - d2 * 10.0D,
-                    5, 0, 0, 0, (d0 + d1 + d2) / 3);
+                    2, 0, 0, 0, (d0 + d1 + d2) / 3);
         }
 
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, llama);

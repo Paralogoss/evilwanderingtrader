@@ -120,19 +120,19 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
         this.world.playSound(this.getPosX(), this.getPosYEye(), this.getPosZ(), ModSoundEventTypes.GYPSY_CONVERSION.get(),
                 this.getSoundCategory(), 2.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 0.3F, false);
 
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 60; ++i) {
             double d0 = this.rand.nextGaussian() * 0.2D;
             double d1 = this.rand.nextGaussian() * 0.2D;
             double d2 = this.rand.nextGaussian() * 0.2D;
             serverWorld.spawnParticle(ParticleTypes.DRAGON_BREATH, this.getPosXWidth(0D) - d0 * 10.0D,
                     this.getPosYRandom() - d1 * 10.0D, this.getPosZRandom(1.0D) - d2 * 10.0D,
-                    5, 0, 0, 0, (d0 + d1 + d2) / 3);
+                    1, 0, 0, 0, (d0 + d1 + d2) / 3);
             serverWorld.spawnParticle(ParticleTypes.EXPLOSION_EMITTER, this.getPosXWidth(0D) - d0 * 10.0D,
                     this.getPosYRandom() - d1 * 10.0D, this.getPosZRandom(1.0D) - d2 * 10.0D,
-                    5, 0, 0, 0, (d0 + d1 + d2) / 3);
+                    1, 0, 0, 0, (d0 + d1 + d2) / 3);
             serverWorld.spawnParticle(ParticleTypes.EXPLOSION, this.getPosXWidth(0D) - d0 * 10.0D,
                     this.getPosYRandom() - d1 * 10.0D, this.getPosZRandom(1.0D) - d2 * 10.0D,
-                    5, 0, 0, 0, (d0 + d1 + d2) / 3);
+                    1, 0, 0, 0, (d0 + d1 + d2) / 3);
         }
 
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, gypsyLlama);
