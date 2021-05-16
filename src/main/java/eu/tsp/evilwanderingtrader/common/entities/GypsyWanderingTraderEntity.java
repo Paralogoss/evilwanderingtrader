@@ -39,7 +39,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
 
     @Nullable
     public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-        if (!this.world.isRemote) {
+        if (!this.world.isRemote && reason != SpawnReason.CONVERSION) {
             GypsyTraderLlamaEntity.spawnLlamas(this, this.getPosition(), worldIn.getWorld(), 2);
         }
 
@@ -54,7 +54,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
 
     public void turnIntoGypsy(PlayerEntity player) {
         if (!this.world.isRemote) {
-            this.startConversion((ServerWorld) this.world, player);
+            GypsyEntity gypsy = this.startConversion((ServerWorld) this.world, player);
 
 
             Double maxDistance = GypsyEntity.MAX_DISTANCE_TO_LLAMAS;
@@ -71,14 +71,14 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
                 while (llamas.hasNext()) {
                     llama = llamas.next();
                     if (llama.isAlive() && llama.getLeashed() && llama.getLeashHolder().equals(this)) {
-                        llama.turnIntoGypsyLlama(player);
+                        llama.turnIntoGypsyLlama(player, gypsy);
                     }
                 }
             }
         }
     }
 
-    private void startConversion(ServerWorld serverWorld, PlayerEntity player) {
+    private GypsyEntity startConversion(ServerWorld serverWorld, PlayerEntity player) {
         GypsyEntity gypsy = this.func_233656_b_(ModEntityTypes.GYPSY.get(), false);
         gypsy.setNemesis(player);
 
@@ -105,6 +105,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
         this.entityDropItem(new ItemStack(Items.LEAD,2));
         
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, gypsy);
+        return gypsy;
     }
 
 }
