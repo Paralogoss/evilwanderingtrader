@@ -13,12 +13,15 @@ import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
@@ -55,6 +58,9 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 
     // True if Gypsy is converting back into wanderer
     boolean converting = false;
+
+    // Counts the amount of emerald the gypsy has picked up. When 5 have been picked up the gypsy goes back to wanderer.
+    int pickedUpEmerald = 0;
 
     private final ServerBossInfo bossInfo = (ServerBossInfo) (new ServerBossInfo(this.getDisplayName(), BossInfo.Color.BLUE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
 
@@ -223,6 +229,25 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, wanderer);
         return wanderer;
+    }
+
+    @Override
+    public void livingTick() {
+        super.livingTick();
+        if (!this.world.isRemote && this.isAlive() && this.isAlive() && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)) {
+            for(ItemEntity itementity : this.world.getEntitiesWithinAABB(ItemEntity.class, this.getBoundingBox().grow(1.0D, 0.0D, 1.0D))) {
+                if (itementity.isAlive() && !itementity.getItem().isEmpty() && !itementity.cannotPickup()) {
+                    if (itementity.getItem().getItem() == Items.EMERALD) {
+                        this.pickedUpEmerald++;
+                        itementity.remove();
+                    }
+                    if (this.pickedUpEmerald == 5) {
+                        this.setDone();
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override
