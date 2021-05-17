@@ -3,6 +3,7 @@ package eu.tsp.evilwanderingtrader.common.entities;
 import eu.tsp.evilwanderingtrader.common.goals.FollowEntityGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -11,11 +12,14 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.horse.LlamaEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.LlamaSpitEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
@@ -73,6 +77,16 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
         return this.nemesis;
     }
 
+    @Override
+    protected void dropSpecialItems(DamageSource source, int looting, boolean recentlyHitIn) {
+        super.dropSpecialItems(source, looting, recentlyHitIn);
+
+        Entity entity = source.getTrueSource();
+        if (entity instanceof PlayerEntity) {
+            ItemStack bones = new ItemStack(Items.BONE, this.rand.nextInt(6));
+            this.entityDropItem(bones);
+        }
+    }
 
     @Override
     public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
