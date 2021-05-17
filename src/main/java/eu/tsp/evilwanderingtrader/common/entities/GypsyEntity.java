@@ -77,7 +77,8 @@ public class GypsyEntity extends MonsterEntity implements IMob {
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D)
                 .createMutableAttribute(Attributes.ATTACK_SPEED, 0.1D)
-                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.7D);
+                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.7D)
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 80D);
     }
 
     @Override
