@@ -73,7 +73,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 
     public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
         return MobEntity.func_233666_p_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 1.0D)
+                .createMutableAttribute(Attributes.MAX_HEALTH, 20.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D)
                 .createMutableAttribute(Attributes.ATTACK_SPEED, 0.1D)
@@ -186,7 +186,8 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     }
 
     public void turnBackIntoWanderer() {
-        if (!this.world.isRemote && !this.isConverting()) {
+        if (!this.world.isRemote && !this.isConverting() && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this,
+                ModEntityTypes.GYPSY_WANDERING_TRADER.get(), (timer) -> this.ticksBeforeReconversion = timer)) {
             this.setConverting(true);
             GypsyWanderingTraderEntity wanderer = this.startConversion((ServerWorld) this.world);
 
@@ -253,11 +254,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     @Override
     public void tick() {
         if (this.ticksBeforeReconversion > 0) this.ticksBeforeReconversion--;
-        if (this.ticksBeforeReconversion == 0
-                && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this,
-                ModEntityTypes.GYPSY_WANDERING_TRADER.get(), (timer) -> this.ticksBeforeReconversion = timer)) {
-            turnBackIntoWanderer();
-        }
+        if (this.ticksBeforeReconversion == 0) turnBackIntoWanderer();
 
         if (this.nemesis != null && !this.nemesis.isLiving()) this.setDone();
         if (this.nemesis != null && this.nemesis.getDistanceSq(this) > 200D) this.setDone();

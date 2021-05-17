@@ -3,6 +3,7 @@ package eu.tsp.evilwanderingtrader.common.entities;
 import eu.tsp.evilwanderingtrader.common.goals.EvilGypsyWhenHitGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
@@ -10,8 +11,10 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.MerchantOffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
@@ -27,6 +30,13 @@ import java.util.Iterator;
 import java.util.List;
 
 public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
+    // Counts the amount of sales made by the last customer.
+    private int lastSales = 0;
+
+    @Nullable
+    private PlayerEntity lastCustomer;
+
+
 
     public GypsyWanderingTraderEntity(EntityType<? extends GypsyWanderingTraderEntity> type, World worldIn) {
         super(type, worldIn);
@@ -47,13 +57,29 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
     }
 
     @Override
+    public void onTrade(MerchantOffer offer) {
+        this.lastSales++;
+        super.onTrade(offer);
+    }
+
+    @Override
+    public void livingTick() {
+        if (((this.hasCustomer() && this.lastCustomer != this.getCustomer()) || !this.hasCustomer()) && this.lastCustomer != null) {
+            if (this.lastSales <= 0) this.turnIntoGypsy(this.lastCustomer);
+            this.lastSales = 0;
+        }
+        this.lastCustomer = this.getCustomer();
+    }
+
+        @Override
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(1, new EvilGypsyWhenHitGoal(this));
     }
 
     public void turnIntoGypsy(PlayerEntity player) {
-        if (!this.world.isRemote) {
+        if (!this.world.isRemote && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this,
+                ModEntityTypes.GYPSY.get(), (timer) -> {})) {
             GypsyEntity gypsy = this.startConversion((ServerWorld) this.world, player);
 
 

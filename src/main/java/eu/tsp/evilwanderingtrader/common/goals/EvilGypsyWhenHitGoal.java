@@ -19,10 +19,7 @@ public class EvilGypsyWhenHitGoal extends Goal {
 
     @Override
     public void startExecuting() {
-        if (net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this.wanderingTrader, ModEntityTypes.GYPSY.get(), (timer) -> {
-        })) {
-            PlayerEntity player = (PlayerEntity) this.wanderingTrader.getRevengeTarget();
-            wanderingTrader.turnIntoGypsy(player);
-        }
+        PlayerEntity player = (PlayerEntity) this.wanderingTrader.getRevengeTarget();
+        wanderingTrader.turnIntoGypsy(player);
     }
 }

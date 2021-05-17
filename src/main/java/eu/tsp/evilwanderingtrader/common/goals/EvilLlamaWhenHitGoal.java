@@ -23,10 +23,7 @@ public class EvilLlamaWhenHitGoal extends Goal {
     @Override
     public void startExecuting() {
         GypsyWanderingTraderEntity wanderer = (GypsyWanderingTraderEntity) this.llama.getLeashHolder();
-        if (net.minecraftforge.event.ForgeEventFactory.canLivingConvert(wanderer, ModEntityTypes.GYPSY.get(), (timer) -> {
-        })) {
-            PlayerEntity player = (PlayerEntity) this.llama.getRevengeTarget();
-            wanderer.turnIntoGypsy(player);
-        }
+        PlayerEntity player = (PlayerEntity) this.llama.getRevengeTarget();
+        wanderer.turnIntoGypsy(player);
     }
 }
