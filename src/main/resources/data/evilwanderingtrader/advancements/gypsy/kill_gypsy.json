@@ -2,7 +2,7 @@
   "parent": "evilwanderingtrader:gypsy/provocation",
   "display": {
     "icon": {
-      "item": "evilwanderingtrader:gypsy_spawn_egg"
+      "item": "evilwanderingtrader:gypsy_wandering_trader_spawn_egg"
     },
     "title": {
       "translate": "advancements.gypsy.kill_gypsy.title"
