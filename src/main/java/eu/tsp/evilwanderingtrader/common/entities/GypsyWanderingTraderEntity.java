@@ -49,7 +49,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
 
     @Nullable
     public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-        if (!this.world.isRemote && reason != SpawnReason.CONVERSION) {
+        if (reason != SpawnReason.CONVERSION) {
             GypsyTraderLlamaEntity.spawnLlamas(this, this.getPosition(), worldIn.getWorld(), 2);
         }
 
