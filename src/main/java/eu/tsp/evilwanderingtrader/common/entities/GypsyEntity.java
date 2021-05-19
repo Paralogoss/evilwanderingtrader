@@ -39,6 +39,7 @@ import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 
@@ -48,6 +49,9 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     // Targeted player
     @Nullable
     PlayerEntity nemesis;
+
+    @Nullable
+    UUID nemesisUUID;
 
     // Time in ticks (1/20 second) before going back to wandering trader
     // Value is positive only if nemesis has been killed or has an empty inventory.
@@ -157,6 +161,23 @@ public class GypsyEntity extends MonsterEntity implements IMob {
         this.nemesis.dropItem(items, true, false);
     }
 
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        if (this.nemesis != null) {
+            compound.putUniqueId("NemesisUUID", this.nemesis.getUniqueID());
+        }
+    }
+
+    @Override
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        if (compound.contains("NemesisUUID")) {
+            // this.nemesis will be populated by the ticks method once the player comes back online
+            this.nemesisUUID = compound.getUniqueId("NemesisUUID");
+        }
+    }
+
     public void setNemesis(PlayerEntity player) {
         this.nemesis = player;
         this.bossInfo.addPlayer((ServerPlayerEntity) player);
@@ -251,6 +272,17 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 
     @Override
     public void tick() {
+        if (!this.world.isRemote) {
+            if (this.nemesisUUID != null) {
+                PlayerEntity player = this.world.getPlayerByUuid(this.nemesisUUID);
+                if (player != null) {
+                    this.nemesis = player;
+                    this.nemesisUUID = null;
+                }
+            }
+        }
+
+
         if (this.ticksBeforeReconversion > 0) this.ticksBeforeReconversion--;
         if (this.ticksBeforeReconversion == 0) turnBackIntoWanderer();
 
