@@ -216,7 +216,8 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 
         wanderer.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(wanderer.getPosition()), SpawnReason.CONVERSION, null, null);
         this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 20 * 3, Math.min(this.world.getDifficulty().getId() - 1, 0)));
-        this.world.playSound(this.getPosX(), this.getPosYEye(), this.getPosZ(), ModSoundEventTypes.GYPSY_CONVERSION.get(), this.getSoundCategory(), 1.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 0.3F, false);
+        this.playSound(ModSoundEventTypes.GYPSY_CONVERSION.get(), 0.5F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 1.0F);
+
 
         for (int i = 0; i < 20; ++i) {
             double d0 = this.rand.nextGaussian() * 0.02D;

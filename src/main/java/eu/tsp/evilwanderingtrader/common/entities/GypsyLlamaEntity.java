@@ -99,7 +99,7 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
         float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
         llamaspitentity.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
         if (!this.isSilent()) {
-            this.world.playSound(null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+            this.playSound(SoundEvents.ENTITY_LLAMA_SPIT, 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
 
         this.world.addEntity(llamaspitentity);
@@ -171,8 +171,7 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
                 SpawnReason.CONVERSION, null, null);
         this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 20 * 3,
                 Math.min(this.world.getDifficulty().getId() - 1, 0)));
-        this.world.playSound(this.getPosX(), this.getPosYEye(), this.getPosZ(), ModSoundEventTypes.GYPSY_CONVERSION.get(),
-                this.getSoundCategory(), 2.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 0.3F, false);
+        this.playSound(ModSoundEventTypes.GYPSY_CONVERSION.get(), 0.5F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 1.0F);
 
         for (int i = 0; i < 20; ++i) {
             double d0 = this.rand.nextGaussian() * 0.02D;

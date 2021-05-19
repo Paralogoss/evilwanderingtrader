@@ -3,6 +3,7 @@ package eu.tsp.evilwanderingtrader.common.entities;
 import eu.tsp.evilwanderingtrader.common.goals.EvilGypsyWhenHitGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
+import jdk.jfr.EventType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
@@ -17,6 +18,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
@@ -38,6 +40,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
     public GypsyWanderingTraderEntity(EntityType<? extends GypsyWanderingTraderEntity> type, World worldIn) {
         super(type, worldIn);
         this.setDespawnDelay(48000);
+        this.getSoundPitch();
     }
 
     public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
@@ -66,6 +69,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
             this.lastSales = 0;
         }
         this.lastCustomer = this.getCustomer();
+        super.livingTick();
     }
 
     @Override
@@ -108,7 +112,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
 
         gypsy.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(gypsy.getPosition()), SpawnReason.CONVERSION, null, null);
         this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 20 * 10, Math.min(this.world.getDifficulty().getId() - 1, 0)));
-        this.world.playSound(this.getPosX(), this.getPosYEye(), this.getPosZ(), ModSoundEventTypes.GYPSY_CONVERSION.get(), this.getSoundCategory(), 2.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 0.3F, false);
+        this.playSound(ModSoundEventTypes.GYPSY_CONVERSION.get(), 2.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.2F + 0.3F);
 
         for (int i = 0; i < 60; ++i) {
             double d0 = this.rand.nextGaussian() * 0.2D;

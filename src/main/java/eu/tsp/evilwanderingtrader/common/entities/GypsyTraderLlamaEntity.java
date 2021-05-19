@@ -116,8 +116,7 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
                 SpawnReason.CONVERSION, null, null);
         this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 20 * 10,
                 Math.min(this.world.getDifficulty().getId() - 1, 0)));
-        this.world.playSound(this.getPosX(), this.getPosYEye(), this.getPosZ(), ModSoundEventTypes.GYPSY_CONVERSION.get(),
-                this.getSoundCategory(), 2.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 0.3F, false);
+        this.playSound(ModSoundEventTypes.GYPSY_CONVERSION.get(), 2.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.2F + 0.3F);
 
         for (int i = 0; i < 60; ++i) {
             double d0 = this.rand.nextGaussian() * 0.2D;
