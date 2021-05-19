@@ -3,7 +3,6 @@ package eu.tsp.evilwanderingtrader.common.entities;
 import eu.tsp.evilwanderingtrader.common.goals.FollowEntityGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -12,7 +11,6 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.horse.LlamaEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.LlamaSpitEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -32,9 +30,9 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
 
     @Nullable
     PlayerEntity nemesis;
-    
+
     boolean didSpit = false;
-    
+
     Entity gypsy;
 
     public GypsyLlamaEntity(EntityType<? extends LlamaEntity> type, World worldIn) {
@@ -90,18 +88,18 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
 
     @Override
     public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
-    	if(target.equals(this.nemesis)) this.spit(target);
+        if (target.equals(this.nemesis)) this.spit(target);
     }
-    
+
     private void spit(LivingEntity target) {
         LlamaSpitEntity llamaspitentity = new LlamaSpitEntity(this.world, this);
         double d0 = target.getPosX() - this.getPosX();
         double d1 = target.getPosYHeight(0.3333333333333333D) - llamaspitentity.getPosY();
         double d2 = target.getPosZ() - this.getPosZ();
         float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
-        llamaspitentity.shoot(d0, d1 + (double)f, d2, 1.5F, 10.0F);
+        llamaspitentity.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
         if (!this.isSilent()) {
-           this.world.playSound((PlayerEntity)null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+            this.world.playSound(null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
 
         this.world.addEntity(llamaspitentity);
@@ -219,5 +217,5 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
     public boolean canDespawn(double distanceToClosestPlayer) {
         return false;
     }
- 
+
 }

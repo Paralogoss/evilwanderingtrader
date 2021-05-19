@@ -1,6 +1,9 @@
 package eu.tsp.evilwanderingtrader;
 
-import eu.tsp.evilwanderingtrader.common.entities.*;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyLlamaEntity;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyTraderLlamaEntity;
+import eu.tsp.evilwanderingtrader.common.entities.GypsyWanderingTraderEntity;
 import eu.tsp.evilwanderingtrader.common.world.gen.ModEntitySpawns;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModItemTypes;

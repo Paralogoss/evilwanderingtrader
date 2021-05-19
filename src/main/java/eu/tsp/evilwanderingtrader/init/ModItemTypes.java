@@ -1,7 +1,6 @@
 package eu.tsp.evilwanderingtrader.init;
 
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
-import eu.tsp.evilwanderingtrader.common.items.*;
 import eu.tsp.evilwanderingtrader.common.items.ModSpawnEggItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
