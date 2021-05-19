@@ -3,7 +3,6 @@ package eu.tsp.evilwanderingtrader.common.entities;
 import eu.tsp.evilwanderingtrader.common.goals.EvilGypsyWhenHitGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
-import jdk.jfr.EventType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
@@ -14,11 +13,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
+import net.minecraft.item.MerchantOffers;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
@@ -28,6 +27,7 @@ import net.minecraft.world.server.ServerWorld;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
     // Counts the amount of sales made by the last customer.
@@ -58,8 +58,13 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
 
     @Override
     public void onTrade(MerchantOffer offer) {
-        this.lastSales++;
         super.onTrade(offer);
+
+        this.lastSales++;
+        // When something has been sold by the merchant, we remove it from the llamas inventory
+        this.forTraderLlamas((llama) -> {
+            llama.removeItemStackFromInventory(offer.getSellingStack());
+        });
     }
 
     @Override
@@ -84,25 +89,9 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
                 })) {
             GypsyEntity gypsy = this.startConversion((ServerWorld) this.world, player);
 
-
-            Double maxDistance = GypsyEntity.MAX_DISTANCE_TO_LLAMAS;
-            List<GypsyTraderLlamaEntity> entities = this.world.getEntitiesWithinAABB(
-                    GypsyTraderLlamaEntity.class,
-                    new AxisAlignedBB(
-                            this.getPosX() - maxDistance, this.getPosYEye() - maxDistance / 2, this.getPosZ() - maxDistance,
-                            this.getPosX() + maxDistance, this.getPosYEye() + maxDistance / 2, this.getPosZ() + maxDistance)
-            );
-
-            if (!entities.isEmpty()) {
-                Iterator<GypsyTraderLlamaEntity> llamas = entities.iterator();
-                GypsyTraderLlamaEntity llama;
-                while (llamas.hasNext()) {
-                    llama = llamas.next();
-                    if (llama.isAlive() && llama.getLeashed() && llama.getLeashHolder().equals(this)) {
-                        llama.turnIntoGypsyLlama(player, gypsy);
-                    }
-                }
-            }
+            this.forTraderLlamas((llama) -> {
+                llama.turnIntoGypsyLlama(player, gypsy);
+            });
         }
     }
 
@@ -134,6 +123,44 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
 
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, gypsy);
         return gypsy;
+    }
+
+    @Override
+    protected void populateTradeData() {
+        MerchantOffers merchantoffers = this.getOffers();
+
+        this.forTraderLlamas((llama) -> {
+            for (int i = 0; i < llama.getInventorySize(); i++) {
+                MerchantOffer offer = llama.getMerchantOfferFromInventorySlot(i);
+                if (offer != null) merchantoffers.add(offer);
+            }
+        });
+
+        if (merchantoffers.size() == 0) {
+            super.populateTradeData();
+        }
+    }
+
+
+    private void forTraderLlamas(Consumer<GypsyTraderLlamaEntity> consumer) {
+        Double maxDistance = GypsyEntity.MAX_DISTANCE_TO_LLAMAS;
+        List<GypsyTraderLlamaEntity> entities = this.world.getEntitiesWithinAABB(
+                GypsyTraderLlamaEntity.class,
+                new AxisAlignedBB(
+                        this.getPosX() - maxDistance, this.getPosYEye() - maxDistance / 2, this.getPosZ() - maxDistance,
+                        this.getPosX() + maxDistance, this.getPosYEye() + maxDistance / 2, this.getPosZ() + maxDistance)
+        );
+
+        if (!entities.isEmpty()) {
+            Iterator<GypsyTraderLlamaEntity> llamas = entities.iterator();
+            GypsyTraderLlamaEntity llama;
+            while (llamas.hasNext()) {
+                llama = llamas.next();
+                if (llama.isAlive() && llama.getLeashed() && llama.getLeashHolder().equals(this)) {
+                    consumer.accept(llama);
+                }
+            }
+        }
     }
 
 }

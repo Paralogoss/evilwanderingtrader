@@ -12,6 +12,9 @@ import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.passive.horse.TraderLlamaEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.MerchantOffer;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -75,6 +78,25 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
         }
 
         GypsyTraderLlamaEntity.spawnLlamas(trader, pos, world, count - 1);
+    }
+
+    @Nullable
+    public MerchantOffer getMerchantOfferFromInventorySlot(int slot) {
+        if (slot >= this.getInventorySize()) return null;
+
+        ItemStack stack = this.horseChest.getStackInSlot(slot);
+        if (stack.isEmpty()) return null;
+
+        ItemStack price = new ItemStack(Items.EMERALD, 5 + this.rand.nextInt(5));
+        return new MerchantOffer(price, stack, 1, 10, 1.0F);
+    }
+
+    public void removeItemStackFromInventory(ItemStack stack) {
+        for (int i = 0; i < this.getInventorySize(); i++) {
+            if (this.horseChest.getStackInSlot(i).equals(stack)) {
+                this.horseChest.setInventorySlotContents(i, ItemStack.EMPTY);
+            }
+        }
     }
 
     @Override

@@ -1,7 +1,6 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
 import com.google.common.collect.ImmutableList;
-import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackGoal;
 import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackableTargetGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;

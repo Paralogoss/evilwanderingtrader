@@ -141,33 +141,33 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
         this.setChested(false);
         super.dropInventory();
     }
-    
+
     @Override
     protected float getSoundPitch() {
-        return super.getSoundPitch()*0.5F;
-     }
-    
+        return super.getSoundPitch() * 0.5F;
+    }
+
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
         return ModSoundEventTypes.GYPSY_LLAMA_AMBIENT.get();
     }
-    
+
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.ENTITY_LLAMA_HURT;
     }
-    
+
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_LLAMA_DEATH;
     }
-    
+
     @Override
     protected SoundEvent getAngrySound() {
-    	return SoundEvents.ENTITY_LLAMA_ANGRY;
+        return SoundEvents.ENTITY_LLAMA_ANGRY;
     }
 
     @Override
