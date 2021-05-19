@@ -66,7 +66,7 @@ public class EvilWanderingTrader {
     public static final ItemGroup TAB = new ItemGroup("ewt_tab") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ModItemTypes.GYPSY_SPAWN_EGG.get());
+            return new ItemStack(ModItemTypes.GYPSY_WANDERING_TRADER_SPAWN_EGG.get());
         }
     };
 
