@@ -9,9 +9,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 @OnlyIn(Dist.CLIENT)
-public class GypsyWanderingTraderRender extends WanderingTraderRenderer {
+public class GypsyWanderingTraderRenderer extends WanderingTraderRenderer {
 
-    public GypsyWanderingTraderRender(EntityRendererManager renderManagerIn) {
+    public GypsyWanderingTraderRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn);
     }
 
@@ -19,7 +19,7 @@ public class GypsyWanderingTraderRender extends WanderingTraderRenderer {
 
         @Override
         public EntityRenderer<? super GypsyWanderingTraderEntity> createRenderFor(EntityRendererManager manager) {
-            return new GypsyWanderingTraderRender(manager);
+            return new GypsyWanderingTraderRenderer(manager);
         }
 
     }

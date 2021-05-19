@@ -9,9 +9,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 @OnlyIn(Dist.CLIENT)
-public class GypsyTraderLlamaRender extends LlamaRenderer {
+public class GypsyTraderLlamaRenderer extends LlamaRenderer {
 
-    public GypsyTraderLlamaRender(EntityRendererManager renderManagerIn) {
+    public GypsyTraderLlamaRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn);
     }
 
@@ -19,7 +19,7 @@ public class GypsyTraderLlamaRender extends LlamaRenderer {
 
         @Override
         public EntityRenderer<? super GypsyTraderLlamaEntity> createRenderFor(EntityRendererManager manager) {
-            return new GypsyTraderLlamaRender(manager);
+            return new GypsyTraderLlamaRenderer(manager);
         }
 
     }

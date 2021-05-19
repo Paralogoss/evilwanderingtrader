@@ -12,10 +12,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 @OnlyIn(Dist.CLIENT)
-public class GypsyRender extends MobRenderer<GypsyEntity, GypsyModel<GypsyEntity>> {
+public class GypsyRenderer extends MobRenderer<GypsyEntity, GypsyModel<GypsyEntity>> {
     private static final ResourceLocation GYPSY_TEXTURES = new ResourceLocation(EvilWanderingTrader.MOD_ID + ":textures/entity/evil_wandering_trader.png");
 
-    public GypsyRender(EntityRendererManager renderManagerIn) {
+    public GypsyRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new GypsyModel<>(), 0.5F);
     }
 
@@ -28,7 +28,7 @@ public class GypsyRender extends MobRenderer<GypsyEntity, GypsyModel<GypsyEntity
 
         @Override
         public EntityRenderer<? super GypsyEntity> createRenderFor(EntityRendererManager manager) {
-            return new GypsyRender(manager);
+            return new GypsyRenderer(manager);
         }
 
     }

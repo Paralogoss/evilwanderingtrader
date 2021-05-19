@@ -9,10 +9,10 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
-public class GypsyLlamaRender extends MobRenderer<GypsyLlamaEntity, GypsyLlamaModel<GypsyLlamaEntity>> {
+public class GypsyLlamaRenderer extends MobRenderer<GypsyLlamaEntity, GypsyLlamaModel<GypsyLlamaEntity>> {
     private static final ResourceLocation GYPSY_LLAMA_TEXTURES = new ResourceLocation(EvilWanderingTrader.MOD_ID + ":textures/entity/gypsy_llama.png");
 
-    public GypsyLlamaRender(EntityRendererManager renderManagerIn) {
+    public GypsyLlamaRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new GypsyLlamaModel<>(), 0.7F);
     }
 
@@ -25,7 +25,7 @@ public class GypsyLlamaRender extends MobRenderer<GypsyLlamaEntity, GypsyLlamaMo
 
         @Override
         public EntityRenderer<? super GypsyLlamaEntity> createRenderFor(EntityRendererManager manager) {
-            return new GypsyLlamaRender(manager);
+            return new GypsyLlamaRenderer(manager);
         }
 
     }
