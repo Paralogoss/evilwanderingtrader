@@ -169,7 +169,6 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 
     public void setDone() {
         if (!this.isDone()) {
-            EvilWanderingTrader.LOGGER.info("done");
             this.setAggroed(false);
             this.ticksBeforeReconversion = 15 * 20;
             this.nemesis = null;
