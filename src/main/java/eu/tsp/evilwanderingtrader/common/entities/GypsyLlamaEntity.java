@@ -1,5 +1,6 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
+import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.goals.FollowEntityGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
@@ -14,6 +15,7 @@ import net.minecraft.entity.projectile.LlamaSpitEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -140,6 +142,22 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
     protected void dropInventory() {
         this.setChested(false);
         super.dropInventory();
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        if (this.gypsy != null) {
+            compound.putInt("GypsyUUID", this.gypsy.getEntityId());
+        }
+    }
+
+    @Override
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        if (compound.contains("GypsyUUID")) {
+            this.gypsy = this.world.getEntityByID(compound.getInt("GypsyUUID"));
+        }
     }
 
     @Override
