@@ -1,8 +1,8 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
 import com.google.common.collect.ImmutableList;
-import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackGoal;
-import eu.tsp.evilwanderingtrader.common.goals.GypsyAttackableTargetGoal;
+import eu.tsp.evilwanderingtrader.common.goals.ThiefAttackGoal;
+import eu.tsp.evilwanderingtrader.common.goals.ThiefAttackableTargetGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.*;
@@ -43,7 +43,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 
-public class GypsyEntity extends MonsterEntity implements IMob {
+public class ThiefEntity extends MonsterEntity implements IMob {
     public static final Double MAX_DISTANCE_TO_LLAMAS = 16D;
 
     // Targeted player
@@ -57,15 +57,15 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     // Value is positive only if nemesis has been killed or has an empty inventory.
     int ticksBeforeReconversion = -1;
 
-    // True if Gypsy is converting back into wanderer
+    // True if Thief is converting back into wanderer
     boolean converting = false;
 
-    // Counts the amount of emerald the gypsy has picked up. When 5 have been picked up the gypsy goes back to wanderer.
+    // Counts the amount of emerald the thief has picked up. When 5 have been picked up the thief goes back to wanderer.
     int pickedUpEmerald = 0;
 
     private final ServerBossInfo bossInfo = (ServerBossInfo) (new ServerBossInfo(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
 
-    public GypsyEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
+    public ThiefEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
         this.setHealth(this.getMaxHealth());
         this.experienceValue = 100;
@@ -86,13 +86,13 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     protected void registerGoals() {
         super.registerGoals();
 
-        this.targetSelector.addGoal(1, new GypsyAttackableTargetGoal(this, PlayerEntity.class,
+        this.targetSelector.addGoal(1, new ThiefAttackableTargetGoal(this, PlayerEntity.class,
                 10, true, false,
                 (entity) -> entity instanceof PlayerEntity && entity.equals(this.nemesis)
         ));
 
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new GypsyAttackGoal(this, 1.35D, true));
+        this.goalSelector.addGoal(1, new ThiefAttackGoal(this, 1.35D, true));
         this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 16.0F, 0.05F));
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(9, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
@@ -139,18 +139,18 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     }
 
     protected void sendStolenItemStack(ItemStack items) {
-        Double maxDistance = GypsyEntity.MAX_DISTANCE_TO_LLAMAS;
-        List<GypsyLlamaEntity> entities = this.world.getEntitiesWithinAABB(
-                GypsyLlamaEntity.class,
+        Double maxDistance = eu.tsp.evilwanderingtrader.common.entities.ThiefEntity.MAX_DISTANCE_TO_LLAMAS;
+        List<ThiefLlamaEntity> entities = this.world.getEntitiesWithinAABB(
+                ThiefLlamaEntity.class,
                 new AxisAlignedBB(
                         this.getPosX() - maxDistance, this.getPosYEye() - maxDistance / 2, this.getPosZ() - maxDistance,
                         this.getPosX() + maxDistance, this.getPosYEye() + maxDistance / 2, this.getPosZ() + maxDistance)
         );
 
         if (!entities.isEmpty()) {
-            Iterator<GypsyLlamaEntity> llamas = entities.iterator();
-            GypsyLlamaEntity llama = llamas.next();
-            Predicate<GypsyLlamaEntity> a = (ll) -> ll.isAlive() && ll.gypsy != null && ll.gypsy.equals(this) && ll.addToChest(items);
+            Iterator<ThiefLlamaEntity> llamas = entities.iterator();
+            ThiefLlamaEntity llama = llamas.next();
+            Predicate<ThiefLlamaEntity> a = (ll) -> ll.isAlive() && ll.thief != null && ll.thief.equals(this) && ll.addToChest(items);
             boolean success = a.test(llama);
             while (!success && llamas.hasNext()) {
                 llama = llamas.next();
@@ -205,24 +205,24 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 
     public void turnBackIntoWanderer() {
         if (!this.world.isRemote && !this.isConverting() && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this,
-                ModEntityTypes.GYPSY_WANDERING_TRADER.get(), (timer) -> this.ticksBeforeReconversion = timer)) {
+                ModEntityTypes.THIEF_WANDERING_TRADER.get(), (timer) -> this.ticksBeforeReconversion = timer)) {
             this.setConverting(true);
-            GypsyWanderingTraderEntity wanderer = this.startConversion((ServerWorld) this.world);
+            ThiefWanderingTraderEntity wanderer = this.startConversion((ServerWorld) this.world);
 
-            Double maxDistance = GypsyEntity.MAX_DISTANCE_TO_LLAMAS;
-            List<GypsyLlamaEntity> entities = this.world.getEntitiesWithinAABB(
-                    GypsyLlamaEntity.class,
+            Double maxDistance = eu.tsp.evilwanderingtrader.common.entities.ThiefEntity.MAX_DISTANCE_TO_LLAMAS;
+            List<ThiefLlamaEntity> entities = this.world.getEntitiesWithinAABB(
+                    ThiefLlamaEntity.class,
                     new AxisAlignedBB(
                             this.getPosX() - maxDistance, this.getPosYEye() - maxDistance / 2, this.getPosZ() - maxDistance,
                             this.getPosX() + maxDistance, this.getPosYEye() + maxDistance / 2, this.getPosZ() + maxDistance)
             );
 
             if (!entities.isEmpty()) {
-                Iterator<GypsyLlamaEntity> llamas = entities.iterator();
-                GypsyLlamaEntity llama;
+                Iterator<ThiefLlamaEntity> llamas = entities.iterator();
+                ThiefLlamaEntity llama;
                 while (llamas.hasNext()) {
                     llama = llamas.next();
-                    if (llama.isAlive() && llama.gypsy != null && llama.gypsy.equals(this)) {
+                    if (llama.isAlive() && llama.thief != null && llama.thief.equals(this)) {
                         llama.turnBackIntoWandererLlama(wanderer);
                     }
                 }
@@ -230,12 +230,12 @@ public class GypsyEntity extends MonsterEntity implements IMob {
         }
     }
 
-    private GypsyWanderingTraderEntity startConversion(ServerWorld serverWorld) {
-        GypsyWanderingTraderEntity wanderer = this.func_233656_b_(ModEntityTypes.GYPSY_WANDERING_TRADER.get(), false);
+    private ThiefWanderingTraderEntity startConversion(ServerWorld serverWorld) {
+        ThiefWanderingTraderEntity wanderer = this.func_233656_b_(ModEntityTypes.THIEF_WANDERING_TRADER.get(), false);
 
         wanderer.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(wanderer.getPosition()), SpawnReason.CONVERSION, null, null);
         this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 20 * 3, Math.min(this.world.getDifficulty().getId() - 1, 0)));
-        this.playSound(ModSoundEventTypes.GYPSY_CONVERSION.get(), 0.5F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 1.0F);
+        this.playSound(ModSoundEventTypes.THIEF_CONVERSION.get(), 0.5F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 1.0F);
 
 
         for (int i = 0; i < 20; ++i) {
@@ -299,19 +299,19 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return ModSoundEventTypes.GYPSY_HURT.get();
+        return ModSoundEventTypes.THIEF_HURT.get();
     }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return ModSoundEventTypes.GYPSY_DEATH.get();
+        return ModSoundEventTypes.THIEF_DEATH.get();
     }
 
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
-        return ModSoundEventTypes.GYPSY_AMBIENT.get();
+        return ModSoundEventTypes.THIEF_AMBIENT.get();
     }
 
     @Override

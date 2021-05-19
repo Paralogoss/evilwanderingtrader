@@ -1,14 +1,14 @@
 {
-  "parent": "evilwanderingtrader:gypsy/provocation",
+  "parent": "evilwanderingtrader:thief/provocation",
   "display": {
     "icon": {
       "item": "minecraft:lead"
     },
     "title": {
-      "translate": "advancements.gypsy.tamed.title"
+      "translate": "advancements.thief.tamed.title"
     },
     "description": {
-      "translate": "advancements.gypsy.tamed.description"
+      "translate": "advancements.thief.tamed.description"
     },
     "frame": "goal",
     "show_toast": true,
@@ -16,14 +16,14 @@
     "hidden": true
   },
   "criteria": {
-    "tamed_gypsy_llama": {
+    "tamed_thief_llama": {
       "trigger": "minecraft:tame_animal",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "predicate": {
-              "type": "evilwanderingtrader:gypsy_llama"
+              "type": "evilwanderingtrader:thief_llama"
             },
             "entity": "this"
           }
@@ -33,7 +33,7 @@
   },
   "requirements": [
     [
-      "tamed_gypsy_llama"
+      "tamed_thief_llama"
     ]
   ]
 }

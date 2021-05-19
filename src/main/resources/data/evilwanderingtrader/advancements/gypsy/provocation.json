@@ -1,14 +1,14 @@
 {
-  "parent": "evilwanderingtrader:gypsy/root",
+  "parent": "evilwanderingtrader:thief/root",
   "display": {
     "icon": {
       "item": "minecraft:golden_sword"
     },
     "title": {
-      "translate": "advancements.gypsy.provocation.title"
+      "translate": "advancements.thief.provocation.title"
     },
     "description": {
-      "translate": "advancements.gypsy.provocation.description"
+      "translate": "advancements.thief.provocation.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -16,14 +16,14 @@
     "hidden": false
   },
   "criteria": {
-    "gypsy_trader_hurt": {
+    "thief_trader_hurt": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "predicate": {
-              "type": "evilwanderingtrader:gypsy_wandering_trader"
+              "type": "evilwanderingtrader:thief_wandering_trader"
             },
             "entity": "this"
           }
@@ -33,7 +33,7 @@
   },
   "requirements": [
     [
-      "gypsy_trader_hurt"
+      "thief_trader_hurt"
     ]
   ]
 }

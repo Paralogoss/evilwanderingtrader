@@ -1,10 +1,10 @@
 package eu.tsp.evilwanderingtrader.client;
 
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
-import eu.tsp.evilwanderingtrader.client.rendering.GypsyLlamaRenderer;
-import eu.tsp.evilwanderingtrader.client.rendering.GypsyRenderer;
-import eu.tsp.evilwanderingtrader.client.rendering.GypsyTraderLlamaRenderer;
-import eu.tsp.evilwanderingtrader.client.rendering.GypsyWanderingTraderRenderer;
+import eu.tsp.evilwanderingtrader.client.rendering.ThiefLlamaRenderer;
+import eu.tsp.evilwanderingtrader.client.rendering.ThiefRenderer;
+import eu.tsp.evilwanderingtrader.client.rendering.ThiefTraderLlamaRenderer;
+import eu.tsp.evilwanderingtrader.client.rendering.ThiefWanderingTraderRenderer;
 import eu.tsp.evilwanderingtrader.common.items.ModSpawnEggItem;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import net.minecraft.entity.EntityType;
@@ -19,10 +19,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 public class ClientEventBusSubscriber {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.GYPSY.get(), new GypsyRenderer.RenderFactory());
-        RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.GYPSY_LLAMA.get(), new GypsyLlamaRenderer.RenderFactory());
-        RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.GYPSY_WANDERING_TRADER.get(), new GypsyWanderingTraderRenderer.RenderFactory());
-        RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.GYPSY_TRADER_LLAMA.get(), new GypsyTraderLlamaRenderer.RenderFactory());
+        RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.THIEF.get(), new ThiefRenderer.RenderFactory());
+        RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.THIEF_LLAMA.get(), new ThiefLlamaRenderer.RenderFactory());
+        RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.THIEF_WANDERING_TRADER.get(), new ThiefWanderingTraderRenderer.RenderFactory());
+        RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.THIEF_TRADER_LLAMA.get(), new ThiefTraderLlamaRenderer.RenderFactory());
     }
 
     @SubscribeEvent

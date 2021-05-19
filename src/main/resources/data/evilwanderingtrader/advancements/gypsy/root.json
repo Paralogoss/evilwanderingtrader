@@ -4,10 +4,10 @@
       "item": "minecraft:golden_axe"
     },
     "title": {
-      "translate": "advancements.gypsy.title"
+      "translate": "advancements.thief.title"
     },
     "description": {
-      "translate": "advancements.gypsy.root.description"
+      "translate": "advancements.thief.root.description"
     },
     "frame": "task",
     "show_toast": false,

@@ -1,50 +1,50 @@
 {
-  "entity.gypsy.hurt": {
+  "entity.thief.hurt": {
     "category": "entity",
-    "subtitle": "entity.gypsy.hurt",
+    "subtitle": "entity.thief.hurt",
     "sounds": [
       {
-        "name": "evilwanderingtrader:entity/entity.gypsy.hurt",
+        "name": "evilwanderingtrader:entity/entity.thief.hurt",
         "stream": true
       }
     ]
   },
-  "entity.gypsy.ambient": {
+  "entity.thief.ambient": {
     "category": "entity",
-    "subtitle": "entity.gypsy.ambient",
+    "subtitle": "entity.thief.ambient",
     "sounds": [
       {
-        "name": "evilwanderingtrader:entity/entity.gypsy.ambient",
+        "name": "evilwanderingtrader:entity/entity.thief.ambient",
         "stream": true
       }
     ]
   },
-  "entity.gypsy.conversion": {
+  "entity.thief.conversion": {
     "category": "entity",
-    "subtitle": "entity.gypsy.conversion",
+    "subtitle": "entity.thief.conversion",
     "sounds": [
       {
-        "name": "evilwanderingtrader:entity/entity.gypsy.conversion",
+        "name": "evilwanderingtrader:entity/entity.thief.conversion",
         "stream": true
       }
     ]
   },
-  "entity.gypsy_llama.ambient": {
+  "entity.thief_llama.ambient": {
     "category": "entity",
-    "subtitle": "entity.gypsy_llama.ambient",
+    "subtitle": "entity.thief_llama.ambient",
     "sounds": [
       {
-        "name": "evilwanderingtrader:entity/entity.gypsy_llama.ambient",
+        "name": "evilwanderingtrader:entity/entity.thief_llama.ambient",
         "stream": true
       }
     ]
   },
-  "entity.gypsy.death": {
+  "entity.thief.death": {
     "category": "entity",
-    "subtitle": "entity.gypsy.death",
+    "subtitle": "entity.thief.death",
     "sounds": [
       {
-        "name": "evilwanderingtrader:entity/entity.gypsy.death",
+        "name": "evilwanderingtrader:entity/entity.thief.death",
         "stream": true
       }
     ]

@@ -1,14 +1,14 @@
 {
-  "parent": "evilwanderingtrader:gypsy/provocation",
+  "parent": "evilwanderingtrader:thief/provocation",
   "display": {
     "icon": {
-      "item": "evilwanderingtrader:gypsy_wandering_trader_spawn_egg"
+      "item": "evilwanderingtrader:thief_wandering_trader_spawn_egg"
     },
     "title": {
-      "translate": "advancements.gypsy.kill_gypsy.title"
+      "translate": "advancements.thief.kill_thief.title"
     },
     "description": {
-      "translate": "advancements.gypsy.kill_gypsy.description"
+      "translate": "advancements.thief.kill_thief.description"
     },
     "frame": "challenge",
     "show_toast": true,
@@ -16,14 +16,14 @@
     "hidden": false
   },
   "criteria": {
-    "killed_gypsy": {
+    "killed_thief": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "predicate": {
-              "type": "evilwanderingtrader:gypsy"
+              "type": "evilwanderingtrader:thief"
             },
             "entity": "this"
           }
@@ -33,7 +33,7 @@
   },
   "requirements": [
     [
-      "killed_gypsy"
+      "killed_thief"
     ]
   ]
 }

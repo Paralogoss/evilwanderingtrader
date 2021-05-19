@@ -27,9 +27,9 @@ import net.minecraft.world.spawner.WorldEntitySpawner;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
-public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
+public class ThiefTraderLlamaEntity extends TraderLlamaEntity {
 
-    public GypsyTraderLlamaEntity(EntityType<? extends GypsyTraderLlamaEntity> type, World worldIn) {
+    public ThiefTraderLlamaEntity(EntityType<? extends ThiefTraderLlamaEntity> type, World worldIn) {
         super(type, worldIn);
         this.setHealth(this.getMaxHealth());
         this.setChested(true);
@@ -47,7 +47,7 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
 
     protected void registerGoals() {
         super.registerGoals();
-        this.targetSelector.addGoal(1, new GypsyTraderLlamaEntity.FollowGypsyTraderGoal(this));
+        this.targetSelector.addGoal(1, new ThiefTraderLlamaEntity.FollowThiefTraderGoal(this));
         this.goalSelector.addGoal(1, new EvilLlamaWhenHitGoal(this));
     }
 
@@ -60,7 +60,7 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
             int l = world.getHeight(Heightmap.Type.WORLD_SURFACE, j, k);
             BlockPos blockpos1 = new BlockPos(j, l, k);
             if (WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND,
-                    world, blockpos1, ModEntityTypes.GYPSY_TRADER_LLAMA.get())) {
+                    world, blockpos1, ModEntityTypes.THIEF_TRADER_LLAMA.get())) {
                 blockpos = blockpos1;
                 break;
             }
@@ -68,16 +68,16 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
         return blockpos;
     }
 
-    public static void spawnLlamas(GypsyWanderingTraderEntity trader, BlockPos pos, ServerWorld world, int count) {
+    public static void spawnLlamas(ThiefWanderingTraderEntity trader, BlockPos pos, ServerWorld world, int count) {
         if (count <= 0) return;
-        BlockPos randPos = GypsyTraderLlamaEntity.llamaSpawnPos(pos, world, 2);
+        BlockPos randPos = ThiefTraderLlamaEntity.llamaSpawnPos(pos, world, 2);
         if (randPos != null) {
-            GypsyTraderLlamaEntity llama = ModEntityTypes.GYPSY_TRADER_LLAMA.get().spawn(world, null,
+            ThiefTraderLlamaEntity llama = ModEntityTypes.THIEF_TRADER_LLAMA.get().spawn(world, null,
                     null, null, randPos, SpawnReason.NATURAL, false, false);
             if (llama != null) llama.setLeashHolder(trader, true);
         }
 
-        GypsyTraderLlamaEntity.spawnLlamas(trader, pos, world, count - 1);
+        ThiefTraderLlamaEntity.spawnLlamas(trader, pos, world, count - 1);
     }
 
     @Nullable
@@ -119,26 +119,26 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
         if (inventory.getSizeInventory() <= this.getInventorySize()) this.horseChest = inventory;
     }
 
-    public void turnIntoGypsyLlama(PlayerEntity player, GypsyEntity gypsy) {
+    public void turnIntoThiefLlama(PlayerEntity player, ThiefEntity thief) {
         if (!this.world.isRemote) {
-            this.startConversion((ServerWorld) this.world, player, gypsy);
+            this.startConversion((ServerWorld) this.world, player, thief);
         }
     }
 
-    private void startConversion(ServerWorld serverWorld, PlayerEntity player, GypsyEntity gypsy) {
-        GypsyLlamaEntity gypsyLlama = this.func_233656_b_(ModEntityTypes.GYPSY_LLAMA.get(), false);
-        gypsyLlama.setNemesis(player);
+    private void startConversion(ServerWorld serverWorld, PlayerEntity player, ThiefEntity thief) {
+        ThiefLlamaEntity thiefLlama = this.func_233656_b_(ModEntityTypes.THIEF_LLAMA.get(), false);
+        thiefLlama.setNemesis(player);
 
-        gypsyLlama.setInventory(this.horseChest);
-        gypsyLlama.setOwnerUniqueId(this.getOwnerUniqueId());
-        gypsyLlama.setHorseTamed(this.isTame());
-        gypsyLlama.gypsy = gypsy;
+        thiefLlama.setInventory(this.horseChest);
+        thiefLlama.setOwnerUniqueId(this.getOwnerUniqueId());
+        thiefLlama.setHorseTamed(this.isTame());
+        thiefLlama.thief = thief;
 
-        gypsyLlama.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(gypsyLlama.getPosition()),
+        thiefLlama.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(thiefLlama.getPosition()),
                 SpawnReason.CONVERSION, null, null);
         this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 20 * 10,
                 Math.min(this.world.getDifficulty().getId() - 1, 0)));
-        this.playSound(ModSoundEventTypes.GYPSY_CONVERSION.get(), 2.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.2F + 0.3F);
+        this.playSound(ModSoundEventTypes.THIEF_CONVERSION.get(), 2.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.2F + 0.3F);
 
         for (int i = 0; i < 60; ++i) {
             double d0 = this.rand.nextGaussian() * 0.2D;
@@ -155,7 +155,7 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
                     1, 0, 0, 0, (d0 + d1 + d2) / 3);
         }
 
-        net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, gypsyLlama);
+        net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, thiefLlama);
     }
 
     @Override
@@ -169,17 +169,17 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
     @Override
     protected void mountTo(PlayerEntity player) {
         Entity entity = this.getLeashHolder();
-        if (!(entity instanceof GypsyWanderingTraderEntity)) {
+        if (!(entity instanceof ThiefWanderingTraderEntity)) {
             super.mountTo(player);
         }
     }
 
-    public class FollowGypsyTraderGoal extends TargetGoal {
-        private final GypsyTraderLlamaEntity llama;
+    public class FollowThiefTraderGoal extends TargetGoal {
+        private final ThiefTraderLlamaEntity llama;
         private LivingEntity target;
         private int revengeTimer;
 
-        public FollowGypsyTraderGoal(GypsyTraderLlamaEntity llama) {
+        public FollowThiefTraderGoal(ThiefTraderLlamaEntity llama) {
             super(llama, false);
             this.llama = llama;
             this.setMutexFlags(EnumSet.of(Goal.Flag.TARGET));

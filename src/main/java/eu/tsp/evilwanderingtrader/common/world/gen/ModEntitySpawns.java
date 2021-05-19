@@ -17,13 +17,13 @@ public class ModEntitySpawns {
     @SubscribeEvent
     public static void spawnEntities(BiomeLoadingEvent event) {
         // TODO: Change spawn rates (high values are used for testing)
-        MobSpawnInfo.Spawners spawnInfo = new MobSpawnInfo.Spawners(ModEntityTypes.GYPSY_WANDERING_TRADER.get(),
+        MobSpawnInfo.Spawners spawnInfo = new MobSpawnInfo.Spawners(ModEntityTypes.THIEF_WANDERING_TRADER.get(),
                 50, 2, 5);
         event.getSpawns().getSpawner(EntityClassification.CREATURE).add(spawnInfo);
     }
 
     public static void entitySpawnPlacementRegistry() {
-        EntitySpawnPlacementRegistry.register(ModEntityTypes.GYPSY_WANDERING_TRADER.get(),
+        EntitySpawnPlacementRegistry.register(ModEntityTypes.THIEF_WANDERING_TRADER.get(),
                 EntitySpawnPlacementRegistry.PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
                 MobEntity::canSpawnOn);
     }

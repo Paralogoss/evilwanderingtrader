@@ -1,9 +1,9 @@
 package eu.tsp.evilwanderingtrader;
 
-import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
-import eu.tsp.evilwanderingtrader.common.entities.GypsyLlamaEntity;
-import eu.tsp.evilwanderingtrader.common.entities.GypsyTraderLlamaEntity;
-import eu.tsp.evilwanderingtrader.common.entities.GypsyWanderingTraderEntity;
+import eu.tsp.evilwanderingtrader.common.entities.ThiefLlamaEntity;
+import eu.tsp.evilwanderingtrader.common.entities.ThiefTraderLlamaEntity;
+import eu.tsp.evilwanderingtrader.common.entities.ThiefWanderingTraderEntity;
+import eu.tsp.evilwanderingtrader.common.entities.ThiefEntity;
 import eu.tsp.evilwanderingtrader.common.world.gen.ModEntitySpawns;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModItemTypes;
@@ -43,16 +43,15 @@ public class EvilWanderingTrader {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-
     }
 
     @SuppressWarnings("deprecation")
     private void setup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY.get(), GypsyEntity.setCustomAttributes().create());
-            GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_LLAMA.get(), GypsyLlamaEntity.setCustomAttributes().create());
-            GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_WANDERING_TRADER.get(), GypsyWanderingTraderEntity.setCustomAttributes().create());
-            GlobalEntityTypeAttributes.put(ModEntityTypes.GYPSY_TRADER_LLAMA.get(), GypsyTraderLlamaEntity.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(ModEntityTypes.THIEF.get(), ThiefEntity.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(ModEntityTypes.THIEF_LLAMA.get(), ThiefLlamaEntity.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(ModEntityTypes.THIEF_WANDERING_TRADER.get(), ThiefWanderingTraderEntity.setCustomAttributes().create());
+            GlobalEntityTypeAttributes.put(ModEntityTypes.THIEF_TRADER_LLAMA.get(), ThiefTraderLlamaEntity.setCustomAttributes().create());
         });
 
         ModEntitySpawns.entitySpawnPlacementRegistry();
@@ -66,7 +65,7 @@ public class EvilWanderingTrader {
     public static final ItemGroup TAB = new ItemGroup("ewt_tab") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ModItemTypes.GYPSY_WANDERING_TRADER_SPAWN_EGG.get());
+            return new ItemStack(ModItemTypes.THIEF_WANDERING_TRADER_SPAWN_EGG.get());
         }
     };
 

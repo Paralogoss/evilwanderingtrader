@@ -2,12 +2,12 @@ package eu.tsp.evilwanderingtrader.client.models;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import eu.tsp.evilwanderingtrader.common.entities.GypsyEntity;
+import eu.tsp.evilwanderingtrader.common.entities.ThiefEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 
-public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
+public class ThiefModel<T extends ThiefEntity> extends EntityModel<T> {
 
     private final ModelRenderer head;
     private final ModelRenderer nose;
@@ -22,7 +22,7 @@ public class GypsyModel<T extends GypsyEntity> extends EntityModel<T> {
     private final ModelRenderer rotation;
 
 
-    public GypsyModel() {
+    public ThiefModel() {
         textureWidth = 64;
         textureHeight = 64;
 

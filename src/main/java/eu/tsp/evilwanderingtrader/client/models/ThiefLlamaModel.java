@@ -2,12 +2,12 @@ package eu.tsp.evilwanderingtrader.client.models;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import eu.tsp.evilwanderingtrader.common.entities.GypsyLlamaEntity;
+import eu.tsp.evilwanderingtrader.common.entities.ThiefLlamaEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 
-public class GypsyLlamaModel<T extends GypsyLlamaEntity> extends EntityModel<T> {
+public class ThiefLlamaModel<T extends ThiefLlamaEntity> extends EntityModel<T> {
 
     private final ModelRenderer head;
     private final ModelRenderer body;
@@ -23,7 +23,7 @@ public class GypsyLlamaModel<T extends GypsyLlamaEntity> extends EntityModel<T> 
     private final ModelRenderer chest_right;
     private final ModelRenderer chest_right_rotation;
 
-    public GypsyLlamaModel() {
+    public ThiefLlamaModel() {
         textureWidth = 128;
         textureHeight = 64;
 

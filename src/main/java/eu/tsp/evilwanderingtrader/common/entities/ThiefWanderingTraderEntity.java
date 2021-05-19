@@ -1,6 +1,6 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
-import eu.tsp.evilwanderingtrader.common.goals.EvilGypsyWhenHitGoal;
+import eu.tsp.evilwanderingtrader.common.goals.EvilThiefWhenHitGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.EntityType;
@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
+public class ThiefWanderingTraderEntity extends WanderingTraderEntity {
     // Counts the amount of sales made by the last customer.
     private int lastSales = 0;
 
@@ -37,7 +37,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
     private PlayerEntity lastCustomer;
 
 
-    public GypsyWanderingTraderEntity(EntityType<? extends GypsyWanderingTraderEntity> type, World worldIn) {
+    public ThiefWanderingTraderEntity(EntityType<? extends ThiefWanderingTraderEntity> type, World worldIn) {
         super(type, worldIn);
         this.setDespawnDelay(48000);
         this.getSoundPitch();
@@ -50,7 +50,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
     @Nullable
     public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         if (reason != SpawnReason.CONVERSION) {
-            GypsyTraderLlamaEntity.spawnLlamas(this, this.getPosition(), worldIn.getWorld(), 2);
+            ThiefTraderLlamaEntity.spawnLlamas(this, this.getPosition(), worldIn.getWorld(), 2);
         }
 
         return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
@@ -70,7 +70,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
     @Override
     public void livingTick() {
         if (((this.hasCustomer() && this.lastCustomer != this.getCustomer()) || !this.hasCustomer()) && this.lastCustomer != null) {
-            if (this.lastSales <= 0) this.turnIntoGypsy(this.lastCustomer);
+            if (this.lastSales <= 0) this.turnIntoThief(this.lastCustomer);
             this.lastSales = 0;
         }
         this.lastCustomer = this.getCustomer();
@@ -80,28 +80,28 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(1, new EvilGypsyWhenHitGoal(this));
+        this.goalSelector.addGoal(1, new EvilThiefWhenHitGoal(this));
     }
 
-    public void turnIntoGypsy(PlayerEntity player) {
+    public void turnIntoThief(PlayerEntity player) {
         if (!this.world.isRemote && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this,
-                ModEntityTypes.GYPSY.get(), (timer) -> {
+                ModEntityTypes.THIEF.get(), (timer) -> {
                 })) {
-            GypsyEntity gypsy = this.startConversion((ServerWorld) this.world, player);
+            ThiefEntity thief = this.startConversion((ServerWorld) this.world, player);
 
             this.forTraderLlamas((llama) -> {
-                llama.turnIntoGypsyLlama(player, gypsy);
+                llama.turnIntoThiefLlama(player, thief);
             });
         }
     }
 
-    private GypsyEntity startConversion(ServerWorld serverWorld, PlayerEntity player) {
-        GypsyEntity gypsy = this.func_233656_b_(ModEntityTypes.GYPSY.get(), false);
-        gypsy.setNemesis(player);
+    private ThiefEntity startConversion(ServerWorld serverWorld, PlayerEntity player) {
+        ThiefEntity thief = this.func_233656_b_(ModEntityTypes.THIEF.get(), false);
+        thief.setNemesis(player);
 
-        gypsy.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(gypsy.getPosition()), SpawnReason.CONVERSION, null, null);
+        thief.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(thief.getPosition()), SpawnReason.CONVERSION, null, null);
         this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 20 * 10, Math.min(this.world.getDifficulty().getId() - 1, 0)));
-        this.playSound(ModSoundEventTypes.GYPSY_CONVERSION.get(), 2.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.2F + 0.3F);
+        this.playSound(ModSoundEventTypes.THIEF_CONVERSION.get(), 2.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.2F + 0.3F);
 
         for (int i = 0; i < 60; ++i) {
             double d0 = this.rand.nextGaussian() * 0.2D;
@@ -121,8 +121,8 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
         //drop des 2 leads
         this.entityDropItem(new ItemStack(Items.LEAD, 2));
 
-        net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, gypsy);
-        return gypsy;
+        net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, thief);
+        return thief;
     }
 
     @Override
@@ -142,18 +142,18 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
     }
 
 
-    private void forTraderLlamas(Consumer<GypsyTraderLlamaEntity> consumer) {
-        Double maxDistance = GypsyEntity.MAX_DISTANCE_TO_LLAMAS;
-        List<GypsyTraderLlamaEntity> entities = this.world.getEntitiesWithinAABB(
-                GypsyTraderLlamaEntity.class,
+    private void forTraderLlamas(Consumer<ThiefTraderLlamaEntity> consumer) {
+        Double maxDistance = eu.tsp.evilwanderingtrader.common.entities.ThiefEntity.MAX_DISTANCE_TO_LLAMAS;
+        List<ThiefTraderLlamaEntity> entities = this.world.getEntitiesWithinAABB(
+                ThiefTraderLlamaEntity.class,
                 new AxisAlignedBB(
                         this.getPosX() - maxDistance, this.getPosYEye() - maxDistance / 2, this.getPosZ() - maxDistance,
                         this.getPosX() + maxDistance, this.getPosYEye() + maxDistance / 2, this.getPosZ() + maxDistance)
         );
 
         if (!entities.isEmpty()) {
-            Iterator<GypsyTraderLlamaEntity> llamas = entities.iterator();
-            GypsyTraderLlamaEntity llama;
+            Iterator<ThiefTraderLlamaEntity> llamas = entities.iterator();
+            ThiefTraderLlamaEntity llama;
             while (llamas.hasNext()) {
                 llama = llamas.next();
                 if (llama.isAlive() && llama.getLeashed() && llama.getLeashHolder().equals(this)) {

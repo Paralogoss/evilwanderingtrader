@@ -1,13 +1,13 @@
 package eu.tsp.evilwanderingtrader.common.goals;
 
-import eu.tsp.evilwanderingtrader.common.entities.GypsyWanderingTraderEntity;
+import eu.tsp.evilwanderingtrader.common.entities.ThiefWanderingTraderEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 
-public class EvilGypsyWhenHitGoal extends Goal {
-    protected final GypsyWanderingTraderEntity wanderingTrader;
+public class EvilThiefWhenHitGoal extends Goal {
+    protected final ThiefWanderingTraderEntity wanderingTrader;
 
-    public EvilGypsyWhenHitGoal(GypsyWanderingTraderEntity wanderingTrader) {
+    public EvilThiefWhenHitGoal(ThiefWanderingTraderEntity wanderingTrader) {
         this.wanderingTrader = wanderingTrader;
     }
 
@@ -19,6 +19,6 @@ public class EvilGypsyWhenHitGoal extends Goal {
     @Override
     public void startExecuting() {
         PlayerEntity player = (PlayerEntity) this.wanderingTrader.getRevengeTarget();
-        wanderingTrader.turnIntoGypsy(player);
+        wanderingTrader.turnIntoThief(player);
     }
 }

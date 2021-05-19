@@ -1,6 +1,5 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
-import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.goals.FollowEntityGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
@@ -28,16 +27,16 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 
-public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttackMob {
+public class ThiefLlamaEntity extends LlamaEntity implements IMob, IRangedAttackMob {
 
     @Nullable
     PlayerEntity nemesis;
 
     boolean didSpit = false;
 
-    Entity gypsy;
+    Entity thief;
 
-    public GypsyLlamaEntity(EntityType<? extends LlamaEntity> type, World worldIn) {
+    public ThiefLlamaEntity(EntityType<? extends LlamaEntity> type, World worldIn) {
         super(type, worldIn);
         this.setChested(true);
         this.initHorseChest();
@@ -58,7 +57,7 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
         super.registerGoals();
 
         this.targetSelector.addGoal(1, new FollowEntityGoal(this, 1.0D, 4.0F,
-                16.0F, (entity) -> entity.equals(this.gypsy)
+                16.0F, (entity) -> entity.equals(this.thief)
         ));
 
         this.goalSelector.addGoal(0, new SwimGoal(this));
@@ -147,16 +146,16 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        if (this.gypsy != null) {
-            compound.putInt("GypsyUUID", this.gypsy.getEntityId());
+        if (this.thief != null) {
+            compound.putInt("ThiefUUID", this.thief.getEntityId());
         }
     }
 
     @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
-        if (compound.contains("GypsyUUID")) {
-            this.gypsy = this.world.getEntityByID(compound.getInt("GypsyUUID"));
+        if (compound.contains("ThiefUUID")) {
+            this.thief = this.world.getEntityByID(compound.getInt("ThiefUUID"));
         }
     }
 
@@ -168,7 +167,7 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
-        return ModSoundEventTypes.GYPSY_LLAMA_AMBIENT.get();
+        return ModSoundEventTypes.THIEF_LLAMA_AMBIENT.get();
     }
 
     @Nullable
@@ -193,14 +192,14 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
         return false;
     }
 
-    public void turnBackIntoWandererLlama(GypsyWanderingTraderEntity trader) {
+    public void turnBackIntoWandererLlama(ThiefWanderingTraderEntity trader) {
         if (!this.world.isRemote) {
             this.startConversion((ServerWorld) this.world, trader);
         }
     }
 
-    private void startConversion(ServerWorld serverWorld, GypsyWanderingTraderEntity trader) {
-        GypsyTraderLlamaEntity llama = this.func_233656_b_(ModEntityTypes.GYPSY_TRADER_LLAMA.get(), false);
+    private void startConversion(ServerWorld serverWorld, ThiefWanderingTraderEntity trader) {
+        ThiefTraderLlamaEntity llama = this.func_233656_b_(ModEntityTypes.THIEF_TRADER_LLAMA.get(), false);
 
         llama.setInventory(this.horseChest);
         llama.setOwnerUniqueId(this.getOwnerUniqueId());
@@ -211,7 +210,7 @@ public class GypsyLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
                 SpawnReason.CONVERSION, null, null);
         this.addPotionEffect(new EffectInstance(Effects.STRENGTH, 20 * 3,
                 Math.min(this.world.getDifficulty().getId() - 1, 0)));
-        this.playSound(ModSoundEventTypes.GYPSY_CONVERSION.get(), 0.5F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 1.0F);
+        this.playSound(ModSoundEventTypes.THIEF_CONVERSION.get(), 0.5F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 1.0F);
 
         for (int i = 0; i < 20; ++i) {
             double d0 = this.rand.nextGaussian() * 0.02D;
