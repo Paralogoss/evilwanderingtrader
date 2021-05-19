@@ -1,6 +1,5 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
-import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.goals.EvilLlamaWhenHitGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
@@ -13,12 +12,10 @@ import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.passive.horse.TraderLlamaEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
@@ -43,8 +40,7 @@ public class GypsyTraderLlamaEntity extends TraderLlamaEntity {
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.1D)
                 .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.7D);
     }
-    
-    
+
 
     protected void registerGoals() {
         super.registerGoals();

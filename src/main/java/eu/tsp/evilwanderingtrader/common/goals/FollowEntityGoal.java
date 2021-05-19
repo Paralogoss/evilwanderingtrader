@@ -1,8 +1,5 @@
 package eu.tsp.evilwanderingtrader.common.goals;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.function.Predicate;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.goal.Goal;
@@ -10,6 +7,10 @@ import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.PathNodeType;
+
+import java.util.EnumSet;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class FollowEntityGoal extends Goal {
     private final MobEntity follower;
@@ -40,9 +41,9 @@ public class FollowEntityGoal extends Goal {
      * method as well.
      */
     public boolean shouldExecute() {
-        List<MobEntity> list = this.follower.world.getEntitiesWithinAABB(MobEntity.class, this.follower.getBoundingBox().grow((double)this.areaSize), this.followPredicate);
+        List<MobEntity> list = this.follower.world.getEntitiesWithinAABB(MobEntity.class, this.follower.getBoundingBox().grow(this.areaSize), this.followPredicate);
         if (!list.isEmpty()) {
-            for(MobEntity mobentity : list) {
+            for (MobEntity mobentity : list) {
                 if (!mobentity.isInvisible()) {
                     this.followingEntity = mobentity;
                     return true;
@@ -57,7 +58,7 @@ public class FollowEntityGoal extends Goal {
      * Returns whether an in-progress EntityAIBase should continue executing
      */
     public boolean shouldContinueExecuting() {
-        return this.followingEntity != null && !this.navigation.noPath() && this.follower.getDistanceSq(this.followingEntity) > (double)(this.stopDistance * this.stopDistance);
+        return this.followingEntity != null && !this.navigation.noPath() && this.follower.getDistanceSq(this.followingEntity) > (double) (this.stopDistance * this.stopDistance);
     }
 
     /**
@@ -83,19 +84,19 @@ public class FollowEntityGoal extends Goal {
      */
     public void tick() {
         if (this.followingEntity != null && !this.follower.getLeashed()) {
-            this.follower.getLookController().setLookPositionWithEntity(this.followingEntity, 10.0F, (float)this.follower.getVerticalFaceSpeed());
+            this.follower.getLookController().setLookPositionWithEntity(this.followingEntity, 10.0F, (float) this.follower.getVerticalFaceSpeed());
             if (--this.timeToRecalcPath <= 0) {
                 this.timeToRecalcPath = 10;
                 double d0 = this.follower.getPosX() - this.followingEntity.getPosX();
                 double d1 = this.follower.getPosY() - this.followingEntity.getPosY();
                 double d2 = this.follower.getPosZ() - this.followingEntity.getPosZ();
                 double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-                if (!(d3 <= (double)(this.stopDistance * this.stopDistance))) {
+                if (!(d3 <= (double) (this.stopDistance * this.stopDistance))) {
                     this.navigation.tryMoveToEntityLiving(this.followingEntity, this.speedModifier);
                 } else {
                     this.navigation.clearPath();
                     LookController lookcontroller = this.followingEntity.getLookController();
-                    if (d3 <= (double)this.stopDistance || lookcontroller.getLookPosX() == this.follower.getPosX() && lookcontroller.getLookPosY() == this.follower.getPosY() && lookcontroller.getLookPosZ() == this.follower.getPosZ()) {
+                    if (d3 <= (double) this.stopDistance || lookcontroller.getLookPosX() == this.follower.getPosX() && lookcontroller.getLookPosY() == this.follower.getPosY() && lookcontroller.getLookPosZ() == this.follower.getPosZ()) {
                         double d4 = this.followingEntity.getPosX() - this.follower.getPosX();
                         double d5 = this.followingEntity.getPosZ() - this.follower.getPosZ();
                         this.navigation.tryMoveToXYZ(this.follower.getPosX() - d4, this.follower.getPosY(), this.follower.getPosZ() - d5, this.speedModifier);

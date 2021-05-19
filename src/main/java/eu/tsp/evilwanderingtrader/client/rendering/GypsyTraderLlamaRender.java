@@ -11,10 +11,10 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 @OnlyIn(Dist.CLIENT)
 public class GypsyTraderLlamaRender extends LlamaRenderer {
 
-	public GypsyTraderLlamaRender(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn);
-	}
-	
+    public GypsyTraderLlamaRender(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn);
+    }
+
     public static class RenderFactory implements IRenderFactory<GypsyTraderLlamaEntity> {
 
         @Override

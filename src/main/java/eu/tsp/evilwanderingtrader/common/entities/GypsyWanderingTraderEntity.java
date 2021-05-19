@@ -3,7 +3,6 @@ package eu.tsp.evilwanderingtrader.common.entities;
 import eu.tsp.evilwanderingtrader.common.goals.EvilGypsyWhenHitGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
@@ -11,7 +10,6 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
@@ -35,7 +33,6 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
 
     @Nullable
     private PlayerEntity lastCustomer;
-
 
 
     public GypsyWanderingTraderEntity(EntityType<? extends GypsyWanderingTraderEntity> type, World worldIn) {
@@ -71,7 +68,7 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
         this.lastCustomer = this.getCustomer();
     }
 
-        @Override
+    @Override
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(1, new EvilGypsyWhenHitGoal(this));
@@ -79,7 +76,8 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
 
     public void turnIntoGypsy(PlayerEntity player) {
         if (!this.world.isRemote && net.minecraftforge.event.ForgeEventFactory.canLivingConvert(this,
-                ModEntityTypes.GYPSY.get(), (timer) -> {})) {
+                ModEntityTypes.GYPSY.get(), (timer) -> {
+                })) {
             GypsyEntity gypsy = this.startConversion((ServerWorld) this.world, player);
 
 
@@ -128,8 +126,8 @@ public class GypsyWanderingTraderEntity extends WanderingTraderEntity {
         }
 
         //drop des 2 leads
-        this.entityDropItem(new ItemStack(Items.LEAD,2));
-        
+        this.entityDropItem(new ItemStack(Items.LEAD, 2));
+
         net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, gypsy);
         return gypsy;
     }

@@ -1,58 +1,52 @@
 {
-
-    "entity.gypsy.hurt": {
-        "category": "entity",
-        "subtitle": "entity.gypsy.hurt",
-        "sounds": [
-            {
-                "name": "evilwanderingtrader:entity/entity.gypsy.hurt",
-                "stream": true
-            }
-        ]
-    },
-
-    "entity.gypsy.ambient": {
-        "category": "entity",
-        "subtitle": "entity.gypsy.ambient",
-        "sounds": [
-            {
-		"name": "evilwanderingtrader:entity/entity.gypsy.ambient",
-                "stream": true
-            }
-        ]
-    },
-
-    "entity.gypsy.conversion": {
-        "category": "entity",
-        "subtitle": "entity.gypsy.conversion",
-        "sounds": [
-            {
-		"name": "evilwanderingtrader:entity/entity.gypsy.conversion",
-                "stream": true
-            }
-        ]
-    },
-
-
-    "entity.gypsy_llama.ambient": {
-        "category": "entity",
-        "subtitle": "entity.gypsy_llama.ambient",
-        "sounds": [
-            {
-		"name": "evilwanderingtrader:entity/entity.gypsy_llama.ambient",
-                "stream": true
-            }
-        ]
-    },
-
-    "entity.gypsy.death": {
-        "category": "entity",
-        "subtitle": "entity.gypsy.death",
-        "sounds": [
-            {
-                "name": "evilwanderingtrader:entity/entity.gypsy.death",
-                "stream": true
-            }
-        ]
-    }
+  "entity.gypsy.hurt": {
+    "category": "entity",
+    "subtitle": "entity.gypsy.hurt",
+    "sounds": [
+      {
+        "name": "evilwanderingtrader:entity/entity.gypsy.hurt",
+        "stream": true
+      }
+    ]
+  },
+  "entity.gypsy.ambient": {
+    "category": "entity",
+    "subtitle": "entity.gypsy.ambient",
+    "sounds": [
+      {
+        "name": "evilwanderingtrader:entity/entity.gypsy.ambient",
+        "stream": true
+      }
+    ]
+  },
+  "entity.gypsy.conversion": {
+    "category": "entity",
+    "subtitle": "entity.gypsy.conversion",
+    "sounds": [
+      {
+        "name": "evilwanderingtrader:entity/entity.gypsy.conversion",
+        "stream": true
+      }
+    ]
+  },
+  "entity.gypsy_llama.ambient": {
+    "category": "entity",
+    "subtitle": "entity.gypsy_llama.ambient",
+    "sounds": [
+      {
+        "name": "evilwanderingtrader:entity/entity.gypsy_llama.ambient",
+        "stream": true
+      }
+    ]
+  },
+  "entity.gypsy.death": {
+    "category": "entity",
+    "subtitle": "entity.gypsy.death",
+    "sounds": [
+      {
+        "name": "evilwanderingtrader:entity/entity.gypsy.death",
+        "stream": true
+      }
+    ]
+  }
 }

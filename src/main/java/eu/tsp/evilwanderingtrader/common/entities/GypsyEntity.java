@@ -19,7 +19,6 @@ import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -41,7 +40,6 @@ import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 
@@ -151,7 +149,6 @@ public class GypsyEntity extends MonsterEntity implements IMob {
             GypsyLlamaEntity llama = llamas.next();
             Predicate<GypsyLlamaEntity> a = (ll) -> ll.isAlive() && ll.gypsy != null && ll.gypsy.equals(this) && ll.addToChest(items);
             boolean success = a.test(llama);
-            EvilWanderingTrader.LOGGER.info(success);
             while (!success && llamas.hasNext()) {
                 llama = llamas.next();
                 success = a.test(llama);
@@ -172,6 +169,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
 
     public void setDone() {
         if (!this.isDone()) {
+            EvilWanderingTrader.LOGGER.info("done");
             this.setAggroed(false);
             this.ticksBeforeReconversion = 15 * 20;
             this.nemesis = null;
@@ -237,13 +235,13 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     public void livingTick() {
         super.livingTick();
         if (!this.world.isRemote && this.isAlive() && this.isAlive() && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)) {
-            for(ItemEntity itementity : this.world.getEntitiesWithinAABB(ItemEntity.class, this.getBoundingBox().grow(1.0D, 0.0D, 1.0D))) {
+            for (ItemEntity itementity : this.world.getEntitiesWithinAABB(ItemEntity.class, this.getBoundingBox().grow(3.0D, 0.0D, 3.0D))) {
                 if (itementity.isAlive() && !itementity.getItem().isEmpty() && !itementity.cannotPickup()) {
                     if (itementity.getItem().getItem() == Items.EMERALD) {
-                        this.pickedUpEmerald++;
+                        this.pickedUpEmerald += itementity.getItem().getCount();
                         itementity.remove();
                     }
-                    if (this.pickedUpEmerald == 5) {
+                    if (this.pickedUpEmerald >= 5) {
                         this.setDone();
                         break;
                     }

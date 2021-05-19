@@ -2,8 +2,6 @@ package eu.tsp.evilwanderingtrader.common.goals;
 
 import eu.tsp.evilwanderingtrader.common.entities.GypsyTraderLlamaEntity;
 import eu.tsp.evilwanderingtrader.common.entities.GypsyWanderingTraderEntity;
-import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 
