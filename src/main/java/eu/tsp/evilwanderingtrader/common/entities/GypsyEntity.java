@@ -60,7 +60,7 @@ public class GypsyEntity extends MonsterEntity implements IMob {
     // Counts the amount of emerald the gypsy has picked up. When 5 have been picked up the gypsy goes back to wanderer.
     int pickedUpEmerald = 0;
 
-    private final ServerBossInfo bossInfo = (ServerBossInfo) (new ServerBossInfo(this.getDisplayName(), BossInfo.Color.BLUE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
+    private final ServerBossInfo bossInfo = (ServerBossInfo) (new ServerBossInfo(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
 
     public GypsyEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
