@@ -66,7 +66,7 @@ public class EvilWanderingTrader {
             GlobalEntityTypeAttributes.put(ModEntityTypes.THIEF_TRADER_LLAMA.get(), ThiefTraderLlamaEntity.setCustomAttributes().create());
         });
 
-        //ModEntitySpawns.entitySpawnPlacementRegistry();
+        ModEntitySpawns.entitySpawnPlacementRegistry();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

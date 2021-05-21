@@ -39,6 +39,9 @@ public class ThiefWanderingTraderEntity extends WanderingTraderEntity {
     @Nullable
     private PlayerEntity lastCustomer;
 
+    // When true the trader's llamas will be spawned on the next tick
+    private boolean spawnLlamas = true;
+
 
     public ThiefWanderingTraderEntity(EntityType<? extends ThiefWanderingTraderEntity> type, World worldIn) {
         super(type, worldIn);
@@ -52,9 +55,9 @@ public class ThiefWanderingTraderEntity extends WanderingTraderEntity {
     @Nullable
     public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         if (reason != SpawnReason.CONVERSION) {
-            ThiefTraderLlamaEntity.spawnLlamas(this, this.getPosition(), worldIn.getWorld(), 2);
             EvilWanderingTrader.debugMessage(worldIn.getWorld(),"Spawned Thief Wandering Trader");
         } else {
+            this.spawnLlamas = false;
             EvilWanderingTrader.debugMessage(worldIn.getWorld(),"Converted back to Wandering Trader");
         }
 
@@ -74,6 +77,12 @@ public class ThiefWanderingTraderEntity extends WanderingTraderEntity {
 
     @Override
     public void livingTick() {
+        if (this.spawnLlamas && !this.world.isRemote) {
+            EvilWanderingTrader.debugMessage((ServerWorld) this.world, "Spawning Llamas");
+            ThiefTraderLlamaEntity.spawnLlamas(this, this.getPosition(), (ServerWorld)this.world, 2);
+            this.spawnLlamas = false;
+        }
+
         if (((this.hasCustomer() && this.lastCustomer != this.getCustomer()) || !this.hasCustomer()) && this.lastCustomer != null) {
             if (this.lastSales <= 0) this.turnIntoThief(this.lastCustomer);
             this.lastSales = 0;
@@ -148,6 +157,7 @@ public class ThiefWanderingTraderEntity extends WanderingTraderEntity {
 
 
     private void forTraderLlamas(Consumer<ThiefTraderLlamaEntity> consumer) {
+        if (this.world.isRemote || this.world.getWorldInfo().getDayTime() <= 0 || !this.isAddedToWorld()) return;
         Double maxDistance = eu.tsp.evilwanderingtrader.common.entities.ThiefEntity.MAX_DISTANCE_TO_LLAMAS;
         List<ThiefTraderLlamaEntity> entities = this.world.getEntitiesWithinAABB(
                 ThiefTraderLlamaEntity.class,

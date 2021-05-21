@@ -299,11 +299,10 @@ public class ThiefEntity extends MonsterEntity implements IMob {
             }
         }
 
-
         if (this.ticksBeforeReconversion > 0) this.ticksBeforeReconversion--;
         if (this.ticksBeforeReconversion == 0) turnBackIntoWanderer();
 
-        if (this.nemesis != null && !this.nemesis.isLiving()) this.setDone();
+        if (this.nemesis != null && !this.nemesis.isAlive()) this.setDone();
         if (this.nemesis != null && this.nemesis.getDistanceSq(this) > 200D) this.setDone();
         super.tick();
     }
