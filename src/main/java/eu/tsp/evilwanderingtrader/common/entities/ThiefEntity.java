@@ -88,7 +88,7 @@ public class ThiefEntity extends MonsterEntity implements IMob {
     public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         this.enablePersistence();
         if (reason == SpawnReason.CONVERSION) {
-            EvilWanderingTrader.debugMessage(worldIn.getWorld(),"Converted trader to Thief");
+            EvilWanderingTrader.debugMessage(worldIn.getWorld(), "Converted trader to Thief");
         }
 
         return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
@@ -141,7 +141,7 @@ public class ThiefEntity extends MonsterEntity implements IMob {
                         itemCount++;
                         if (itemCount == choice) {
                             ItemStack stack = list.get(i);
-                            EvilWanderingTrader.debugMessage((ServerWorld)this.world,
+                            EvilWanderingTrader.debugMessage((ServerWorld) this.world,
                                     new StringTextComponent(String.format("Stole %d ", stack.getCount()))
                                             .append(stack.getItem().getDisplayName(stack)));
                             sendStolenItemStack(stack);
@@ -205,7 +205,7 @@ public class ThiefEntity extends MonsterEntity implements IMob {
 
     public void setDone() {
         if (!this.isDone()) {
-            EvilWanderingTrader.debugMessage((ServerWorld)this.world,"Done");
+            EvilWanderingTrader.debugMessage((ServerWorld) this.world, "Done");
             this.setAggroed(false);
             this.ticksBeforeReconversion = 15 * 20;
             this.nemesis = null;

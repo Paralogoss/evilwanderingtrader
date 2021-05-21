@@ -1,21 +1,18 @@
 package eu.tsp.evilwanderingtrader;
 
+import eu.tsp.evilwanderingtrader.common.entities.ThiefEntity;
 import eu.tsp.evilwanderingtrader.common.entities.ThiefLlamaEntity;
 import eu.tsp.evilwanderingtrader.common.entities.ThiefTraderLlamaEntity;
 import eu.tsp.evilwanderingtrader.common.entities.ThiefWanderingTraderEntity;
-import eu.tsp.evilwanderingtrader.common.entities.ThiefEntity;
 import eu.tsp.evilwanderingtrader.common.world.gen.ModEntitySpawns;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModItemTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.*;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.TextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -25,9 +22,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
-
-import java.awt.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(EvilWanderingTrader.MOD_ID)
@@ -37,7 +31,7 @@ public class EvilWanderingTrader {
 
     public static final String MOD_ID = "evilwanderingtrader";
 
-    private static IFormattableTextComponent PREFIX = new StringTextComponent("[Int. Test.] ")
+    private static final IFormattableTextComponent PREFIX = new StringTextComponent("[Int. Test.] ")
             .setStyle(Style.EMPTY.setBold(true).setColor(Color.fromTextFormatting(TextFormatting.DARK_AQUA)));
 
     public EvilWanderingTrader() {

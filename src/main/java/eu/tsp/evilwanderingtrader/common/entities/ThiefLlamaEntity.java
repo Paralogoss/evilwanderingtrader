@@ -58,7 +58,7 @@ public class ThiefLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
     @Nullable
     public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         if (reason == SpawnReason.CONVERSION) {
-            EvilWanderingTrader.debugMessage(worldIn.getWorld(),"Converted llama to LlamaThief");
+            EvilWanderingTrader.debugMessage(worldIn.getWorld(), "Converted llama to LlamaThief");
         }
 
         return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);

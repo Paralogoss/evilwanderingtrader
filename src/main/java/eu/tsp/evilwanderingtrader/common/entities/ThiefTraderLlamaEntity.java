@@ -97,7 +97,7 @@ public class ThiefTraderLlamaEntity extends TraderLlamaEntity {
         for (int i = 0; i < this.getInventorySize(); i++) {
             if (this.horseChest.getStackInSlot(i).equals(stack)) {
                 this.horseChest.setInventorySlotContents(i, ItemStack.EMPTY);
-                if (!this.world.isRemote) EvilWanderingTrader.debugMessage((ServerWorld)this.world,
+                if (!this.world.isRemote) EvilWanderingTrader.debugMessage((ServerWorld) this.world,
                         new StringTextComponent(String.format("Remove from lamas: %d ", stack.getCount()))
                                 .append(stack.getItem().getDisplayName(stack)));
                 break;

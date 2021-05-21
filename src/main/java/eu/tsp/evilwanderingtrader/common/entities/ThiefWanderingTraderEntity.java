@@ -20,8 +20,6 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
@@ -56,9 +54,9 @@ public class ThiefWanderingTraderEntity extends WanderingTraderEntity {
     public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         if (reason == SpawnReason.CONVERSION) {
             this.spawnLlamas = false;
-            EvilWanderingTrader.debugMessage(worldIn.getWorld(),"Converted back to Wandering Trader");
-        } else if (reason != SpawnReason.NATURAL) {
-            EvilWanderingTrader.debugMessage(worldIn.getWorld(),"Spawned Thief Wandering Trader");
+            EvilWanderingTrader.debugMessage(worldIn.getWorld(), "Converted back to Wandering Trader");
+        } else if (reason != SpawnReason.NATURAL && reason != SpawnReason.CHUNK_GENERATION) {
+            EvilWanderingTrader.debugMessage(worldIn.getWorld(), "Spawned Thief Wandering Trader");
         }
 
         return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
@@ -78,8 +76,7 @@ public class ThiefWanderingTraderEntity extends WanderingTraderEntity {
     @Override
     public void livingTick() {
         if (this.spawnLlamas && !this.world.isRemote) {
-            EvilWanderingTrader.debugMessage((ServerWorld) this.world, "Spawning Llamas");
-            ThiefTraderLlamaEntity.spawnLlamas(this, this.getPosition(), (ServerWorld)this.world, 2);
+            ThiefTraderLlamaEntity.spawnLlamas(this, this.getPosition(), (ServerWorld) this.world, 2);
             this.spawnLlamas = false;
         }
 

@@ -1,10 +1,10 @@
 package eu.tsp.evilwanderingtrader.init;
 
 import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
+import eu.tsp.evilwanderingtrader.common.entities.ThiefEntity;
 import eu.tsp.evilwanderingtrader.common.entities.ThiefLlamaEntity;
 import eu.tsp.evilwanderingtrader.common.entities.ThiefTraderLlamaEntity;
 import eu.tsp.evilwanderingtrader.common.entities.ThiefWanderingTraderEntity;
-import eu.tsp.evilwanderingtrader.common.entities.ThiefEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
