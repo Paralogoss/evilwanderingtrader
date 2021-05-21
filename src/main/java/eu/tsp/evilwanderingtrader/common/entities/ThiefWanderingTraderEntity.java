@@ -1,5 +1,6 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
+import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.goals.EvilThiefWhenHitGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
@@ -19,6 +20,8 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
@@ -40,7 +43,6 @@ public class ThiefWanderingTraderEntity extends WanderingTraderEntity {
     public ThiefWanderingTraderEntity(EntityType<? extends ThiefWanderingTraderEntity> type, World worldIn) {
         super(type, worldIn);
         this.setDespawnDelay(48000);
-        this.getSoundPitch();
     }
 
     public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
@@ -51,6 +53,9 @@ public class ThiefWanderingTraderEntity extends WanderingTraderEntity {
     public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         if (reason != SpawnReason.CONVERSION) {
             ThiefTraderLlamaEntity.spawnLlamas(this, this.getPosition(), worldIn.getWorld(), 2);
+            EvilWanderingTrader.debugMessage(worldIn.getWorld(),"Spawned Thief Wandering Trader");
+        } else {
+            EvilWanderingTrader.debugMessage(worldIn.getWorld(),"Converted back to Wandering Trader");
         }
 
         return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);

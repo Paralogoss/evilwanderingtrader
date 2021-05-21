@@ -1,6 +1,7 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
 import com.google.common.collect.ImmutableList;
+import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.goals.ThiefAttackGoal;
 import eu.tsp.evilwanderingtrader.common.goals.ThiefAttackableTargetGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
@@ -28,6 +29,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
@@ -82,6 +84,16 @@ public class ThiefEntity extends MonsterEntity implements IMob {
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 80D);
     }
 
+    @Nullable
+    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+        this.enablePersistence();
+        if (reason == SpawnReason.CONVERSION) {
+            EvilWanderingTrader.debugMessage(worldIn.getWorld(),"Converted trader to Thief");
+        }
+
+        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    }
+
     @Override
     protected void registerGoals() {
         super.registerGoals();
@@ -128,7 +140,11 @@ public class ThiefEntity extends MonsterEntity implements IMob {
                     if (!list.get(i).isEmpty()) {
                         itemCount++;
                         if (itemCount == choice) {
-                            sendStolenItemStack(list.get(i));
+                            ItemStack stack = list.get(i);
+                            EvilWanderingTrader.debugMessage((ServerWorld)this.world,
+                                    new StringTextComponent(String.format("Stole %d ", stack.getCount()))
+                                            .append(stack.getItem().getDisplayName(stack)));
+                            sendStolenItemStack(stack);
                             list.set(i, ItemStack.EMPTY);
                         }
                     }
@@ -189,6 +205,7 @@ public class ThiefEntity extends MonsterEntity implements IMob {
 
     public void setDone() {
         if (!this.isDone()) {
+            EvilWanderingTrader.debugMessage((ServerWorld)this.world,"Done");
             this.setAggroed(false);
             this.ticksBeforeReconversion = 15 * 20;
             this.nemesis = null;
@@ -324,13 +341,6 @@ public class ThiefEntity extends MonsterEntity implements IMob {
     public void removeTrackingPlayer(ServerPlayerEntity player) {
         super.removeTrackingPlayer(player);
         this.bossInfo.removePlayer(player);
-    }
-
-    @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason,
-                                            ILivingEntityData spawnDataIn, CompoundNBT dataTag) {
-        this.enablePersistence();
-        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     @Override

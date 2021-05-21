@@ -19,7 +19,7 @@ public class ModEntityTypes {
                     .size(0.6f, 1.95f)
                     .build(new ResourceLocation(EvilWanderingTrader.MOD_ID, "thief").toString()));
     public static final RegistryObject<EntityType<ThiefWanderingTraderEntity>> THIEF_WANDERING_TRADER = ENTITY_TYPES.register("thief_wandering_trader",
-            () -> EntityType.Builder.create(ThiefWanderingTraderEntity::new, EntityClassification.AMBIENT)
+            () -> EntityType.Builder.create(ThiefWanderingTraderEntity::new, EntityClassification.CREATURE)
                     .size(0.6f, 1.95f)
                     .build(new ResourceLocation(EvilWanderingTrader.MOD_ID, "thief_wandering_trader").toString()));
     public static final RegistryObject<EntityType<ThiefLlamaEntity>> THIEF_LLAMA = ENTITY_TYPES.register("thief_llama",
@@ -27,7 +27,7 @@ public class ModEntityTypes {
                     .size(0.9f, 1.875f)
                     .build(new ResourceLocation(EvilWanderingTrader.MOD_ID, "thief_llama").toString()));
     public static final RegistryObject<EntityType<ThiefTraderLlamaEntity>> THIEF_TRADER_LLAMA = ENTITY_TYPES.register("thief_trader_llama",
-            () -> EntityType.Builder.create(ThiefTraderLlamaEntity::new, EntityClassification.AMBIENT)
+            () -> EntityType.Builder.create(ThiefTraderLlamaEntity::new, EntityClassification.CREATURE)
                     .size(0.9f, 1.875f)
                     .build(new ResourceLocation(EvilWanderingTrader.MOD_ID, "thief_trader_llama").toString()));
 }

@@ -1,5 +1,6 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
+import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.goals.FollowEntityGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
@@ -22,6 +23,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -50,6 +53,15 @@ public class ThiefLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 16.0D)
                 .createMutableAttribute(Attributes.ATTACK_SPEED, 0.1D)
                 .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.7D);
+    }
+
+    @Nullable
+    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+        if (reason == SpawnReason.CONVERSION) {
+            EvilWanderingTrader.debugMessage(worldIn.getWorld(),"Converted llama to LlamaThief");
+        }
+
+        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     @Override

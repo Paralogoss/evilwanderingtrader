@@ -1,5 +1,6 @@
 package eu.tsp.evilwanderingtrader.common.entities;
 
+import eu.tsp.evilwanderingtrader.EvilWanderingTrader;
 import eu.tsp.evilwanderingtrader.common.goals.EvilLlamaWhenHitGoal;
 import eu.tsp.evilwanderingtrader.init.ModEntityTypes;
 import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
@@ -19,6 +20,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
@@ -95,6 +97,10 @@ public class ThiefTraderLlamaEntity extends TraderLlamaEntity {
         for (int i = 0; i < this.getInventorySize(); i++) {
             if (this.horseChest.getStackInSlot(i).equals(stack)) {
                 this.horseChest.setInventorySlotContents(i, ItemStack.EMPTY);
+                if (!this.world.isRemote) EvilWanderingTrader.debugMessage((ServerWorld)this.world,
+                        new StringTextComponent(String.format("Remove from lamas: %d ", stack.getCount()))
+                                .append(stack.getItem().getDisplayName(stack)));
+                break;
             }
         }
     }
