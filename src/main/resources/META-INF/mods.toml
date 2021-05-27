@@ -25,17 +25,16 @@ displayName="Evil Wandering Trader" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+displayURL="https://www.curseforge.com/minecraft/mc-mods/evil-wandering-trader" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="logo.png" #optional
 # A text field displayed in the mod UI
-credits="Merci à notre encadrant" #optional
+credits="Special thanks to my teammates! :p" #optional
 # A text field displayed in the mod UI
-authors="Le groupe des 4" #optional
+authors="Some students" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Découvrez la version hostile du wandering  trader (marchand ambulant).
-Il vous donnera du fil à retordre si vous le provoquez nonchalamment.
+Discover the evil wandering trader! (he will steal your items)
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.examplemod]] #optional

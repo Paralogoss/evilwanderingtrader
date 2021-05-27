@@ -76,7 +76,7 @@ public class ThiefTraderLlamaEntity extends TraderLlamaEntity {
         BlockPos randPos = ThiefTraderLlamaEntity.llamaSpawnPos(pos, world, 2);
         if (randPos != null) {
             ThiefTraderLlamaEntity llama = ModEntityTypes.THIEF_TRADER_LLAMA.get().spawn(world, null,
-                    null, null, randPos, SpawnReason.NATURAL, false, false);
+                    null, null, randPos, SpawnReason.EVENT, false, false);
             if (llama != null) {
                 llama.setLeashHolder(trader, true);
                 success = true;
