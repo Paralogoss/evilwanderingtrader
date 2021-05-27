@@ -70,16 +70,20 @@ public class ThiefTraderLlamaEntity extends TraderLlamaEntity {
         return blockpos;
     }
 
-    public static void spawnLlamas(ThiefWanderingTraderEntity trader, BlockPos pos, ServerWorld world, int count) {
-        if (count <= 0) return;
+    public static boolean spawnLlamas(ThiefWanderingTraderEntity trader, BlockPos pos, ServerWorld world, int count) {
+        if (count <= 0) return false;
+        boolean success = false;
         BlockPos randPos = ThiefTraderLlamaEntity.llamaSpawnPos(pos, world, 2);
         if (randPos != null) {
             ThiefTraderLlamaEntity llama = ModEntityTypes.THIEF_TRADER_LLAMA.get().spawn(world, null,
                     null, null, randPos, SpawnReason.NATURAL, false, false);
-            if (llama != null) llama.setLeashHolder(trader, true);
+            if (llama != null) {
+                llama.setLeashHolder(trader, true);
+                success = true;
+            }
         }
 
-        ThiefTraderLlamaEntity.spawnLlamas(trader, pos, world, count - 1);
+        return success | ThiefTraderLlamaEntity.spawnLlamas(trader, pos, world, count - 1);
     }
 
     @Nullable

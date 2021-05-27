@@ -76,8 +76,8 @@ public class ThiefWanderingTraderEntity extends WanderingTraderEntity {
     @Override
     public void livingTick() {
         if (this.spawnLlamas && !this.world.isRemote) {
-            ThiefTraderLlamaEntity.spawnLlamas(this, this.getPosition(), (ServerWorld) this.world, 2);
-            this.spawnLlamas = false;
+            this.spawnLlamas = !ThiefTraderLlamaEntity.spawnLlamas(this, this.getPosition(),
+                    (ServerWorld) this.world, 2);
         }
 
         if (((this.hasCustomer() && this.lastCustomer != this.getCustomer()) || !this.hasCustomer()) && this.lastCustomer != null) {
