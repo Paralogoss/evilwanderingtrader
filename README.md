@@ -1,3 +1,3 @@
 ## Evil Wandering Trader Project
 
-Les instructions pour l'installation sur Eclipse où IntelliG sont dans le fichier readme.txt
+Install instructions for Eclipse or IntelliG are in the file named readme.txt
