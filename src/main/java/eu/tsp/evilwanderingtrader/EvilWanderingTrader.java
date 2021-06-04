@@ -72,6 +72,8 @@ public class EvilWanderingTrader {
     }
 
     public static void debugMessage(ServerWorld world, ITextComponent text) {
+    	return;
+    	/*
         PlayerEntity player = world.getRandomPlayer();
         if (player == null) return;
 
@@ -79,7 +81,7 @@ public class EvilWanderingTrader {
 
         textComponent.append(text);
         // Debug is only used in single player then getRandomPlayer returns the only player
-        player.sendStatusMessage(textComponent, false);
+        player.sendStatusMessage(textComponent, false);*/
     }
 
     public static final ItemGroup TAB = new ItemGroup("ewt_tab") {

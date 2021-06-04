@@ -9,6 +9,7 @@ import eu.tsp.evilwanderingtrader.init.ModSoundEventTypes;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
@@ -79,7 +80,7 @@ public class ThiefEntity extends MonsterEntity implements IMob {
                 .createMutableAttribute(Attributes.MAX_HEALTH, 20.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D)
-                .createMutableAttribute(Attributes.ATTACK_SPEED, 0.1D)
+                .createMutableAttribute(Attributes.ATTACK_SPEED, 0.8D)
                 .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.7D)
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 80D);
     }
@@ -104,6 +105,7 @@ public class ThiefEntity extends MonsterEntity implements IMob {
         ));
 
         this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new HurtByTargetGoal(this));
         this.goalSelector.addGoal(1, new ThiefAttackGoal(this, 1.35D, true));
         this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 16.0F, 0.05F));
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
@@ -200,7 +202,12 @@ public class ThiefEntity extends MonsterEntity implements IMob {
     }
 
     public boolean isDone() {
-        return this.ticksBeforeReconversion >= 0;
+    	if (this.getRevengeTarget() instanceof PlayerEntity) {
+    		setNemesis((PlayerEntity)getRevengeTarget());
+    		setAggroed(true);
+    		ticksBeforeReconversion=-1;
+    	}
+    	return this.ticksBeforeReconversion >= 0;
     }
 
     public void setDone() {
