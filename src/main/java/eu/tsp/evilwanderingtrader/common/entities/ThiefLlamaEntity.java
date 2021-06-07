@@ -38,6 +38,8 @@ public class ThiefLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
     boolean didSpit = false;
 
     Entity thief;
+    
+    private Goal escape = null;
 
     public ThiefLlamaEntity(EntityType<? extends LlamaEntity> type, World worldIn) {
         super(type, worldIn);
@@ -67,14 +69,16 @@ public class ThiefLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
     @Override
     protected void registerGoals() {
         super.registerGoals();
-
+        
+        this.escape = new AvoidEntityGoal(this, PlayerEntity.class, 8.0F, 1.2F, 1.8F);
+        
         this.targetSelector.addGoal(1, new FollowEntityGoal(this, 1.0D, 4.0F,
                 16.0F, (entity) -> entity.equals(this.thief)
         ));
-
+        
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new RangedAttackGoal(this, 1.25D, 40, 20.0F));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal(this, PlayerEntity.class, 8.0F, 1.2F, 1.8F));
+        this.goalSelector.addGoal(2, this.escape);
         this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 32.0F, 0.1F));
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(9, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
@@ -237,6 +241,15 @@ public class ThiefLlamaEntity extends LlamaEntity implements IMob, IRangedAttack
     }
 
     @Override
+	public boolean setTamedBy(PlayerEntity player) {
+    	if(escape != null) {
+    		this.goalSelector.removeGoal(escape); //TODO make this working :/
+    		this.escape = null;
+    	}    		
+		return super.setTamedBy(player);
+	}
+
+	@Override
     public boolean isNoDespawnRequired() {
         return true;
     }

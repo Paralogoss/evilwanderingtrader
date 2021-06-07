@@ -1,18 +1,18 @@
 {
-  "itemGroup.ewt_tab": "Le mÃ©chant marchand ambulant",
+  "itemGroup.ewt_tab": "Le méchant marchand ambulant",
   "item.evilwanderingtrader.thief_wandering_trader_spawn_egg": "Oeuf de marchand calme",
   "entity.evilwanderingtrader.thief": "Marchand vengeur",
   "entity.evilwanderingtrader.thief_llama": "Lama squelettique",
   "entity.evilwanderingtrader.thief_trader_llama": "Lama du marchand ambulant",
   "entity.evilwanderingtrader.thief_wandering_trader": "Marchand calme",
-  "advancements.thief.title": "QuÃªtes pour le mod du marchand vengeur",
-  "advancements.thief.root.description": "Un petit dÃ©fi qui saura vous surprendre",
+  "advancements.thief.title": "Quêtes du marchand vengeur",
+  "advancements.thief.root.description": "Un petit défi qui saura vous surprendre",
   "advancements.thief.kill_thief.title": "V pour Vendetta",
-  "advancements.thief.kill_thief.description": "Battez le marchand lorsqu'il cherche Ã  se venger !",
+  "advancements.thief.kill_thief.description": "Battez le marchand lorsqu'il cherche à se venger !",
   "advancements.thief.theft.title": "Larcin !",
-  "advancements.thief.theft.description": "On se sent Ã©trangement plus lÃ©ger",
-  "advancements.thief.tamed.title": "Mon prÃ©cieux!",
+  "advancements.thief.theft.description": "On se sent étrangement plus léger",
+  "advancements.thief.tamed.title": "Mon précieux!",
   "advancements.thief.tamed.description": "Un vieil ami pour veiller sur vos biens",
-  "advancements.thief.provocation.title": "Une Ã©trange apprÃ©hension",
-  "advancements.thief.provocation.description": "Ce n'Ã©tait dÃ©finitivement pas le marchand habituel"
+  "advancements.thief.provocation.title": "Une étrange appréhension",
+  "advancements.thief.provocation.description": "Ce n'était définitivement pas le marchand habituel"
 }
